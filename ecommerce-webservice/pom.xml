@@ -3,19 +3,20 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>se.coredev</groupId>
-	<artifactId>ecommerce-webservice</artifactId>
+	<groupId>se.dreamteam</groupId>
+	<artifactId>${project.name}</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>ecommerce-webservice</name>
+	<name>${project.name}</name>
 
 	<properties>
+		<project.name>ecommerce-webservice</project.name>
 		<jersey.version>2.16</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<build>
-		<finalName>ecommerce-webservice</finalName>
+		<finalName>${project.name}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -75,7 +76,7 @@
 			<version>2.3.1</version>
 		</dependency>
 		<dependency>
-			<groupId>se.coredev</groupId>
+			<groupId>se.dreamteam</groupId>
 			<artifactId>ecommerce-service</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>

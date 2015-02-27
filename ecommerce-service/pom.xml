@@ -3,18 +3,19 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>se.coredev</groupId>
-	<artifactId>ecommerce-service</artifactId>
+	<groupId>se.dreamteam</groupId>
+	<artifactId>${project.name}</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>ecommerce-service</name>
+	<name>${project.name}</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.name>ecommerce-service</project.name>
 	</properties>
 
 	<build>
-		<finalName>ecommerce-service</finalName>
+		<finalName>${project.name}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -43,7 +44,7 @@
 	<!-- Dependencies -->
 	<dependencies>
 		<dependency>
-			<groupId>se.coredev</groupId>
+			<groupId>se.dreamteamv</groupId>
 			<artifactId>ecommerce-model</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>

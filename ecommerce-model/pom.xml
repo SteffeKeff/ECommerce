@@ -7,7 +7,7 @@
 	<artifactId>${project.name}</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>ecommerce-model</name>
+	<name>${project.name}</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

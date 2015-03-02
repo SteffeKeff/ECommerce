@@ -3,8 +3,8 @@ package se.dreamteam.model;
 public final class Order
 {
 	private int id;
-	private String date;
-	private boolean isShipped;
+	private final String date;
+	private final boolean isShipped;
 
 	public Order(String date, boolean isShipped)
 	{

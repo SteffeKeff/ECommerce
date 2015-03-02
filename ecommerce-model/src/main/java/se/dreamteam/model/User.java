@@ -4,6 +4,7 @@ public final class User
 {
 
 	private int id;
+	Order order;
 	private String username;
 	private String password;
 

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
   <wb-module deploy-name="ecommerce-webservice">
+    <property name="context-root" value="ecommerce-webservice"/>
     <wb-resource deploy-path="/" source-path="src/main/webapp"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
     <property name="java-output-path" value="/target/classes"/>
-        <property name="context-root" value="ecommerce-webservice"/>
     <dependent-module archiveName="jersey-container-servlet-core-2.16.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/org/glassfish/jersey/containers/jersey-container-servlet-core/2.16/jersey-container-servlet-core-2.16.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
@@ -58,5 +57,10 @@
     <dependent-module archiveName="ecommerce-service-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/se/dreamteam/ecommerce-service/1.0-SNAPSHOT/ecommerce-service-1.0-SNAPSHOT.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
+    <dependent-module archiveName="ecommerce-model-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/se/dreamteam/ecommerce-model/1.0-SNAPSHOT/ecommerce-model-1.0-SNAPSHOT.jar">
+      <dependency-type>uses</dependency-type>
+    </dependent-module>
+    <wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
   </wb-module>
 </project-modules>

@@ -75,24 +75,24 @@ public final class ECommerceManager
 		return orders.createOrder(user);
 	}
 
-	Order getAllOrders(User user) throws RepositoryException
+	Order getAllOrders(Order order) throws RepositoryException
 	{
-		return orders.getAllOrders(user);
+		return orders.getAllOrders(order);
 	}
 
-	Order getOrder(User user) throws RepositoryException
+	Order getOrder(Order order) throws RepositoryException
 	{
-		return orders.getOrder(user);
+		return orders.getOrder(order);
 	}
 
-	Order updateOrder(User user) throws RepositoryException
+	Order updateOrder(Order order) throws RepositoryException
 	{
-		return orders.updateOrder(user);
+		return orders.updateOrder(order);
 	}
 
-	Order removeOrder(User user) throws RepositoryException
+	Order removeOrder(Order order) throws RepositoryException
 	{
-		return orders.removeOrder(user);
+		return orders.removeOrder(order);
 	}
 
 }

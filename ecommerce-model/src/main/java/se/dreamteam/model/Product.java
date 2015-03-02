@@ -3,10 +3,10 @@ package se.dreamteam.model;
 public final class Product
 {
 	private int id;
-	private String title;
-	private int price;
-	private int quantity;
-	private String description;
+	private final String title;
+	private final int price;
+	private final int quantity;
+	private final String description;
 
 	public Product(String title, int price, int quantity, String description)
 	{

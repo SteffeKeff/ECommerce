@@ -44,7 +44,6 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 	}
 	
 	// MessageBodyReader
-	
 	@Override
 	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
@@ -87,14 +86,13 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 		}
 	}  
 	
-	
 	private static final class UserAdapter implements JsonDeserializer<User>, JsonSerializer<User>
 	{
 		@Override
 		public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 		{
 			final JsonObject userJson = json.getAsJsonObject();
-			final Long userId = userJson.get("userId").getAsLong();
+			final int userId = userJson.get("userId").getAsInt();
 			final String username = userJson.get("username").getAsString();
 			final String password = userJson.get("password").getAsString();
 			
@@ -105,18 +103,12 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 		public JsonElement serialize(User user, Type typeOfSrc, JsonSerializationContext context)
 		{
 			final JsonObject userJson = new JsonObject();
-			userJson.add("userId", new JsonPrimitive(user.getUserId()));
 			userJson.add("username", new JsonPrimitive(user.getUsername()));
 			userJson.add("password", new JsonPrimitive(user.getPassword()));
 			
 			return userJson;
 		}
 		
-	}
-	
-	
-	
-	
-	
+	}	
 
 }

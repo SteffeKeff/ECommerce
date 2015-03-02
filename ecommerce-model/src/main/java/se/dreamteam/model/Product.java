@@ -2,19 +2,11 @@ package se.dreamteam.model;
 
 public final class Product
 {
-<<<<<<< HEAD
-	private int productId;
-	private String title;
-	private int price;
-	private int quantity;
-	private String description;
-=======
-	private int id;
+	private final int productId;
 	private final String title;
 	private final int price;
 	private final int quantity;
 	private final String description;
->>>>>>> 3f684954850ccd9e82858e833d8360971a4d580c
 
 	public Product(String title, int price, int quantity, String description, int productId)//fix en till konstuktor utan id
 	{

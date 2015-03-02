@@ -1,5 +1,7 @@
 package se.dreamteam.ecommerce;
 
+import java.util.TreeSet;
+
 import se.dreamteam.ecommerce.repository.sqlinterface.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
@@ -43,7 +45,7 @@ public final class ECommerceManager
 	}
 
 	// Products
-	Product getAllProducts() throws RepositoryException
+	TreeSet<Product> getAllProducts() throws RepositoryException
 	{
 		return products.getAllProducts();
 	}

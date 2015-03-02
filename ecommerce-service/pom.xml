@@ -44,7 +44,7 @@
 	<!-- Dependencies -->
 	<dependencies>
 		<dependency>
-			<groupId>se.dreamteamv</groupId>
+			<groupId>se.dreamteam</groupId>
 			<artifactId>ecommerce-model</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>

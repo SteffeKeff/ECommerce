@@ -4,6 +4,8 @@ import se.dreamteam.ecommerce.repository.sqlinterface.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlUserInterface;
+import se.dreamteam.model.Order;
+import se.dreamteam.model.Product;
 import se.dreamteam.model.User;
 
 public final class ECommerceManager
@@ -22,53 +24,75 @@ public final class ECommerceManager
 	// Users
 	public User createUser(User user) throws RepositoryException
 	{
-		try
-		{
-			return users.createUser(user);
-		}
-		catch (RepositoryException e)
-		{
-			throw new RepositoryException("Could not create user", e);
-		}
+		return users.createUser(user);
 	}
 
 	public User updateUser(User user) throws RepositoryException
 	{
-		try
-		{
-			return users.updateUser(user);
-		}
-		catch (RepositoryException e)
-		{
-			throw new RepositoryException("Could not update user: " + user.getUsername(), e);
-		}
+		return users.updateUser(user);
 	}
 
 	public User getUserById(int id) throws RepositoryException
 	{
-		try
-		{
-			return users.getUserById(id);
-		}
-		catch (RepositoryException e)
-		{
-			throw new RepositoryException("Could not find user with id: " + id, e);
-		}
+		return users.getUserById(id);
 	}
 
-	public User deleteUser(User user) throws RepositoryException
+	public User deleteUser(String username) throws RepositoryException
 	{
-		try
-		{
-			return users.deleteUser(user);
-		}
-		catch (RepositoryException e)
-		{
-			throw new RepositoryException("Could not delete user: " + user.getUsername(), e);
-		}
+		return users.deleteUser(username);
 	}
-	
-	//Products
-	
+
+	// Products
+	Product getAllProducts() throws RepositoryException
+	{
+		return products.getAllProducts();
+	}
+
+	Product getProductWithId(int id) throws RepositoryException
+	{
+		return products.getProductWithId(id);
+
+	}
+
+	Product createProduct(Product product) throws RepositoryException
+	{
+		return products.createProduct(product);
+	}
+
+	Product updateProduct(Product product) throws RepositoryException
+	{
+		return products.updateProduct(product);
+	}
+
+	Product deleteProduct(int id) throws RepositoryException
+	{
+		return products.deleteProduct(id);
+	}
+
+	// Orders
+	Order createOrder(User user) throws RepositoryException
+	{
+		return orders.createOrder(user);
+	}
+
+	Order getAllOrders(User user) throws RepositoryException
+	{
+		return orders.getAllOrders(user);
+	}
+
+	Order getOrder(User user) throws RepositoryException
+	{
+		return orders.getOrder(user);
+	}
+
+	Order updateOrder(User user) throws RepositoryException
+	{
+		return orders.updateOrder(user);
+	}
+
+	Order removeOrder(User user) throws RepositoryException
+	{
+		return orders.removeOrder(user);
+	}
 
 }

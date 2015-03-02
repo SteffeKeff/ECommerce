@@ -1,56 +1,36 @@
 package se.dreamteam;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.Gson;
+
 @Path("")
-public class WebService
+public final class WebService
 {
-	
+	 private static final Gson gson = new Gson();
+	 
 	@GET
-	public Response getBase()
+	@Produces(MediaType.APPLICATION_JSON)
+	public final Response getRoot()
 	{
-		return Response.ok("baseURL").build();
-	}
-	
-	@GET
-	@Path("products")
-	public Response getProducts()
-	{
-		return Response.ok("products").build();
-	}
-	
-	@GET
-	@Path("products/{productId}")
-	public Response getProduct(@PathParam("productId") final String productId)
-	{
-		return Response.ok("productId: " + productId).build();
-	}
-	
-	@GET
-	@Path("users")
-	public Response getUsers(){
-		return Response.ok("Did you mean users/{id}? ").build();
-	}
-	
-	@GET
-	@Path("users/{userId}")
-	public Response getUser(@PathParam("userId") final String userId){
-		return Response.ok("userId: " + userId).build();
-	}
-	
-	@GET
-	@Path("users/{id}/orders")
-	public Response getOrders(@PathParam("id") final String id){
-		return Response.ok("userId: " + id + ", orders: .....").build();
-	}
-	
-	@GET
-	@Path("users/{userId}/orders/{orderId}")
-	public Response getOrder(@PathParam("userId") final String userId, @PathParam("orderId") final String orderId){
-		return Response.ok("userId: " + userId + ", orderId: " + orderId).build();
+		ArrayList<HashMap<String,String>> links = new ArrayList<>();
+		HashMap<String, String> products = new HashMap<>();
+		HashMap<String, String> users = new HashMap<>();
+		products.put("href", "/webshop/products");
+		products.put("action", "get");
+		users.put("href", "/webshop/users/{id}");
+		users.put("action", "get");
+		links.add(products);
+		links.add(users);
+		String json = gson.toJson(links);
+		return Response.ok(json).build();
 	}
 	
 }

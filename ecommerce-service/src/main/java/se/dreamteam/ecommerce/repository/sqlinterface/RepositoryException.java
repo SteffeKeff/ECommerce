@@ -1,9 +1,7 @@
 package se.dreamteam.ecommerce.repository.sqlinterface;
 
-public class RepositoryException extends Exception
+public class RepositoryException extends RuntimeException
 {
-
-
 	private static final long serialVersionUID = 3325256658018581461L;
 
 	public RepositoryException(String message, Throwable cause)

@@ -3,7 +3,7 @@ package se.dreamteam.model;
 public final class User
 {
 
-	private int id;
+	private final int id;
 	private final String username;
 	private final String password;
 

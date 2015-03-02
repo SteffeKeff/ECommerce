@@ -8,6 +8,6 @@ public class WebService
 {
 	@GET
 	public String hej(){
-		return "FUNKAFÖRFAN";
+		return "test";
 	}
 }

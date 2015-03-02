@@ -7,12 +7,12 @@ public interface SqlOrderInterface
 {
 	Order createOrder(User user) throws RepositoryException;
 
-	Order getAllOrders(User user) throws RepositoryException;
+	Order getAllOrders(Order order) throws RepositoryException;
 
-	Order getOrder(User user) throws RepositoryException;
+	Order getOrder(Order order) throws RepositoryException;
 
-	Order updateOrder(User user) throws RepositoryException;
+	Order updateOrder(Order order) throws RepositoryException;
 
-	Order removeOrder(User user) throws RepositoryException;
+	Order removeOrder(Order order) throws RepositoryException;
 
 }

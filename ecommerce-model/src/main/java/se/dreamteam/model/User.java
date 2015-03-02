@@ -7,6 +7,7 @@ public final class User
 	private final String username;
 	private final String password;
 
+
 	public User(int id, String username, String password)
 	{
 		this.username = username;

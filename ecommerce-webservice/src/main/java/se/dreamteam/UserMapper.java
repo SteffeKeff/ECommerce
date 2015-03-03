@@ -92,17 +92,17 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 		public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 		{
 			final JsonObject userJson = json.getAsJsonObject();
-			final int userId = userJson.get("userId").getAsInt();
 			final String username = userJson.get("username").getAsString();
 			final String password = userJson.get("password").getAsString();
 			
-			return new User(userId, username, password);
+			return new User(username, password);
 		}
 
 		@Override
 		public JsonElement serialize(User user, Type typeOfSrc, JsonSerializationContext context)
 		{
 			final JsonObject userJson = new JsonObject();
+			userJson.add("userId", new JsonPrimitive(user.getId()));
 			userJson.add("username", new JsonPrimitive(user.getUsername()));
 			userJson.add("password", new JsonPrimitive(user.getPassword()));
 			

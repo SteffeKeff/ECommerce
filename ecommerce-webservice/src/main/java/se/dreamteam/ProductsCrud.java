@@ -10,8 +10,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import com.sun.org.apache.xerces.internal.util.URI;
-
 import se.dreamteam.model.Product;
 
 @Path("products")
@@ -38,23 +36,21 @@ public class ProductsCrud
 	@Path("")
 	public Response addProduct(Product product)
 	{
-		final String path = Integer.toString(product.getId());
-		//final URI location = uriInfo.getAbsolutePathBuilder().path(path).build();
-		return Response.created(location).build();
+		return Response.ok().build();
 	}
 	
 	@PUT
 	@Path("{productId}")
 	public Response updateProduct()
 	{
-		
+		return Response.ok().build();
 	}
 	
 	@DELETE
 	@Path("{productId}")
 	public Response deleteProduct()
 	{
-		
+		return Response.ok().build();
 	}
 	
 }

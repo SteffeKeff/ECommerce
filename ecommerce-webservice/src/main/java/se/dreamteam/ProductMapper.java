@@ -96,7 +96,7 @@ public final class ProductMapper implements MessageBodyReader<Product>, MessageB
 			final int price = productJson.get("price").getAsInt();
 			final int quantity = productJson.get("quantity").getAsInt();
 			final String description = productJson.get("description").getAsString();
-			return new Product(title, price, quantity, description);
+			return new Product(title, price, description, quantity);
 		}
 
 		@Override

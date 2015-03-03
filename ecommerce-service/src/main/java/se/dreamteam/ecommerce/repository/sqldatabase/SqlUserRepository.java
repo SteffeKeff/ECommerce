@@ -14,12 +14,11 @@ import se.dreamteam.model.User;
 public class SqlUserRepository implements SqlUserInterface
 {
 	private final static String CONNECTION = "jdbc:mysql://localhost:3306/dreamteam";
-	private static final String USER = "root";
-	private static final String PW = "";
 
 	@Override
 	public User getUserById(int id) throws RepositoryException
 	{
+
 		try (final Connection con = getConnection())
 		{
 
@@ -27,13 +26,13 @@ public class SqlUserRepository implements SqlUserInterface
 			{
 				stmt.setInt(1, id);
 				ResultSet rs = stmt.executeQuery();
+				rs.next();
 				return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
 			}
 
 		}
 		catch (SQLException e)
 		{
-
 			throw new RepositoryException("Could not find user with id: " + id, e);
 		}
 	}
@@ -111,22 +110,22 @@ public class SqlUserRepository implements SqlUserInterface
 		}
 		catch (SQLException e)
 		{
-			throw new RepositoryException("Could not delete user: " + username , e);
+			throw new RepositoryException("Could not delete user: " + username, e);
 		}
 
 	}
 
-	private Connection getConnection()
+	private Connection getConnection() throws SQLException
 	{
 		try
 		{
-			return DriverManager.getConnection(CONNECTION, USER, PW);
+			Class.forName("com.mysql.jdbc.Driver");
+			return DriverManager.getConnection(CONNECTION, "root", "");
 		}
-		catch (SQLException e)
+		catch (SQLException | ClassNotFoundException e)
 		{
-			System.out.println(e);
+			throw new RepositoryException("Connection problemo", e);
 		}
-		return null;
 	}
 
 }

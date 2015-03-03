@@ -11,9 +11,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import se.dreamteam.ecommerce.ECommerceManager;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlUserInterface;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlOrderRepository;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlProductRepository;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
 import se.dreamteam.model.User;
 
 @Path("users")
@@ -21,9 +21,9 @@ import se.dreamteam.model.User;
 //@Produces(MediaType.APPLICATION_JSON)
 public final class UsersCrud
 {
-	private SqlOrderInterface orders;
-	private SqlProductInterface products;
-	private SqlUserInterface users;
+	private SqlOrderRepository orders = new SqlOrderRepository();
+	private SqlProductRepository products = new SqlProductRepository();
+	private SqlUserRepository users = new SqlUserRepository();
 	
 	private final ECommerceManager manager = new ECommerceManager(orders, products, users);
 	
@@ -40,7 +40,8 @@ public final class UsersCrud
 	@Path("{userId}")
 	public final Response getUser(@PathParam("userId") final int userId)
 	{
-		return Response.ok(manager.getUserById(userId)).build();
+		User theUser = manager.getUserById(userId);
+		return Response.ok(theUser).build();
 	}
 	
 	@POST

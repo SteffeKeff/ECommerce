@@ -14,6 +14,8 @@ import se.dreamteam.model.User;
 public class SqlUserRepository implements SqlUserInterface
 {
 	private final static String CONNECTION = "jdbc:mysql://localhost:3306/dreamteam";
+	private static final String USER = "root";
+	private static final String PW = "";
 
 	@Override
 	public User getUserById(int id) throws RepositoryException
@@ -118,7 +120,7 @@ public class SqlUserRepository implements SqlUserInterface
 	{
 		try
 		{
-			return DriverManager.getConnection(CONNECTION, "root", "");
+			return DriverManager.getConnection(CONNECTION, USER, PW);
 		}
 		catch (SQLException e)
 		{

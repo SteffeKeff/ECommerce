@@ -20,7 +20,8 @@ public class SqlOrderRepository implements SqlOrderInterface
 	{
 		try (final Connection con = getConnection())
 		{
-			try (PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Orders VALUES (null,null,?);"))
+			try (PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Orders VALUES (null,null,?);"
+					+ "											INSERT INTO dreamteam.UserHasOrder VALUES(null,?,?)"))
 			{
 
 			}

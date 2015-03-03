@@ -72,9 +72,9 @@ public final class ECommerceManager
 	}
 
 	// Orders
-	Order createOrder(User user) throws RepositoryException
+	Order createOrder(User user, Order order) throws RepositoryException
 	{
-		return orders.createOrder(user);
+		return orders.createOrder(user, order);
 	}
 
 	Order getAllOrders(Order order) throws RepositoryException

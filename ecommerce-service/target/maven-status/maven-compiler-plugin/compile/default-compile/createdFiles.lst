@@ -1,3 +1,5 @@
 se/dreamteam/ecommerce/repository/sqlinterface/SqlUserInterface.class
 se/dreamteam/ecommerce/repository/sqlinterface/RepositoryException.class
+se/dreamteam/ecommerce/repository/sqlinterface/SqlOrderInterface.class
 se/dreamteam/ecommerce/repository/sqlinterface/Connecttest.class
+se/dreamteam/ecommerce/repository/sqlinterface/SqlProductInterface.class

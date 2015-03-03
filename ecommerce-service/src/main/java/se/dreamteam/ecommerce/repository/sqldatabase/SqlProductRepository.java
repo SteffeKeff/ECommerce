@@ -121,12 +121,12 @@ public class SqlProductRepository implements SqlProductInterface{
 	}
 	
 	@Override
-	public Product deleteProduct(int id) throws RepositoryException 
+	public Product deleteProduct(int productId) throws RepositoryException 
 	{
 		try(Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Products WHERE id = ?;"))
 		{
-			stmt.setInt(1, id);
+			stmt.setInt(1, productId);
 			// execute delete SQL stetement
 			ResultSet rs = stmt.executeQuery();
 			

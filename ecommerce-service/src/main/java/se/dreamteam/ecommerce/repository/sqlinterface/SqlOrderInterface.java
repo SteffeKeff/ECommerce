@@ -5,7 +5,7 @@ import se.dreamteam.model.User;
 
 public interface SqlOrderInterface
 {
-	Order createOrder(User user) throws RepositoryException;
+	Order createOrder(User user, Order order) throws RepositoryException;
 
 	Order getAllOrders(Order order) throws RepositoryException;
 

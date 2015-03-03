@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/Product.java
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/Order.java
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/User.java
+=======
+/Users/Steffe/Documents/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/Order.java
+/Users/Steffe/Documents/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/User.java
+/Users/Steffe/Documents/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/Product.java
+>>>>>>> 5ce423e321288ee5d25a804bb633bf59e2d955a1

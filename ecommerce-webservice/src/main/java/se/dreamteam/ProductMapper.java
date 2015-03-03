@@ -17,7 +17,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import se.dreamteam.model.User;
+import se.dreamteam.model.Product;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,79 +34,82 @@ import com.google.gson.stream.JsonWriter;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public final class UserMapper implements MessageBodyReader<User>, MessageBodyWriter<User>
+public final class ProductMapper implements MessageBodyReader<Product>, MessageBodyWriter<Product>
 {
 	private Gson gson;
 	
-	public UserMapper()
+	public ProductMapper()
 	{
-		gson = new GsonBuilder().registerTypeAdapter(User.class, new UserAdapter()).create();
+		gson = new GsonBuilder().registerTypeAdapter(Product.class, new ProductAdapter()).create();
 	}
 	
 	// MessageBodyReader
 	@Override
 	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
-		return type.isAssignableFrom(User.class);
+		return type.isAssignableFrom(Product.class);
 	}
 
 	@Override
-	public User readFrom(Class<User> type, Type genericType, Annotation[] annotations, 
+	public Product readFrom(Class<Product> type, Type genericType, Annotation[] annotations, 
 						MediaType mediaType, MultivaluedMap<String, String> httpHeaders, 
 						InputStream entityStream) throws IOException,
 			WebApplicationException
 	{
-		final User user = gson.fromJson(new InputStreamReader(entityStream), User.class);
+		final Product product = gson.fromJson(new InputStreamReader(entityStream), Product.class);
 		
-		return user;
+		return product;
 	}
 	
 	// MessageBodyWriter
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
-		return type.isAssignableFrom(User.class);
+		return type.isAssignableFrom(Product.class);
 	}
 
 	@Override
-	public long getSize(User t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
+	public long getSize(Product t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
 		return 0;
 	}
 
 	@Override
-	public void writeTo(User user, Class<?> type, Type genericType, Annotation[] annotations, 
+	public void writeTo(Product product, Class<?> type, Type genericType, Annotation[] annotations, 
 						MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, 
 						OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
 		try(final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
-			gson.toJson(user, User.class, writer);
+			gson.toJson(product, Product.class, writer);
 		}
 	}  
 	
-	private static final class UserAdapter implements JsonDeserializer<User>, JsonSerializer<User>
+	private static final class ProductAdapter implements JsonDeserializer<Product>, JsonSerializer<Product>
 	{
 		@Override
-		public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
+		public Product deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 		{
-			final JsonObject userJson = json.getAsJsonObject();
-			final String username = userJson.get("username").getAsString();
-			final String password = userJson.get("password").getAsString();
+			final JsonObject productJson = json.getAsJsonObject();
+			final String title = productJson.get("title").getAsString();
+			final int price = productJson.get("price").getAsInt();
+			final int quantity = productJson.get("quantity").getAsInt();
+			final String description = productJson.get("description").getAsString();
 			
-			return new User(username, password);
+			return new Product(title, price, quantity, description);
 		}
 
 		@Override
-		public JsonElement serialize(User user, Type typeOfSrc, JsonSerializationContext context)
+		public JsonElement serialize(Product product, Type typeOfSrc, JsonSerializationContext context)
 		{
-			final JsonObject userJson = new JsonObject();
-			userJson.add("userId", new JsonPrimitive(user.getId()));
-			userJson.add("username", new JsonPrimitive(user.getUsername()));
-			userJson.add("password", new JsonPrimitive(user.getPassword()));
-			
-			return userJson;
+			final JsonObject productJson = new JsonObject();
+			productJson.add("title", new JsonPrimitive(product.getTitle()));
+			productJson.add("price", new JsonPrimitive(product.getPrice()));
+			productJson.add("quantity", new JsonPrimitive(product.getQuantity()));
+			productJson.add("description", new JsonPrimitive(product.getDescription()));
+
+			return productJson;
 		}
 		
 	}	

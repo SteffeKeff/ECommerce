@@ -1,24 +1,45 @@
 package se.dreamteam.model;
 
-import java.util.Date;
+import java.util.TreeSet;
 
 public final class Order
 {
-	private int id;
+	private static final int EMPTY_ORDER_ID = -1;
+	private int orderId;
 	private final String date;
-	private final Product products;
 	private final boolean isShipped;
-	
-	public Order(int id, String date,, Product products, boolean isShipped)
+	TreeSet<Product> orderProducts;
+
+	public Order(String date, boolean isShipped, int orderId, TreeSet<Product> orderProducts)
 	{
-		this.id = id;
-		this.products = products;
+		this.date = date;
 		this.isShipped = isShipped;
+		this.orderId = orderId;
+		this.orderProducts = orderProducts;
 	}
 	
-	public Order(){
-		
+	public Order(String date, boolean isShipped, TreeSet<Product> orderProducts)
+	{
+		this(date, isShipped, EMPTY_ORDER_ID, orderProducts);
+	}
+
+	public int getId()
+	{
+		return orderId;
+	}
+
+	public String getDate()
+	{
+		return date;
+	}
+
+	public boolean isShipped()
+	{
+		return isShipped;
 	}
 	
-	
+	public TreeSet<Product> getOrderedProducts()
+	{
+		return orderProducts;
+	}
 }

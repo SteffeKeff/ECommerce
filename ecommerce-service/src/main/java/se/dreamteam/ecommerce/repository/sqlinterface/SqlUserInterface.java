@@ -8,8 +8,8 @@ public interface SqlUserInterface
 
 	String createUser(User user) throws RepositoryException;
 
-	User updateUser(User user) throws RepositoryException;
+	User updateUser(String username, User user) throws RepositoryException;
 
-	User deleteUser(String username) throws RepositoryException;
+	String deleteUser(String username) throws RepositoryException;
 
 }

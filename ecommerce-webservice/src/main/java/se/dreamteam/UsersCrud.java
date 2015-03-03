@@ -40,7 +40,7 @@ public final class UsersCrud
 	
 	@GET
 	@Path("{userId}")
-	public final Response getUser(@PathParam("userId") final int username)
+	public final Response getUser(@PathParam("userId") final String username)
 	{
 		User user = manager.getUserByUsername(username);
 		return Response.ok(user).build();
@@ -57,8 +57,7 @@ public final class UsersCrud
 	@Path("{userId}")
 	public final Response updateUser(@PathParam("userId") final String userId, User user)
 	{
-		return Response.ok(manager.updateUser(user)).build();
-		//return Response.ok(manager.updateUser(userId, user)).build();
+		return Response.ok(manager.updateUser(userId, user)).build();
 	}
 	
 	@DELETE

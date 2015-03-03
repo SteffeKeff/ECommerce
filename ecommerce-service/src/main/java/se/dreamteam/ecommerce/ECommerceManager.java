@@ -29,9 +29,9 @@ public final class ECommerceManager
 		return users.createUser(user);
 	}
 
-	public User updateUser(User user) throws RepositoryException
+	public User updateUser(String username, User user) throws RepositoryException
 	{
-		return users.updateUser(user);
+		return users.updateUser(username, user);
 	}
 
 	public User getUserByUsername(String username) throws RepositoryException
@@ -39,7 +39,7 @@ public final class ECommerceManager
 		return users.getUserByUsername(username);
 	}
 
-	public User deleteUser(String username) throws RepositoryException
+	public String deleteUser(String username) throws RepositoryException
 	{
 		return users.deleteUser(username);
 	}

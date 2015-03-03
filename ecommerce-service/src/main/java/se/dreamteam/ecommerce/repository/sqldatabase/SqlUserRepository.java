@@ -71,19 +71,19 @@ public class SqlUserRepository implements SqlUserInterface
 	}
 
 	@Override
-	public User updateUser(User user) throws RepositoryException
+	public User updateUser(String username, User user) throws RepositoryException
 	{
 		try (final Connection con = getConnection())
 		{
 
-			try (final PreparedStatement stmt = con.prepareStatement("UPDATE dreamteam.Users SET username = ?, password = ? WHERE id = ?"))
+			try (final PreparedStatement stmt = con.prepareStatement("UPDATE dreamteam.Users SET username = ?, password = ? WHERE username = ?"))
 			{
 				stmt.setString(1, user.getUsername());
 				stmt.setString(2, user.getPassword());
-				stmt.setInt(3, user.getId());
+				stmt.setString(3, username);
 				stmt.executeUpdate();
-				return user;
 
+				return user;
 			}
 		}
 		catch (SQLException e)
@@ -95,18 +95,17 @@ public class SqlUserRepository implements SqlUserInterface
 	}
 
 	@Override
-	public User deleteUser(String username) throws RepositoryException
+	public String deleteUser(String username) throws RepositoryException
 	{
+		
 		try (final Connection con = getConnection())
 		{
-
 			try (final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Users WHERE username = ?"))
 			{
 				stmt.setString(1, username);
-				ResultSet rs = stmt.executeQuery();
-
-				return new User(rs.getInt(1), rs.getString("username"), rs.getString("password"));
-
+				stmt.executeUpdate();
+				
+				return username;
 			}
 		}
 		catch (SQLException e)

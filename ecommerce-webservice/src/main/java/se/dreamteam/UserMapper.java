@@ -102,7 +102,6 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 		public JsonElement serialize(User user, Type typeOfSrc, JsonSerializationContext context)
 		{
 			final JsonObject userJson = new JsonObject();
-			userJson.add("userId", new JsonPrimitive(user.getId()));
 			userJson.add("username", new JsonPrimitive(user.getUsername()));
 			userJson.add("password", new JsonPrimitive(user.getPassword()));
 			

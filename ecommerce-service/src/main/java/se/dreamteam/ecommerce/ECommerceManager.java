@@ -24,7 +24,7 @@ public final class ECommerceManager
 	}
 
 	// Users
-	public User createUser(User user) throws RepositoryException
+	public String createUser(User user) throws RepositoryException
 	{
 		return users.createUser(user);
 	}

@@ -38,7 +38,7 @@ public class SqlUserRepository implements SqlUserInterface
 	}
 
 	@Override
-	public User createUser(User user) throws RepositoryException
+	public String createUser(User user) throws RepositoryException
 	{
 		try (final Connection con = getConnection())
 		{
@@ -55,7 +55,8 @@ public class SqlUserRepository implements SqlUserInterface
 
 					if (key.next())
 					{
-						return new User(key.getInt(1), user.getUsername(), user.getPassword());
+						User returnedUser = new User(key.getInt(1), user.getUsername(), user.getPassword());
+						return returnedUser.getUsername();
 					}
 				}
 				throw new RepositoryException("Could not add user");

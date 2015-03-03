@@ -34,9 +34,9 @@ public final class ECommerceManager
 		return users.updateUser(user);
 	}
 
-	public User getUserById(int id) throws RepositoryException
+	public User getUserByUsername(String username) throws RepositoryException
 	{
-		return users.getUserById(id);
+		return users.getUserByUsername(username);
 	}
 
 	public User deleteUser(String username) throws RepositoryException

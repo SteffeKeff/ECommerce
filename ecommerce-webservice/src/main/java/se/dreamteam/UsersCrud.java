@@ -40,10 +40,10 @@ public final class UsersCrud
 	
 	@GET
 	@Path("{userId}")
-	public final Response getUser(@PathParam("userId") final int userId)
+	public final Response getUser(@PathParam("userId") final int username)
 	{
-		User theUser = manager.getUserById(userId);
-		return Response.ok(theUser).build();
+		User user = manager.getUserByUsername(username);
+		return Response.ok(user).build();
 	}
 	
 	@POST

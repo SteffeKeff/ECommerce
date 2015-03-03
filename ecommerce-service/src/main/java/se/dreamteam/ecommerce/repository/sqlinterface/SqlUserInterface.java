@@ -4,7 +4,7 @@ import se.dreamteam.model.User;
 
 public interface SqlUserInterface
 {
-	User getUserById(int id) throws RepositoryException;
+	User getUserByUsername(String username) throws RepositoryException;
 
 	String createUser(User user) throws RepositoryException;
 

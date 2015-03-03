@@ -16,15 +16,15 @@ public class SqlUserRepository implements SqlUserInterface
 	private final static String CONNECTION = "jdbc:mysql://localhost:3306/dreamteam";
 
 	@Override
-	public User getUserById(int id) throws RepositoryException
+	public User getUserByUsername(String username) throws RepositoryException
 	{
 
 		try (final Connection con = getConnection())
 		{
 
-			try (final PreparedStatement stmt = con.prepareStatement("SELECT * FROM dreamteam.Users WHERE id = ?;"))
+			try (final PreparedStatement stmt = con.prepareStatement("SELECT * FROM dreamteam.Users WHERE username = ?;"))
 			{
-				stmt.setInt(1, id);
+				stmt.setString(1, username);
 				ResultSet rs = stmt.executeQuery();
 				rs.next();
 				return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
@@ -33,7 +33,7 @@ public class SqlUserRepository implements SqlUserInterface
 		}
 		catch (SQLException e)
 		{
-			throw new RepositoryException("Could not find user with id: " + id, e);
+			throw new RepositoryException("Could not find user with username: " + username, e);
 		}
 	}
 

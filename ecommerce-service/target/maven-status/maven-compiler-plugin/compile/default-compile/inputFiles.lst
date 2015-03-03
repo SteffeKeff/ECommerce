@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlProductInterface.java
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/Connecttest.java
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlProductRepository.java
@@ -8,14 +7,3 @@
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/ECommerceManager.java
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlOrderRepository.java
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlUserRepository.java
-=======
-/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlUserInterface.java
-/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/Connecttest.java
-/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/ECommerceManager.java
-/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlUserRepository.java
-/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlOrderInterface.java
-/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlProductRepository.java
-/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/RepositoryException.java
-/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlOrderRepository.java
-/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlProductInterface.java
->>>>>>> d5c4c7f62a8d51aaf60aa23a38a3fa3cd8c482e4

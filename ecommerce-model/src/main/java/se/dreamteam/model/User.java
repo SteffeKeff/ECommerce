@@ -3,6 +3,8 @@ package se.dreamteam.model;
 public final class User
 {
 
+	public static final int EMPTY_ID = -1;
+	
 	private final int id;
 	private final String username;
 	private final String password;
@@ -13,6 +15,10 @@ public final class User
 		this.username = username;
 		this.password = password;
 		this.id = id;
+	}
+	public User(String username, String password)
+	{
+		this(EMPTY_ID,username, password);
 	}
 
 	public int getId()

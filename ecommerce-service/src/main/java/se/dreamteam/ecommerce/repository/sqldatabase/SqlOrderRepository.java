@@ -2,6 +2,7 @@ package se.dreamteam.ecommerce.repository.sqldatabase;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import se.dreamteam.ecommerce.repository.sqlinterface.RepositoryException;
@@ -13,11 +14,23 @@ public class SqlOrderRepository implements SqlOrderInterface
 {
 
 	private final static String CONNECTION = "jdbc:mysql://localhost:3306/dreamteam";
-	
+
 	@Override
-	public Order createOrder(User user) throws RepositoryException
+	public Order createOrder(User user, Order order) throws RepositoryException
 	{
-		
+		try (final Connection con = getConnection())
+		{
+			try (PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Orders VALUES (null,null,?);"))
+			{
+
+			}
+
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -48,6 +61,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	private Connection getConnection()
 	{
 		try
@@ -60,6 +74,5 @@ public class SqlOrderRepository implements SqlOrderInterface
 		}
 		return null;
 	}
-
 
 }

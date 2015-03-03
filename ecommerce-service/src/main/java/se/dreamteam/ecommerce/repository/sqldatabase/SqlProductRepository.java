@@ -40,6 +40,7 @@ public class SqlProductRepository implements SqlProductInterface{
 	
 	@Override
 	public Product getProductWithId(int productId) throws RepositoryException {
+		Product product = null;
 		try(Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement("SELECT * FROM dreamteam.Products WHERE id = ?;");) 
 		{
@@ -47,12 +48,12 @@ public class SqlProductRepository implements SqlProductInterface{
 			ResultSet rs = stmt.executeQuery();
 			
 			if (rs.next()) {
-				Product product = new Product(rs.getString("title"), rs.getInt("price") , rs.getInt("quantity"), rs.getString("description"), rs.getInt("id"));
-				return product;
+				product = new Product(rs.getString("title"), rs.getInt("price") , rs.getInt("quantity"), rs.getString("description"), rs.getInt("id"));
 			}
 		}catch (SQLException e) {
 			throw new RepositoryException("Failed to get product by id", e);
 		}
+		return product;
 	}
 	
 	@Override

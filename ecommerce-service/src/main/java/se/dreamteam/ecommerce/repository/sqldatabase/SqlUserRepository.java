@@ -100,16 +100,16 @@ public class SqlUserRepository implements SqlUserInterface
 
 			try (final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Users WHERE username = ?"))
 			{
-				stmt.setString(1, user);
-				stmt.executeUpdate();
+				stmt.setString(1, username);
+				ResultSet rs = stmt.executeQuery();
 
-				return new User(stmt.getint(), user.getUsername(), user.getPassword());
+				return new User(rs.getInt(1), rs.getString("username"), rs.getString("password"));
 
 			}
 		}
 		catch (SQLException e)
 		{
-			throw new RepositoryException("Could not delete user: " + user.getUsername() , e);
+			throw new RepositoryException("Could not delete user: " + username , e);
 		}
 
 	}

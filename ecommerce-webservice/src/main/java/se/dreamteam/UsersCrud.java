@@ -16,6 +16,8 @@ import se.dreamteam.ecommerce.repository.sqldatabase.SqlProductRepository;
 import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
 import se.dreamteam.model.User;
 
+import java.net.URI;
+
 @Path("users")
 //@Consumes(MediaType.APPLICATION_JSON)
 //@Produces(MediaType.APPLICATION_JSON)
@@ -47,20 +49,22 @@ public final class UsersCrud
 	@POST
 	public final Response addUser(User user)
 	{
-		return Response.ok(user.getUsername()).build();
+		final URI location = uriInfo.getAbsolutePathBuilder().path(manager.createUser(user)).build();
+		return Response.created(location).build();
 	}
 	
 	@PUT
 	@Path("{userId}")
-	public final Response updateUser(@PathParam("userId") final String UserId, User user)
+	public final Response updateUser(@PathParam("userId") final String userId, User user)
 	{
-		return Response.ok(user.getUsername()).build();
+		return Response.ok(manager.updateUser(user)).build();
+		//return Response.ok(manager.updateUser(userId, user)).build();
 	}
 	
 	@DELETE
 	@Path("{userId}")
-	public final Response deleteUser(@PathParam("userId") final String userId, String username)
+	public final Response deleteUser(@PathParam("userId") final String username)
 	{
-		return Response.noContent().build();
+		return Response.ok(manager.deleteUser(username)).build();
 	}
 }

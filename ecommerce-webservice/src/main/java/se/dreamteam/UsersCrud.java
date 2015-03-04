@@ -13,6 +13,7 @@ import javax.ws.rs.core.UriInfo;
 import se.dreamteam.ecommerce.ECommerceManager;
 import se.dreamteam.ecommerce.repository.sqldatabase.SqlOrderRepository;
 import se.dreamteam.ecommerce.repository.sqldatabase.SqlProductRepository;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlShoppingcartRepository;
 import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
 import se.dreamteam.model.User;
 
@@ -26,8 +27,9 @@ public final class UsersCrud
 	private SqlOrderRepository orders = new SqlOrderRepository();
 	private SqlProductRepository products = new SqlProductRepository();
 	private SqlUserRepository users = new SqlUserRepository();
+	private SqlShoppingcartRepository shoppingcart = new SqlShoppingcartRepository();
 	
-	private final ECommerceManager manager = new ECommerceManager(orders, products, users);
+	private final ECommerceManager manager = new ECommerceManager(orders, products, users,shoppingcart);
 	
 	@Context
 	public UriInfo uriInfo; 

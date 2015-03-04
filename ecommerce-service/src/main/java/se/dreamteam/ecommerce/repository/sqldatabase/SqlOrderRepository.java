@@ -6,6 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
@@ -17,9 +21,9 @@ import se.dreamteam.model.User;
 public class SqlOrderRepository implements SqlOrderInterface
 {
 
-	private final static String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
-	private final static String USERNAME = "admin";
-	private final static String PASSWORD = "dr3amt3am";
+	private static final String DB_URL = "jdbc:mysql://80.217.176.187:3306/dreamteam";
+	private static final String USER = "admin";
+	private static final String PW = "dr3amt3am";
 
 	@Override
 	public String createOrder(User user, Order order, TreeSet<Product> products) throws RepositoryException
@@ -65,10 +69,86 @@ public class SqlOrderRepository implements SqlOrderInterface
 	}
 
 	@Override
-	public Order getAllOrders(Order order) throws RepositoryException
+	public TreeSet<Order> getAllOrders(Order order) throws RepositoryException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		//HashMap<Date, Boolean> ordersQueryResult = new HashMap<Date, Boolean>();
+		ArrayList<Order> ordersQueryResult = new ArrayList<Order>();
+		HashMap<Integer, Integer> orderHasProductsQueryResult = new HashMap<Integer, Integer>();
+		
+		TreeSet<Order> orders = new TreeSet<Order>(); 
+		boolean hasResults = false;
+		int rsCount = 0;
+		
+		try(Connection con = getConnection(); 
+			Statement stmt = con.createStatement();)
+		{
+			hasResults = stmt.execute("SELECT * FROM dreamteam.Orders;"
+									+ "SELECT * FROM dreamteam.OrderHasProducts;"
+									+ "");
+			
+			do{
+				ResultSet rs = stmt.getResultSet();
+				rsCount++;
+				
+				while(rs.next()) 
+				{
+					if(rsCount == 1){ //orders table query
+						Order orderWithNoProducts = null;
+						ordersQueryResult.add(orderWithNoProducts);
+					}else if(rsCount == 2){ //orderHasProducts table query
+						orderHasProductsQueryResult.put(rs.getInt(2), rs.getInt(3));
+					}
+		        }
+				rs.close();
+				
+				hasResults = stmt.getMoreResults();
+			}while(hasResults);
+			
+		}catch (SQLException e) {
+			throw new RepositoryException("Failed to get all products", e);
+		}
+		
+		HashMap<Integer, TreeSet<Integer>> ordersProductIds = new HashMap<Integer, TreeSet<Integer>>();
+		
+		//mergar orders med product idn
+		for (Order orderWithoutProd : ordersQueryResult) {
+			TreeSet<Integer> orderProductIds = new TreeSet<Integer>();
+			
+			for (Map.Entry<Integer, Integer> entry : orderHasProductsQueryResult.entrySet()) 
+			{
+			    if (orderWithoutProd.getId() == entry.getKey()) { //kör om samma orderId
+			    	orderProductIds.add(entry.getValue()); //sparar orders product idn
+				}
+			}
+			ordersProductIds.put(orderWithoutProd.getId(), orderProductIds); //sparar en order med product idn i en map
+		}
+		
+		//hämtar orders fysiska produkter baserat på prodId		
+		SqlProductRepository productQueries = new SqlProductRepository();
+		HashMap<Integer, TreeSet<Product>> orderWithProducts = new HashMap<Integer, TreeSet<Product>>();
+		
+		for (Map.Entry<Integer, TreeSet<Integer>> entry : ordersProductIds.entrySet()) //för varje order
+		{
+			TreeSet<Product> orderProducts = new TreeSet<Product>(); //flytta in i for scopet
+			
+			for (Integer productId : entry.getValue()) { //för  varje productId //lägger till i orders lista
+				 orderProducts.add(productQueries.getProductWithId(productId)); //hämtar och lägger in en product i order arr
+			}
+			orderWithProducts.put(entry.getKey(), orderProducts);
+		}
+				
+		//skapar order obj
+		for (Entry<Integer, TreeSet<Product>> entry : orderWithProducts.entrySet()) //för varje order
+		{
+			for (Order orderInfo : ordersQueryResult) {
+				if(entry.getKey() == orderInfo.getId()){
+					Order completeOrder = new Order(orderInfo.getDate(), orderInfo.isShipped() , orderInfo.getId(), entry.getValue());
+					orders.add(completeOrder);
+				}
+			}
+		}
+		
+		return orders;
 	}
 
 	@Override
@@ -97,13 +177,13 @@ public class SqlOrderRepository implements SqlOrderInterface
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			return DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
+			return DriverManager.getConnection(DB_URL, USER, PW);		
+
 		}
 		catch (SQLException | ClassNotFoundException e)
 		{
-			System.out.println(e);
+			throw new RepositoryException("Could not connect to data source", e);
 		}
-		return null;
 	}
 
 }

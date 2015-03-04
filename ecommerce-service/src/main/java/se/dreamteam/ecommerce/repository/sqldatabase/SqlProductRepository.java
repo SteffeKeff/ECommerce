@@ -129,9 +129,10 @@ public class SqlProductRepository implements SqlProductInterface{
 		{
 			stmt.setInt(1, productId);
 			// execute delete SQL stetement
-			ResultSet rs = stmt.executeQuery();
+			stmt.executeUpdate();
 			
-			return new Product(rs.getString("title"), rs.getInt("price") , rs.getInt("quantity"), rs.getString("description"), rs.getInt("id"));
+			return new Product("hej",123,123,"hej");
+			//return new Product(rs.getString("title"), rs.getInt("price") , rs.getInt("quantity"), rs.getString("description"), rs.getInt("id"));
 		}
 		catch (SQLException e) 
 		{

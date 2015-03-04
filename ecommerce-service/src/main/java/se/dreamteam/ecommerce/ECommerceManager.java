@@ -39,7 +39,7 @@ public final class ECommerceManager
 		return users.getUserByUsername(username);
 	}
 
-	public String deleteUser(String username) throws RepositoryException
+	public User deleteUser(String username) throws RepositoryException
 	{
 		return users.deleteUser(username);
 	}
@@ -77,7 +77,7 @@ public final class ECommerceManager
 		return orders.createOrder(user, order, products);
 	}
 
-	public Order getAllOrders(Order order) throws RepositoryException
+	public TreeSet<Order> getAllOrders(Order order) throws RepositoryException
 	{
 		return orders.getAllOrders(order);
 	}

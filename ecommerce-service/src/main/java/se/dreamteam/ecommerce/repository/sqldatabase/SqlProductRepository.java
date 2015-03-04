@@ -8,15 +8,15 @@ import java.sql.SQLException;
 import java.util.TreeSet;
 import java.sql.Statement;
 
-import se.dreamteam.ecommerce.repository.sqlinterface.RepositoryException;
+import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
 import se.dreamteam.model.Product;
 
 public class SqlProductRepository implements SqlProductInterface{
 	
-	private static final String DB_URL = "jdbc:mysql://localhost:3306/dreamteam";
-	private static final String USER = "root";
-	private static final String PW = "";
+	private static final String DB_URL = "jdbc:mysql://80.217.176.187:3306/dreamteam";
+	private static final String USER = "admin";
+	private static final String PW = "dr3amt3am";
 	
 	@Override
 	public TreeSet<Product> getAllProducts() throws RepositoryException 

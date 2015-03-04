@@ -2,7 +2,7 @@ package se.dreamteam.ecommerce;
 
 import java.util.TreeSet;
 
-import se.dreamteam.ecommerce.repository.sqlinterface.RepositoryException;
+import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlUserInterface;

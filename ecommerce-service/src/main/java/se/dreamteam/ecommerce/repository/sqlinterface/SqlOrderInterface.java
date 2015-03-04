@@ -1,5 +1,6 @@
 package se.dreamteam.ecommerce.repository.sqlinterface;
 
+import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.model.Order;
 import se.dreamteam.model.User;
 

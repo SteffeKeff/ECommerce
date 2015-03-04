@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import se.dreamteam.ecommerce.repository.sqlinterface.RepositoryException;
+import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
 import se.dreamteam.model.Order;
 import se.dreamteam.model.User;
@@ -13,7 +13,9 @@ import se.dreamteam.model.User;
 public class SqlOrderRepository implements SqlOrderInterface
 {
 
-	private final static String CONNECTION = "jdbc:mysql://localhost:3306/dreamteam";
+	private final static String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
+	private final static String USERNAME = "admin";
+	private final static String PASSWORD = "dr3amt3am";
 
 	@Override
 	public Order createOrder(User user, Order order) throws RepositoryException
@@ -67,7 +69,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 	{
 		try
 		{
-			return DriverManager.getConnection(CONNECTION, "root", "");
+			return DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
 		}
 		catch (SQLException e)
 		{

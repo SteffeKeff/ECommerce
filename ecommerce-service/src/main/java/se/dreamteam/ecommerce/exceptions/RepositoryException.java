@@ -1,4 +1,4 @@
-package se.dreamteam.ecommerce.repository.sqlinterface;
+package se.dreamteam.ecommerce.exceptions;
 
 public class RepositoryException extends RuntimeException
 {

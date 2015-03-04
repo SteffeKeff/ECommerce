@@ -7,13 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import se.dreamteam.ecommerce.repository.sqlinterface.RepositoryException;
+import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlUserInterface;
 import se.dreamteam.model.User;
 
 public class SqlUserRepository implements SqlUserInterface
 {
-	private final static String CONNECTION = "jdbc:mysql://localhost:3306/dreamteam";
+	private final static String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
+	private final static String USERNAME = "admin";
+	private final static String PASSWORD = "dr3amt3am";
 
 	@Override
 	public User getUserByUsername(String username) throws RepositoryException
@@ -120,7 +122,7 @@ public class SqlUserRepository implements SqlUserInterface
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			return DriverManager.getConnection(CONNECTION, "root", "");
+			return DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
 		}
 		catch (SQLException | ClassNotFoundException e)
 		{

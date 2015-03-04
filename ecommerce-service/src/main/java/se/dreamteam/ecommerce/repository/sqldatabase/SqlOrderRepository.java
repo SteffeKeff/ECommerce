@@ -6,19 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-<<<<<<< HEAD
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
-
-import com.sun.security.auth.SolarisPrincipal;
-=======
-import java.util.TreeSet;
->>>>>>> 7f05ca0bd8c447cf861941591a6fba542819d338
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
@@ -101,7 +93,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 				while(rs.next()) 
 				{
 					if(rsCount == 1){ //orders table query
-						Order orderWithNoProducts = new Order(rs.getDate(2), rs.getBoolean(3), rs.getInt(1));
+						Order orderWithNoProducts = null;
 						ordersQueryResult.add(orderWithNoProducts);
 					}else if(rsCount == 2){ //orderHasProducts table query
 						orderHasProductsQueryResult.put(rs.getInt(2), rs.getInt(3));
@@ -184,12 +176,9 @@ public class SqlOrderRepository implements SqlOrderInterface
 	{
 		try
 		{
-<<<<<<< HEAD
-			return DriverManager.getConnection(DB_URL, USER, PW);
-=======
 			Class.forName("com.mysql.jdbc.Driver");
-			return DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
->>>>>>> 7f05ca0bd8c447cf861941591a6fba542819d338
+			return DriverManager.getConnection(DB_URL, USER, PW);		
+
 		}
 		catch (SQLException | ClassNotFoundException e)
 		{

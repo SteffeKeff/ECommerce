@@ -77,7 +77,7 @@ public final class ECommerceManager
 		return orders.createOrder(user, order, products);
 	}
 
-	public Order getAllOrders(Order order) throws RepositoryException
+	public TreeSet<Order> getAllOrders(Order order) throws RepositoryException
 	{
 		return orders.getAllOrders(order);
 	}

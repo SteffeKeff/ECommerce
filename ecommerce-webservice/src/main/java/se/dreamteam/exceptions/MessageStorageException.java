@@ -1,4 +1,4 @@
-package se.dreamteam;
+package se.dreamteam.exceptions;
 
 public class MessageStorageException extends RuntimeException
 {

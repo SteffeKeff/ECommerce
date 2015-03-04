@@ -1,4 +1,4 @@
-package se.dreamteam;
+package se.dreamteam.services;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -22,7 +22,7 @@ import java.net.URI;
 @Path("users")
 //@Consumes(MediaType.APPLICATION_JSON)
 //@Produces(MediaType.APPLICATION_JSON)
-public final class UsersCrud
+public final class UserService
 {
 	private SqlOrderRepository orders = new SqlOrderRepository();
 	private SqlProductRepository products = new SqlProductRepository();

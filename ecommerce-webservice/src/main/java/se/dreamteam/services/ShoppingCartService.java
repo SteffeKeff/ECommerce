@@ -1,4 +1,4 @@
-package se.dreamteam;
+package se.dreamteam.services;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,7 +18,7 @@ import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
 @Path("users/{userId}/shoppingcart")
 // @Consumes(MediaType.APPLICATION_JSON)
 // @Produces(MediaType.APPLICATION_JSON)
-public final class ShoppingCartCrud
+public final class ShoppingCartService
 {
 	private SqlOrderRepository orders = new SqlOrderRepository();
 	private SqlProductRepository products = new SqlProductRepository();

@@ -1,4 +1,4 @@
-package se.dreamteam;
+package se.dreamteam.services;
 
 import java.util.ArrayList;
 import java.util.HashMap;

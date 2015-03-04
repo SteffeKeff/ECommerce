@@ -1,4 +1,4 @@
-package se.dreamteam;
+package se.dreamteam.services;
 
 import java.net.URI;
 
@@ -20,7 +20,7 @@ import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
 import se.dreamteam.model.Product;
 
 @Path("products")
-public class ProductsCrud
+public class ProductService
 {
 	
 	private static SqlOrderRepository orders = new SqlOrderRepository();;

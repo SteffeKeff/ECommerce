@@ -11,7 +11,7 @@ public interface SqlOrderInterface
 {
 	String createOrder(User user, Order order, TreeSet<Product> products) throws RepositoryException;
 
-	Order getAllOrders(Order order) throws RepositoryException;
+	TreeSet<Order> getAllOrders(Order order) throws RepositoryException;
 
 	Order getOrder(Order order) throws RepositoryException;
 

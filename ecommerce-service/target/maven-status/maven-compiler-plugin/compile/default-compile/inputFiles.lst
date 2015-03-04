@@ -1,3 +1,25 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+/Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlUserRepository.java
+/Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlOrderInterface.java
+/Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlProductInterface.java
+/Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlUserInterface.java
+/Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/Connecttest.java
+/Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlOrderRepository.java
+/Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlProductRepository.java
+/Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/RepositoryException.java
+/Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/ECommerceManager.java
+=======
+/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlUserInterface.java
+/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/ECommerceManager.java
+/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlUserRepository.java
+/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlOrderInterface.java
+/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlProductRepository.java
+/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlOrderRepository.java
+/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlProductInterface.java
+/Users/Steffe/Documents/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/exceptions/RepositoryException.java
+>>>>>>> ef890a3d023129beed8bb8bfc08cfc619e8dc31a
+=======
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqlinterface/SqlProductInterface.java
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/exceptions/RepositoryException.java
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlProductRepository.java
@@ -6,3 +28,4 @@
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/ECommerceManager.java
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlOrderRepository.java
 /Users/Max/Desktop/Ecom/ECommerce/ecommerce-service/src/main/java/se/dreamteam/ecommerce/repository/sqldatabase/SqlUserRepository.java
+>>>>>>> 7f05ca0bd8c447cf861941591a6fba542819d338

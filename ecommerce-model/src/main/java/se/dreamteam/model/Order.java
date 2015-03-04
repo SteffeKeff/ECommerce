@@ -22,6 +22,11 @@ public final class Order
 	{
 		this(date, isShipped, EMPTY_ORDER_ID, orderProducts);
 	}
+	
+	public Order(String date, boolean isShipped, int orderId)
+	{
+		this(date, isShipped, orderId, new TreeSet<Product>());
+	}
 
 	public int getId()
 	{

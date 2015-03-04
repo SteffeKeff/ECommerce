@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 /Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/Product.java
 /Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/User.java
 /Users/Sandra/Documents/kursfiler/bajs/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/Order.java
+=======
+/Users/Max/Desktop/Ecom/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/Product.java
+/Users/Max/Desktop/Ecom/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/Order.java
+/Users/Max/Desktop/Ecom/ECommerce/ecommerce-model/src/main/java/se/dreamteam/model/User.java
+>>>>>>> ef890a3d023129beed8bb8bfc08cfc619e8dc31a

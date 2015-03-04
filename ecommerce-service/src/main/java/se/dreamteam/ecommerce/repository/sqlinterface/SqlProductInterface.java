@@ -2,6 +2,7 @@ package se.dreamteam.ecommerce.repository.sqlinterface;
 
 import java.util.TreeSet;
 
+import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.model.Product;
 
 public interface SqlProductInterface

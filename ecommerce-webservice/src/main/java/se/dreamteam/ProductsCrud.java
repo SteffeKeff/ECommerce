@@ -1,5 +1,7 @@
 package se.dreamteam;
 
+import java.net.URI;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -46,7 +48,8 @@ public class ProductsCrud
 	@POST
 	public Response addProduct(Product product)
 	{
-		return Response.ok(manager.createProduct(product)).build();
+		final URI location = uriInfo.getAbsolutePathBuilder().path(manager.createProduct(product)).build();
+		return Response.created(location).build();
 	}
 	
 	@PUT
@@ -58,9 +61,9 @@ public class ProductsCrud
 	
 	@DELETE
 	@Path("{productId}")
-	public Response deleteProduct()
+	public Response deleteProduct(@PathParam("productId") final int productId)
 	{
-		return Response.ok().build();
+		return Response.ok(manager.deleteProduct(productId)).build();
 	}
 	
 }

@@ -44,7 +44,6 @@ public class ProductsCrud
 	}
 	
 	@POST
-	@Path("")
 	public Response addProduct(Product product)
 	{
 		return Response.ok(manager.createProduct(product)).build();

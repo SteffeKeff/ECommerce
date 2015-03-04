@@ -1,6 +1,6 @@
 package se.dreamteam.model;
 
-public final class Product
+public final class Product implements Comparable<Object>
 {
 	private static final int EMPTY_PRODUCT_ID = -1;
 	private final int productId;
@@ -48,30 +48,9 @@ public final class Product
 		return description;
 	}
 
-	@Override
-	public int hashCode()
+	public int compareTo(Object obj)
 	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
+		return this.title.compareTo( ((Product) obj).getTitle() );
 	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
-		Product other = (Product) obj;
-		if (title == null)
-		{
-			if (other.title != null) return false;
-		}
-		else if (!title.equals(other.title)) return false;
-		return true;
-	}
-	
-	
 	
 }

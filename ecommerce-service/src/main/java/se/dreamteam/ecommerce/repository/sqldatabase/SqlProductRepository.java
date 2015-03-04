@@ -21,7 +21,6 @@ public class SqlProductRepository implements SqlProductInterface{
 	@Override
 	public TreeSet<Product> getAllProducts() throws RepositoryException 
 	{
-		System.out.println("ge alla products!");
 		TreeSet<Product> products = new TreeSet<Product>(); 
 		
 		try(Connection con = getConnection(); 
@@ -30,7 +29,6 @@ public class SqlProductRepository implements SqlProductInterface{
 		{
 			while(rs.next()){
 				Product product = new Product(rs.getString("title"), rs.getInt("price") , rs.getInt("quantity"), rs.getString("description"), rs.getInt("id"));
-				System.out.println(product);
 				products.add(product);
 			}
 			return products;
@@ -79,7 +77,7 @@ public class SqlProductRepository implements SqlProductInterface{
 
 					if (rs.next())
 					{
-						int id = rs.getInt(0);
+						int id = rs.getInt(1);
 						con.commit();
 						
 						return new Product(product.getTitle(), product.getPrice(), product.getQuantity(), product.getDescription(), id);
@@ -89,6 +87,7 @@ public class SqlProductRepository implements SqlProductInterface{
 			catch (SQLException e)
 			{
 				con.rollback();
+				throw new RepositoryException("Could not add product", e);
 			}
 			
 			throw new RepositoryException("Could not add product");

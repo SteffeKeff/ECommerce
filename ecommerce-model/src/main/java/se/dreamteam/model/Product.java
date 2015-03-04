@@ -1,6 +1,6 @@
 package se.dreamteam.model;
 
-public final class Product
+public final class Product implements Comparable<Object>
 {
 	private static final int EMPTY_PRODUCT_ID = -1;
 	private final int productId;
@@ -47,4 +47,10 @@ public final class Product
 	{
 		return description;
 	}
+
+	public int compareTo(Object obj)
+	{
+		return this.title.compareTo( ((Product) obj).getTitle() );
+	}
+	
 }

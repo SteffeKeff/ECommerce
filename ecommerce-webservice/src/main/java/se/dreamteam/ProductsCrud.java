@@ -11,18 +11,19 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import se.dreamteam.ecommerce.ECommerceManager;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlOrderRepository;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlProductRepository;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlUserInterface;
 import se.dreamteam.model.Product;
 
 @Path("products")
 public class ProductsCrud
 {
 	
-	private static SqlOrderInterface orders;
-	private static SqlProductInterface products;
-	private static SqlUserInterface users;
+	private static SqlOrderInterface orders = new SqlOrderRepository();;
+	private static SqlProductRepository products = new SqlProductRepository();
+	private static SqlUserRepository users = new SqlUserRepository();
 	
 	private static final ECommerceManager manager = new ECommerceManager(orders, products, users);
 	
@@ -43,7 +44,6 @@ public class ProductsCrud
 	}
 	
 	@POST
-	@Path("")
 	public Response addProduct(Product product)
 	{
 		return Response.ok(manager.createProduct(product)).build();

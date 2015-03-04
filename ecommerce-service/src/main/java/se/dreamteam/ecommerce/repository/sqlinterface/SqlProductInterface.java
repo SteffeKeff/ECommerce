@@ -11,7 +11,7 @@ public interface SqlProductInterface
 
 	Product getProductWithId(int productId) throws RepositoryException;
 
-	Product createProduct(Product product) throws RepositoryException;
+	String createProduct(Product product) throws RepositoryException;
 
 	Product updateProduct(Product product) throws RepositoryException;
 

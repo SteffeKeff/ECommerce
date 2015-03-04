@@ -57,7 +57,7 @@ public class SqlProductRepository implements SqlProductInterface{
 	}
 	
 	@Override
-	public Product createProduct(Product product) throws RepositoryException 
+	public String createProduct(Product product) throws RepositoryException 
 	{
 		try (final Connection con = getConnection())
 		{
@@ -77,16 +77,17 @@ public class SqlProductRepository implements SqlProductInterface{
 
 					if (rs.next())
 					{
-						int id = rs.getInt(0);
+						int id = rs.getInt(1);
 						con.commit();
 						
-						return new Product(product.getTitle(), product.getPrice(), product.getQuantity(), product.getDescription(), id);
+						return Integer.toString(id);
 					}
 				}
 			}
 			catch (SQLException e)
 			{
 				con.rollback();
+				throw new RepositoryException("Could not add product", e);
 			}
 			
 			throw new RepositoryException("Could not add product");
@@ -142,9 +143,10 @@ public class SqlProductRepository implements SqlProductInterface{
 	{
 		try
 		{
+			Class.forName("com.mysql.jdbc.Driver");
 			return DriverManager.getConnection(DB_URL, USER, PW);
 		}
-		catch (SQLException e)
+		catch (SQLException | ClassNotFoundException e)
 		{
 			throw new RepositoryException("Could not connect to data source", e);
 		}

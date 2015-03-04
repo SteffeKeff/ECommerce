@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +16,9 @@ import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import com.sun.security.auth.SolarisPrincipal;
+=======
+import java.util.TreeSet;
+>>>>>>> 7f05ca0bd8c447cf861941591a6fba542819d338
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
@@ -30,13 +34,36 @@ public class SqlOrderRepository implements SqlOrderInterface
 	private static final String PW = "dr3amt3am";
 
 	@Override
-	public Order createOrder(User user, Order order) throws RepositoryException
+	public String createOrder(User user, Order order, TreeSet<Product> products) throws RepositoryException
 	{
 		try (final Connection con = getConnection())
 		{
-			try (PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Orders VALUES (null,null,?);"
-					+ "											INSERT INTO dreamteam.UserHasOrder VALUES(null,?,?)"))
+			try (PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Orders VALUES (null,null,?);", Statement.RETURN_GENERATED_KEYS))
 			{
+				stmt.setInt(1, 1);
+				int affectedRows = stmt.executeUpdate();
+				if (affectedRows == 1)
+				{
+					ResultSet key = stmt.getGeneratedKeys();
+					
+					try (PreparedStatement secondStmt = con.prepareStatement("INSERT INTO dreamteam.UserHasOrder (userid,orderid) VALUES(null,?,?)"))
+					{
+						secondStmt.setInt(1, user.getId());
+						secondStmt.setInt(2, key.getInt(1));
+						secondStmt.executeUpdate();
+						for(Product product: products){
+							try (PreparedStatement thirdStmt = con.prepareStatement("INSERT INTO dreamteam.UserHasProducts(userid, productid) VALUES (null,?,?)"))
+							{
+								thirdStmt.setInt(1, user.getId());
+								thirdStmt.setInt(2, product.getId());
+								thirdStmt.executeUpdate();
+								return Integer.toString(key.getInt(1));
+							}
+						}
+
+					}
+
+				}
 
 			}
 
@@ -157,9 +184,14 @@ public class SqlOrderRepository implements SqlOrderInterface
 	{
 		try
 		{
+<<<<<<< HEAD
 			return DriverManager.getConnection(DB_URL, USER, PW);
+=======
+			Class.forName("com.mysql.jdbc.Driver");
+			return DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
+>>>>>>> 7f05ca0bd8c447cf861941591a6fba542819d338
 		}
-		catch (SQLException e)
+		catch (SQLException | ClassNotFoundException e)
 		{
 			throw new RepositoryException("Could not connect to data source", e);
 		}

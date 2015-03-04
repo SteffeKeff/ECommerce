@@ -10,9 +10,21 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import se.dreamteam.ecommerce.ECommerceManager;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlOrderRepository;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlProductRepository;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
+import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
+
 @Path("users/{userId}/orders")
 public class OrdersCrud
 {
+	private static SqlOrderInterface orders = new SqlOrderRepository();;
+	private static SqlProductRepository products = new SqlProductRepository();
+	private static SqlUserRepository users = new SqlUserRepository();
+	
+	private static final ECommerceManager manager = new ECommerceManager(orders, products, users);
+	
 	@Context
 	public UriInfo uriInfo; 
 	

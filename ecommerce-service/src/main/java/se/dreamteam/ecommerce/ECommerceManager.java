@@ -56,7 +56,7 @@ public final class ECommerceManager
 
 	}
 
-	public Product createProduct(Product product) throws RepositoryException
+	public String createProduct(Product product) throws RepositoryException
 	{
 		return products.createProduct(product);
 	}
@@ -72,9 +72,9 @@ public final class ECommerceManager
 	}
 
 	// Orders
-	public Order createOrder(User user, Order order) throws RepositoryException
+	public String createOrder(User user, Order order, TreeSet<Product> products) throws RepositoryException
 	{
-		return orders.createOrder(user, order);
+		return orders.createOrder(user, order, products);
 	}
 
 	public Order getAllOrders(Order order) throws RepositoryException

@@ -45,54 +45,54 @@ public final class ECommerceManager
 	}
 
 	// Products
-	TreeSet<Product> getAllProducts() throws RepositoryException
+	public TreeSet<Product> getAllProducts() throws RepositoryException
 	{
 		return products.getAllProducts();
 	}
 
-	Product getProductWithId(int id) throws RepositoryException
+	public Product getProductWithId(int id) throws RepositoryException
 	{
 		return products.getProductWithId(id);
 
 	}
 
-	Product createProduct(Product product) throws RepositoryException
+	public Product createProduct(Product product) throws RepositoryException
 	{
 		return products.createProduct(product);
 	}
 
-	Product updateProduct(Product product) throws RepositoryException
+	public Product updateProduct(Product product) throws RepositoryException
 	{
 		return products.updateProduct(product);
 	}
 
-	Product deleteProduct(int id) throws RepositoryException
+	public Product deleteProduct(int id) throws RepositoryException
 	{
 		return products.deleteProduct(id);
 	}
 
 	// Orders
-	Order createOrder(User user, Order order) throws RepositoryException
+	public Order createOrder(User user, Order order) throws RepositoryException
 	{
 		return orders.createOrder(user, order);
 	}
 
-	Order getAllOrders(Order order) throws RepositoryException
+	public Order getAllOrders(Order order) throws RepositoryException
 	{
 		return orders.getAllOrders(order);
 	}
 
-	Order getOrder(Order order) throws RepositoryException
+	public Order getOrder(Order order) throws RepositoryException
 	{
 		return orders.getOrder(order);
 	}
 
-	Order updateOrder(Order order) throws RepositoryException
+	public Order updateOrder(Order order) throws RepositoryException
 	{
 		return orders.updateOrder(order);
 	}
 
-	Order removeOrder(Order order) throws RepositoryException
+	public Order removeOrder(Order order) throws RepositoryException
 	{
 		return orders.removeOrder(order);
 	}

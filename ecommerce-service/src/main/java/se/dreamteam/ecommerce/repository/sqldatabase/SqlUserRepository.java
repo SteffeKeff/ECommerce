@@ -16,23 +16,24 @@ public class SqlUserRepository implements SqlUserInterface
 	private final static String CONNECTION = "jdbc:mysql://localhost:3306/dreamteam";
 
 	@Override
-	public User getUserById(int id) throws RepositoryException
+	public User getUserByUsername(String username) throws RepositoryException
 	{
+
 		try (final Connection con = getConnection())
 		{
 
-			try (final PreparedStatement stmt = con.prepareStatement("SELECT * FROM dreamteam.Users WHERE id = ?;"))
+			try (final PreparedStatement stmt = con.prepareStatement("SELECT * FROM dreamteam.Users WHERE username = ?;"))
 			{
-				stmt.setInt(1, id);
+				stmt.setString(1, username);
 				ResultSet rs = stmt.executeQuery();
+				rs.next();
 				return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
 			}
 
 		}
 		catch (SQLException e)
 		{
-
-			throw new RepositoryException("Could not find user with id: " + id, e);
+			throw new RepositoryException("Could not find user with username: " + username, e);
 		}
 	}
 
@@ -70,19 +71,19 @@ public class SqlUserRepository implements SqlUserInterface
 	}
 
 	@Override
-	public User updateUser(User user) throws RepositoryException
+	public User updateUser(String username, User user) throws RepositoryException
 	{
 		try (final Connection con = getConnection())
 		{
 
-			try (final PreparedStatement stmt = con.prepareStatement("UPDATE dreamteam.Users SET username = ?, password = ? WHERE id = ?"))
+			try (final PreparedStatement stmt = con.prepareStatement("UPDATE dreamteam.Users SET username = ?, password = ? WHERE username = ?"))
 			{
 				stmt.setString(1, user.getUsername());
 				stmt.setString(2, user.getPassword());
-				stmt.setInt(3, user.getId());
+				stmt.setString(3, username);
 				stmt.executeUpdate();
-				return user;
 
+				return user;
 			}
 		}
 		catch (SQLException e)
@@ -94,38 +95,37 @@ public class SqlUserRepository implements SqlUserInterface
 	}
 
 	@Override
-	public User deleteUser(String username) throws RepositoryException
+	public String deleteUser(String username) throws RepositoryException
 	{
+		
 		try (final Connection con = getConnection())
 		{
-
 			try (final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Users WHERE username = ?"))
 			{
 				stmt.setString(1, username);
-				ResultSet rs = stmt.executeQuery();
-
-				return new User(rs.getInt(1), rs.getString("username"), rs.getString("password"));
-
+				stmt.executeUpdate();
+				
+				return username;
 			}
 		}
 		catch (SQLException e)
 		{
-			throw new RepositoryException("Could not delete user: " + username , e);
+			throw new RepositoryException("Could not delete user: " + username, e);
 		}
 
 	}
 
-	private Connection getConnection()
+	private Connection getConnection() throws SQLException
 	{
 		try
 		{
+			Class.forName("com.mysql.jdbc.Driver");
 			return DriverManager.getConnection(CONNECTION, "root", "");
 		}
-		catch (SQLException e)
+		catch (SQLException | ClassNotFoundException e)
 		{
-			System.out.println(e);
+			throw new RepositoryException("Connection problemo", e);
 		}
-		return null;
 	}
 
 }

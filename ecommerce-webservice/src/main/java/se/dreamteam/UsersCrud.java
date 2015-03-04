@@ -11,9 +11,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import se.dreamteam.ecommerce.ECommerceManager;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlUserInterface;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlOrderRepository;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlProductRepository;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
 import se.dreamteam.model.User;
 
 import java.net.URI;
@@ -23,9 +23,9 @@ import java.net.URI;
 //@Produces(MediaType.APPLICATION_JSON)
 public final class UsersCrud
 {
-	private SqlOrderInterface orders;
-	private SqlProductInterface products;
-	private SqlUserInterface users;
+	private SqlOrderRepository orders = new SqlOrderRepository();
+	private SqlProductRepository products = new SqlProductRepository();
+	private SqlUserRepository users = new SqlUserRepository();
 	
 	private final ECommerceManager manager = new ECommerceManager(orders, products, users);
 	
@@ -40,9 +40,10 @@ public final class UsersCrud
 	
 	@GET
 	@Path("{userId}")
-	public final Response getUser(@PathParam("userId") final int userId)
+	public final Response getUser(@PathParam("userId") final String username)
 	{
-		return Response.ok(manager.getUserById(userId)).build();
+		User user = manager.getUserByUsername(username);
+		return Response.ok(user).build();
 	}
 	
 	@POST
@@ -56,8 +57,7 @@ public final class UsersCrud
 	@Path("{userId}")
 	public final Response updateUser(@PathParam("userId") final String userId, User user)
 	{
-		return Response.ok(manager.updateUser(user)).build();
-		//return Response.ok(manager.updateUser(userId, user)).build();
+		return Response.ok(manager.updateUser(userId, user)).build();
 	}
 	
 	@DELETE

@@ -69,9 +69,10 @@ public class SqlOrderRepository implements SqlOrderInterface
 	{
 		try
 		{
+			Class.forName("com.mysql.jdbc.Driver");
 			return DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
 		}
-		catch (SQLException e)
+		catch (SQLException | ClassNotFoundException e)
 		{
 			System.out.println(e);
 		}

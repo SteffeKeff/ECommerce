@@ -39,7 +39,7 @@ public final class ECommerceManager
 		return users.getUserByUsername(username);
 	}
 
-	public String deleteUser(String username) throws RepositoryException
+	public User deleteUser(String username) throws RepositoryException
 	{
 		return users.deleteUser(username);
 	}

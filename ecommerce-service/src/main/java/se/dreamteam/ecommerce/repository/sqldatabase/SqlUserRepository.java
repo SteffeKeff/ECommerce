@@ -97,17 +97,24 @@ public class SqlUserRepository implements SqlUserInterface
 	}
 
 	@Override
-	public String deleteUser(String username) throws RepositoryException
+	public User deleteUser(String username) throws RepositoryException
 	{
-		
+
 		try (final Connection con = getConnection())
 		{
-			try (final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Users WHERE username = ?"))
+			try (final PreparedStatement firstStmt = con.prepareStatement("SELECT * FROM dreateam.Users WHERE username = ?"))
 			{
-				stmt.setString(1, username);
-				stmt.executeUpdate();
-				
-				return username;
+				firstStmt.setString(1, username);
+				ResultSet rs = firstStmt.executeQuery();
+				rs.next();
+
+				try (final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Users WHERE username = ?"))
+				{
+					stmt.setString(1, username);
+					stmt.executeUpdate();
+
+				}
+				return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
 			}
 		}
 		catch (SQLException e)

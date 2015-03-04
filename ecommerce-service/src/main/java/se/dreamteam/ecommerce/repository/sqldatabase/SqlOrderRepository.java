@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
@@ -21,7 +22,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 	private final static String PASSWORD = "dr3amt3am";
 
 	@Override
-	public String createOrder(User user, Order order, Product product) throws RepositoryException
+	public String createOrder(User user, Order order, TreeSet<Product> products) throws RepositoryException
 	{
 		try (final Connection con = getConnection())
 		{
@@ -38,12 +39,14 @@ public class SqlOrderRepository implements SqlOrderInterface
 						secondStmt.setInt(1, user.getId());
 						secondStmt.setInt(2, key.getInt(1));
 						secondStmt.executeUpdate();
-						try (PreparedStatement thirdStmt = con.prepareStatement("INSERT INTO dreamteam.UserHasProducts(userid, productid) VALUES (null,?,?)"))
-						{
-							thirdStmt.setInt(1, user.getId());
-							thirdStmt.setInt(2, product.getId());
-							thirdStmt.executeUpdate();
-							return Integer.toString(key.getInt(1));
+						for(Product product: products){
+							try (PreparedStatement thirdStmt = con.prepareStatement("INSERT INTO dreamteam.UserHasProducts(userid, productid) VALUES (null,?,?)"))
+							{
+								thirdStmt.setInt(1, user.getId());
+								thirdStmt.setInt(2, product.getId());
+								thirdStmt.executeUpdate();
+								return Integer.toString(key.getInt(1));
+							}
 						}
 
 					}

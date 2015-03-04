@@ -57,7 +57,7 @@ public class SqlProductRepository implements SqlProductInterface{
 	}
 	
 	@Override
-	public Product createProduct(Product product) throws RepositoryException 
+	public String createProduct(Product product) throws RepositoryException 
 	{
 		try (final Connection con = getConnection())
 		{
@@ -80,7 +80,7 @@ public class SqlProductRepository implements SqlProductInterface{
 						int id = rs.getInt(1);
 						con.commit();
 						
-						return new Product(product.getTitle(), product.getPrice(), product.getQuantity(), product.getDescription(), id);
+						return Integer.toString(id);
 					}
 				}
 			}

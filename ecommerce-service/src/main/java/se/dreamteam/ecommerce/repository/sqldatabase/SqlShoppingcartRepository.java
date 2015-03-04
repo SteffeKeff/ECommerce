@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlShoppingcartInterface;
@@ -19,7 +19,7 @@ public class SqlShoppingcartRepository implements SqlShoppingcartInterface
 	private final static String PASSWORD = "dr3amt3am";
 
 	@Override
-	public ArrayList<Integer> getShoppingcart(String username)
+	public TreeSet<Integer> getShoppingcart(String username)
 	{
 		try (final Connection con = getConnection())
 		{
@@ -28,7 +28,7 @@ public class SqlShoppingcartRepository implements SqlShoppingcartInterface
 
 				stmt.setString(1, username);
 				ResultSet rs = stmt.executeQuery();
-				ArrayList<Integer> products = new ArrayList<>();
+				TreeSet<Integer> products = new TreeSet<>();
 				while (rs.next())
 				{
 					products.add(rs.getInt("productid"));

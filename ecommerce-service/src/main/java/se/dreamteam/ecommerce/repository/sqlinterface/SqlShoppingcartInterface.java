@@ -1,11 +1,11 @@
 package se.dreamteam.ecommerce.repository.sqlinterface;
 
-import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeSet;
 
 public interface SqlShoppingcartInterface
 {
-	public ArrayList<Integer> getShoppingcart(String username);
+	public TreeSet<Integer> getShoppingcart(String username);
 	
 	public Map<String,Integer> addProductToShoppingcart(String username, int productId);
 	

@@ -1,4 +1,4 @@
-package se.dreamteam;
+package se.dreamteam.mappers;
 
 import java.io.IOException;
 import java.io.InputStream;

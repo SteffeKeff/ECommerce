@@ -47,8 +47,6 @@ public final class ECommerceManager
 	// Products
 	public TreeSet<Product> getAllProducts() throws RepositoryException
 	{
-		System.out.println("manager!");
-		System.out.println(products.getAllProducts());
 		return products.getAllProducts();
 	}
 

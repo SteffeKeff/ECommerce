@@ -1,5 +1,7 @@
 package se.dreamteam.ecommerce.repository.sqlinterface;
 
+import java.util.TreeSet;
+
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.model.Order;
 import se.dreamteam.model.User;
@@ -8,7 +10,7 @@ public interface SqlOrderInterface
 {
 	Order createOrder(User user, Order order) throws RepositoryException;
 
-	Order getAllOrders(Order order) throws RepositoryException;
+	TreeSet<Order> getAllOrders(Order order) throws RepositoryException;
 
 	Order getOrder(Order order) throws RepositoryException;
 

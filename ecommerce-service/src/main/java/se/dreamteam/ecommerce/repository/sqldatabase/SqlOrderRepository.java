@@ -152,7 +152,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 	@Override
 	public Order getOrder(String orderId, String username) throws RepositoryException {
 		try(Connection con = getConnection()){
-			
+			//UserHasOrder, Order. dvs 2 select
 		}catch (SQLException e) {
 			throw new RepositoryException("Could not get order.", e);
 		}

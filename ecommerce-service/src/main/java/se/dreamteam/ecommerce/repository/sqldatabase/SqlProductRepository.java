@@ -39,7 +39,8 @@ public class SqlProductRepository implements SqlProductInterface{
 	}
 	
 	@Override
-	public Product getProductWithId(int productId) throws RepositoryException {
+	public Product getProductWithId(int productId) throws RepositoryException 
+	{
 		Product product = null;
 		try(Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement("SELECT * FROM dreamteam.Products WHERE id = ?;");) 
@@ -104,7 +105,6 @@ public class SqlProductRepository implements SqlProductInterface{
 		try(Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement("UPDATE dreamteam.Products SET title='?', price='?', quantity='?', description='?' WHERE id = ?;"))
 		{
-			
 			stmt.setString(1, product.getTitle());
 			stmt.setInt(2, product.getPrice());
 			stmt.setInt(3, product.getQuantity());

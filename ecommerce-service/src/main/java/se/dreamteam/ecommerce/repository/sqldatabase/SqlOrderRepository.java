@@ -26,7 +26,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 	private static final String PW = "dr3amt3am";
 
 	@Override
-	public String createOrder(User user, Order order, TreeSet<Product> products) throws RepositoryException
+	public String createOrder(String username) throws RepositoryException
 	{
 		try (final Connection con = getConnection())
 		{
@@ -69,9 +69,8 @@ public class SqlOrderRepository implements SqlOrderInterface
 	}
 
 	@Override
-	public TreeSet<Order> getAllOrders(Order order) throws RepositoryException
+	public TreeSet<Order> getAllOrders(String username) throws RepositoryException
 	{
-		//HashMap<Date, Boolean> ordersQueryResult = new HashMap<Date, Boolean>();
 		ArrayList<Order> ordersQueryResult = new ArrayList<Order>();
 		HashMap<Integer, Integer> orderHasProductsQueryResult = new HashMap<Integer, Integer>();
 		
@@ -83,8 +82,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 			Statement stmt = con.createStatement();)
 		{
 			hasResults = stmt.execute("SELECT * FROM dreamteam.Orders;"
-									+ "SELECT * FROM dreamteam.OrderHasProducts;"
-									+ "");
+									+ "SELECT * FROM dreamteam.OrderHasProducts;");
 			
 			do{
 				ResultSet rs = stmt.getResultSet();
@@ -152,23 +150,32 @@ public class SqlOrderRepository implements SqlOrderInterface
 	}
 
 	@Override
-	public Order getOrder(Order order) throws RepositoryException
-	{
-		// TODO Auto-generated method stub
+	public Order getOrder(String orderId, String username) throws RepositoryException {
+		try(Connection con = getConnection()){
+			
+		}catch (SQLException e) {
+			throw new RepositoryException("Could not get order.", e);
+		}
 		return null;
 	}
 
 	@Override
-	public Order updateOrder(Order order) throws RepositoryException
-	{
-		// TODO Auto-generated method stub
+	public Order updateOrder(String orderId, String username) throws RepositoryException {
+		try(Connection con = getConnection()){
+			
+		}catch (SQLException e) {
+			throw new RepositoryException("Could not update order.", e);
+		}
 		return null;
 	}
 
 	@Override
-	public Order removeOrder(Order order) throws RepositoryException
-	{
-		// TODO Auto-generated method stub
+	public Order removeOrder(String orderId, String username) throws RepositoryException {
+		try(Connection con = getConnection()){
+			
+		}catch (SQLException e) {
+			throw new RepositoryException("Could not remove order.", e);
+		}
 		return null;
 	}
 
@@ -183,5 +190,4 @@ public class SqlOrderRepository implements SqlOrderInterface
 			throw new RepositoryException("Could not connect to data source", e);
 		}
 	}
-
 }

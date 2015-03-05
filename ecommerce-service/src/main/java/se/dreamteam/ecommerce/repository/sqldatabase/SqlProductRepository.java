@@ -122,24 +122,41 @@ public class SqlProductRepository implements SqlProductInterface{
 	}
 	
 	@Override
-	public Product deleteProduct(int productId) throws RepositoryException 
+	public Product deleteProduct(int productId) throws RepositoryException
 	{
-		try(Connection con = getConnection();
-			PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Products WHERE id = ?;"))
+
+		try (Connection con = getConnection())
 		{
-			stmt.setInt(1, productId);
-			// execute delete SQL stetement
-			stmt.executeUpdate();
-			
-			return new Product("hej",123,123,"hej");
-			//return new Product(rs.getString("title"), rs.getInt("price") , rs.getInt("quantity"), rs.getString("description"), rs.getInt("id"));
+			try (PreparedStatement firstStmt = con.prepareStatement("SELECT FROM dreamteam.Products WHERE id = ?"))
+			{
+				firstStmt.setInt(1, productId);
+				ResultSet rs = firstStmt.executeQuery();
+				if (rs.next())
+				{
+					try (PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Products WHERE id = ?;"))
+					{
+						stmt.setInt(1, productId);
+						stmt.executeUpdate();
+
+						// return new Product(rs.getString("title"),
+						// rs.getInt("price")
+						// , rs.getInt("quantity"), rs.getString("description"),
+						// rs.getInt("id"));
+						return new Product(rs.getString("title"), rs.getInt("price"), rs.getInt("quantity"), rs.getString("description"), productId);
+					}
+				}
+				else
+				{
+					throw new RepositoryException("Product does not exist!");
+				}
+			}
 		}
-		catch (SQLException e) 
+		catch (SQLException e)
 		{
 			throw new RepositoryException("Could not delete product.", e);
 		}
+
 	}
-	
 	private Connection getConnection() throws RepositoryException
 	{
 		try

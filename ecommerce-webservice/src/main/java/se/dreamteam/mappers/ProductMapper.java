@@ -17,6 +17,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import se.dreamteam.exceptions.BadMessageException;
 import se.dreamteam.model.Product;
 
 import com.google.gson.Gson;
@@ -92,18 +93,22 @@ public final class ProductMapper implements MessageBodyReader<Product>, MessageB
 		public Product deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 		{
 			final JsonObject productJson = json.getAsJsonObject();
-			final String title = productJson.get("title").getAsString();
-			final int price = productJson.get("price").getAsInt();
-			final int quantity = productJson.get("quantity").getAsInt();
-			final String description = productJson.get("description").getAsString();
-			
-			return new Product(title, price, quantity, description);
+			try{
+				final String title = productJson.get("title").getAsString();
+				final int price = productJson.get("price").getAsInt();
+				final int quantity = productJson.get("quantity").getAsInt();
+				final String description = productJson.get("description").getAsString();
+				return new Product(title, price, quantity, description);
+			}catch(NullPointerException e){
+				throw new BadMessageException("Very bad json");
+			}	
 		}
 
 		@Override
 		public JsonElement serialize(Product product, Type typeOfSrc, JsonSerializationContext context)
 		{
 			final JsonObject productJson = new JsonObject();
+			productJson.add("id", new JsonPrimitive(product.getId()));
 			productJson.add("title", new JsonPrimitive(product.getTitle()));
 			productJson.add("price", new JsonPrimitive(product.getPrice()));
 			productJson.add("quantity", new JsonPrimitive(product.getQuantity()));

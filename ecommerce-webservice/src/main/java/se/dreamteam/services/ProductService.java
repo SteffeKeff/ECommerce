@@ -55,9 +55,10 @@ public class ProductService
 	
 	@PUT
 	@Path("{productId}")
-	public Response updateProduct(Product product)
+	public Response updateProduct(@PathParam("productId") final int productId, Product product)
 	{
-		return Response.ok(manager.updateProduct(product)).build();
+		Product updateProduct = new Product(product.getTitle(), product.getPrice(), product.getQuantity(), product.getDescription(), productId);
+		return Response.ok(manager.updateProduct(updateProduct)).build();
 	}
 	
 	@DELETE

@@ -17,6 +17,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import se.dreamteam.exceptions.BadMessageException;
 import se.dreamteam.model.User;
 
 import com.google.gson.Gson;
@@ -91,11 +92,16 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 		@Override
 		public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 		{
-			final JsonObject userJson = json.getAsJsonObject();
-			final String username = userJson.get("username").getAsString();
-			final String password = userJson.get("password").getAsString();
 			
-			return new User(username, password);
+			final JsonObject userJson = json.getAsJsonObject();
+			try{
+				final String username = userJson.get("username").getAsString();
+				final String password = userJson.get("password").getAsString();
+				
+				return new User(username, password);
+			}catch(Exception e){
+				throw new BadMessageException("Very bad json");
+			}
 		}
 
 		@Override

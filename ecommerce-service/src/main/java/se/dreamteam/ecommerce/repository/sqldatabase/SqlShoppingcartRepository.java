@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlShoppingcartInterface;
@@ -45,20 +43,37 @@ public class SqlShoppingcartRepository implements SqlShoppingcartInterface
 	}
 
 	@Override
-	public Map<String, Integer> addProductToShoppingcart(String username, int productId)
+	public int addProductToShoppingcart(String username, String title)
 	{
 		try (final Connection con = getConnection())
 		{
-
-			try (final PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.UserHasProducts VALUES(null, ?, ?)"))
+			try (final PreparedStatement veryFirstStmt = con.prepareStatement("SELECT * FROM dreamteam.Users WHERE username = ?"))
 			{
-				stmt.setString(1, username);
-				stmt.setInt(2, productId);
-				stmt.executeUpdate();
-				Map<String, Integer> AddedToCart = new HashMap<>();
-				AddedToCart.put(username, productId);
-				return AddedToCart;
+				veryFirstStmt.setString(1,username);
+				ResultSet rs = veryFirstStmt.executeQuery();
+				if(rs.next()){
+					try (final PreparedStatement firstStmt = con.prepareStatement("SELECT * FROM dreamteam.Products WHERE title = ?"))
+					{
+						firstStmt.setString(1, title);
+						rs = firstStmt.executeQuery();
+						if(rs.next()){
+							int productId = rs.getInt("id");
+						try (final PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.UserHasProducts VALUES(null, ?, ?)"))
+						{
+							stmt.setString(1, username);
+							stmt.setInt(2, productId);
+							stmt.executeUpdate();
+							return productId;
+						}
+						}else{
+							throw new RepositoryException("Product does not exist");
+						}
+					}
+				}else{
+					throw new RepositoryException("User does not exist");
+				}
 			}
+			
 		}
 		catch (SQLException e)
 		{
@@ -67,12 +82,43 @@ public class SqlShoppingcartRepository implements SqlShoppingcartInterface
 		}
 
 	}
+	
+	@Override
+	public String removeProduct(String username, int productId)
+	{
+		try (final Connection con = getConnection())
+		{
+			try(final PreparedStatement firstStmt = con.prepareStatement("SELECT * FROM dreamteam.UserHasProducts WHERE productid = ? AND username = ?"))
+			{
+				firstStmt.setInt(1, productId);
+				firstStmt.setString(2, username);
+				ResultSet rs = firstStmt.executeQuery();
+				if(rs.next()){
+					try (final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.UserHasProducts WHERE productid = ? AND username = ?"))
+					{
+						stmt.setInt(1, productId);
+						stmt.setString(2, username);
+						stmt.executeUpdate();
+						return Integer.toString(productId);
+					}
+				}else{
+					throw new RepositoryException("User does not exist or does not have this product");
+				}
+				
+			}
+		}
+		catch (SQLException e)
+		{
+			throw new RepositoryException("Could not delete product " + productId, e);
+		}
+	}
 
 	@Override
 	public String deleteShoppingcart(String username)
 	{
 		try (final Connection con = getConnection())
 		{
+//			try(final PreparedStatement firstStmt = con.prepareStatement("SELECT * FROM dreamteam.UserHasProducts WHERE username =?"))
 			try (final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.UserHasProducts WHERE username = ?"))
 			{
 				stmt.setString(1, username);
@@ -87,24 +133,6 @@ public class SqlShoppingcartRepository implements SqlShoppingcartInterface
 
 	}
 
-	@Override
-	public String removeProduct(String username, int productId)
-	{
-		try (final Connection con = getConnection())
-		{
-			try (final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.UserHasProducts WHERE productid = ?"))
-			{
-				stmt.setInt(1, productId);
-				stmt.executeUpdate();
-				return Integer.toString(productId);
-			}
-		}
-		catch (SQLException e)
-		{
-			throw new RepositoryException("Could not delete product " + productId, e);
-		}
-	}
-
 	private Connection getConnection() throws SQLException
 	{
 		try
@@ -117,5 +145,5 @@ public class SqlShoppingcartRepository implements SqlShoppingcartInterface
 			throw new RepositoryException("Connection problemo", e);
 		}
 	}
-
+	
 }

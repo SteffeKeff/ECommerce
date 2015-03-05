@@ -1,8 +1,5 @@
 package se.dreamteam.services;
 
-import java.net.URI;
-import java.util.ArrayList;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -35,36 +32,30 @@ public final class ShoppingCartService
 	@GET
 	public final Response getShoppingCart(@PathParam("userId") final String username)
 	{
-//		ArrayList<Integer> integers = new ArrayList<>();
-//		integers.add(1001);
-//		integers.add(1003);
-//		integers.add(1004);
-//		return Response.ok(integers).build();
 		return Response.ok(manager.getShoppingCart(username)).build();
 	}
 
 	@POST
-	public final Response addProductToShoppingCart(@PathParam("userId") final String username, final int productId)
+	public final Response addProductToShoppingCart(@PathParam("userId") final String username, final String title)
 	{
-		 //final URI location = uriInfo.getAbsolutePathBuilder().path(manager.addProductToShoppingCart(username, productId)).build();
-		 //return Response.created(location).build();
-		return Response.ok(username + ", Nytt item i ShoppingCart: " + productId).build();
+		 manager.addProductToShoppingCart(username, title);
+		 return Response.noContent().build();
 	}
 
 	@DELETE
 	@Path("{productId}")
-	public final Response removeProductFromShoppingCart(@PathParam("userId") final String username, @PathParam("productId") final String productId)
+	public final Response removeProductFromShoppingCart(@PathParam("userId") final String username, @PathParam("productId") final int productId)
 	{
-		// return Response.ok(manager.removeProductFromShoppingCart(productId,
-		// username)).build();
-		return Response.ok(username + ", ta bort item från ShoppingCart: " + productId).build();
+		manager.deleteProductFromShoppingCart(username, productId);
+		return Response.noContent().build();
+		//return Response.ok(username + ", ta bort item från ShoppingCart: " + title).build();
 	}
 
 	@DELETE
 	public final Response removeAllProductsFromShoppingCart(@PathParam("userId") final String username)
 	{
-		// return
-		// Response.ok(manager.removeAllProductsFromShoppingCart(username)).build();
-		return Response.ok(username + ", ta bort alla items från ShoppingCart").build();
+		manager.deleteShoppingCart(username);
+		return Response.noContent().build();
+		//return Response.ok(username + ", ta bort alla items från ShoppingCart").build();
 	}
 }

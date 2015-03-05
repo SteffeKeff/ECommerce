@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,11 +14,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
-import com.sun.security.auth.SolarisPrincipal;
-=======
-import java.util.TreeSet;
->>>>>>> 7f05ca0bd8c447cf861941591a6fba542819d338
-
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
 import se.dreamteam.model.Order;
@@ -27,8 +21,8 @@ import se.dreamteam.model.Product;
 import se.dreamteam.model.User;
 
 public class SqlOrderRepository implements SqlOrderInterface
-{
 
+{
 	private static final String DB_URL = "jdbc:mysql://80.217.176.187:3306/dreamteam";
 	private static final String USER = "admin";
 	private static final String PW = "dr3amt3am";
@@ -137,7 +131,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 		
 		for (Map.Entry<Integer, TreeSet<Integer>> entry : ordersProductIds.entrySet()) //för varje order
 		{
-			TreeSet<Product> orderProducts = new TreeSet<Product>(); //flytta in i for scopet
+			TreeSet<Product> orderProducts = new TreeSet<Product>();
 			
 			for (Integer productId : entry.getValue()) { //för  varje productId //lägger till i orders lista
 				 orderProducts.add(productQueries.getProductWithId(productId)); //hämtar och lägger in en product i order arr
@@ -184,14 +178,9 @@ public class SqlOrderRepository implements SqlOrderInterface
 	{
 		try
 		{
-<<<<<<< HEAD
 			return DriverManager.getConnection(DB_URL, USER, PW);
-=======
-			Class.forName("com.mysql.jdbc.Driver");
-			return DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
->>>>>>> 7f05ca0bd8c447cf861941591a6fba542819d338
 		}
-		catch (SQLException | ClassNotFoundException e)
+		catch (SQLException e)
 		{
 			throw new RepositoryException("Could not connect to data source", e);
 		}

@@ -1,4 +1,6 @@
-package se.dreamteam;
+package se.dreamteam.services;
+
+import java.net.URI;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,19 +15,20 @@ import javax.ws.rs.core.UriInfo;
 import se.dreamteam.ecommerce.ECommerceManager;
 import se.dreamteam.ecommerce.repository.sqldatabase.SqlOrderRepository;
 import se.dreamteam.ecommerce.repository.sqldatabase.SqlProductRepository;
+import se.dreamteam.ecommerce.repository.sqldatabase.SqlShoppingcartRepository;
 import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
 import se.dreamteam.model.Product;
 
 @Path("products")
-public class ProductsCrud
+public class ProductService
 {
 	
-	private static SqlOrderInterface orders = new SqlOrderRepository();;
+	private static SqlOrderRepository orders = new SqlOrderRepository();;
 	private static SqlProductRepository products = new SqlProductRepository();
 	private static SqlUserRepository users = new SqlUserRepository();
+	private static SqlShoppingcartRepository shoppingcart = new SqlShoppingcartRepository();
 	
-	private static final ECommerceManager manager = new ECommerceManager(orders, products, users);
+	private static final ECommerceManager manager = new ECommerceManager(orders, products, users,shoppingcart);
 	
 	@Context
 	public UriInfo uriInfo; 
@@ -46,7 +49,8 @@ public class ProductsCrud
 	@POST
 	public Response addProduct(Product product)
 	{
-		return Response.ok(manager.createProduct(product)).build();
+		final URI location = uriInfo.getAbsolutePathBuilder().path(manager.createProduct(product)).build();
+		return Response.created(location).build();
 	}
 	
 	@PUT
@@ -58,9 +62,9 @@ public class ProductsCrud
 	
 	@DELETE
 	@Path("{productId}")
-	public Response deleteProduct()
+	public Response deleteProduct(@PathParam("productId") final int productId)
 	{
-		return Response.ok().build();
+		return Response.ok(manager.deleteProduct(productId)).build();
 	}
 	
 }

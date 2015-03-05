@@ -1,10 +1,13 @@
 package se.dreamteam.ecommerce;
 
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
+import se.dreamteam.ecommerce.repository.sqlinterface.SqlShoppingcartInterface;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlUserInterface;
 import se.dreamteam.model.Order;
 import se.dreamteam.model.Product;
@@ -15,12 +18,14 @@ public final class ECommerceManager
 	SqlOrderInterface orders;
 	SqlProductInterface products;
 	SqlUserInterface users;
-
-	public ECommerceManager(SqlOrderInterface orders, SqlProductInterface products, SqlUserInterface users)
+	SqlShoppingcartInterface shoppingcart;
+	
+	public ECommerceManager(SqlOrderInterface orders, SqlProductInterface products, SqlUserInterface users, SqlShoppingcartInterface shoppingcart)
 	{
 		this.orders = orders;
 		this.products = products;
 		this.users = users;
+		this.shoppingcart = shoppingcart;
 	}
 
 	// Users
@@ -39,7 +44,7 @@ public final class ECommerceManager
 		return users.getUserByUsername(username);
 	}
 
-	public String deleteUser(String username) throws RepositoryException
+	public User deleteUser(String username) throws RepositoryException
 	{
 		return users.deleteUser(username);
 	}
@@ -77,7 +82,7 @@ public final class ECommerceManager
 		return orders.createOrder(user, order, products);
 	}
 
-	public Order getAllOrders(Order order) throws RepositoryException
+	public TreeSet<Order> getAllOrders(Order order) throws RepositoryException
 	{
 		return orders.getAllOrders(order);
 	}
@@ -96,5 +101,26 @@ public final class ECommerceManager
 	{
 		return orders.removeOrder(order);
 	}
-
+	
+	//shoppingcart
+	
+	public ArrayList<Integer> getShoppingCart(String username) throws RepositoryException
+	{
+		return shoppingcart.getShoppingcart(username);
+	}
+	
+	public Map<String, Integer> addProductToShoppingCart(String username, int productId) throws RepositoryException
+	{
+		return shoppingcart.addProductToShoppingcart(username, productId);
+	}
+	
+	public String deleteShoppingCart(String username) throws RepositoryException
+	{
+		return shoppingcart.deleteShoppingcart(username);
+	}
+	
+	public String deleteProductFromShoppingCart(String username, int productId) throws RepositoryException
+	{
+		return shoppingcart.removeProduct(username, productId);
+	}
 }

@@ -11,6 +11,6 @@ public interface SqlUserInterface
 
 	User updateUser(String username, User user) throws RepositoryException;
 
-	String deleteUser(String username) throws RepositoryException;
+	User deleteUser(String username) throws RepositoryException;
 
 }

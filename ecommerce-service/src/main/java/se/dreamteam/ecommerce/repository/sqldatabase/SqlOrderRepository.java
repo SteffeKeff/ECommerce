@@ -7,9 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
@@ -95,7 +93,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 				while(rs.next()) 
 				{
 					if(rsCount == 1){ //orders table query
-						Order orderWithNoProducts = new Order(rs.getDate(2), rs.getBoolean(3), rs.getInt(1));
+						Order orderWithNoProducts = null;
 						ordersQueryResult.add(orderWithNoProducts);
 					}else if(rsCount == 2){ //orderHasProducts table query
 						orderHasProductsQueryResult.put(rs.getInt(2), rs.getInt(3));

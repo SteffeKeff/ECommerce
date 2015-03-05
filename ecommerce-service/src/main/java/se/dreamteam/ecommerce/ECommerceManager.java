@@ -1,5 +1,6 @@
 package se.dreamteam.ecommerce;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -103,7 +104,7 @@ public final class ECommerceManager
 	
 	//shoppingcart
 	
-	public TreeSet<Integer> getShoppingCart(String username) throws RepositoryException
+	public ArrayList<Integer> getShoppingCart(String username) throws RepositoryException
 	{
 		return shoppingcart.getShoppingcart(username);
 	}

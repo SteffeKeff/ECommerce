@@ -1,5 +1,8 @@
 package se.dreamteam.services;
 
+import java.net.URI;
+import java.util.ArrayList;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -32,16 +35,19 @@ public final class ShoppingCartService
 	@GET
 	public final Response getShoppingCart(@PathParam("userId") final String username)
 	{
+//		ArrayList<Integer> integers = new ArrayList<>();
+//		integers.add(1001);
+//		integers.add(1003);
+//		integers.add(1004);
+//		return Response.ok(integers).build();
 		return Response.ok(manager.getShoppingCart(username)).build();
-		//return Response.ok(username + ", ShoppingCart").build();
 	}
 
 	@POST
 	public final Response addProductToShoppingCart(@PathParam("userId") final String username, final int productId)
 	{
-		// final URI location =
-		// uriInfo.getAbsolutePathBuilder().path(manager.addProductToShoppingCart(productId)).build();
-		// return Response.created(location).build();
+		 //final URI location = uriInfo.getAbsolutePathBuilder().path(manager.addProductToShoppingCart(username, productId)).build();
+		 //return Response.created(location).build();
 		return Response.ok(username + ", Nytt item i ShoppingCart: " + productId).build();
 	}
 

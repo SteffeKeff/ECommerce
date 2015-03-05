@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.TreeSet;
+import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -28,45 +28,45 @@ import com.google.gson.stream.JsonWriter;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public final class IntegerWriter implements MessageBodyWriter<TreeSet<Integer>>
+public final class IntegerWriter implements MessageBodyWriter<ArrayList<Integer>>
 {
 	private Gson gson;
 
 	public IntegerWriter()
 	{
-		gson = new GsonBuilder().registerTypeAdapter(TreeSet.class, new ProductAdapter()).create();
+		gson = new GsonBuilder().registerTypeAdapter(ArrayList.class, new ProductAdapter()).create();
 	}
 
 	// MessageBodyWriter
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
-		return type.isAssignableFrom(TreeSet.class);
+		return type.isAssignableFrom(ArrayList.class);
 	}
 
 	@Override
-	public long getSize(TreeSet<Integer> integers, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
+	public long getSize(ArrayList<Integer> integers, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
 		return 0;
 	}
 
 	@Override
-	public void writeTo(TreeSet<Integer> products, Class<?> type, Type genericType, Annotation[] annotations,
+	public void writeTo(ArrayList<Integer> products, Class<?> type, Type genericType, Annotation[] annotations,
 			MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
 			OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
 		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
-			gson.toJson(products, TreeSet.class, writer);
+			gson.toJson(products, ArrayList.class, writer);
 		}
 	}
 
-	private static final class ProductAdapter implements JsonSerializer<TreeSet<Integer>>
+	private static final class ProductAdapter implements JsonSerializer<ArrayList<Integer>>
 	{
 
 		@Override
-		public JsonElement serialize(TreeSet<Integer> productIds, Type typeOfSrc, JsonSerializationContext context)
+		public JsonElement serialize(ArrayList<Integer> productIds, Type typeOfSrc, JsonSerializationContext context)
 		{
 			//The Object which will be returned
 			final JsonObject jsonToReturn = new JsonObject();

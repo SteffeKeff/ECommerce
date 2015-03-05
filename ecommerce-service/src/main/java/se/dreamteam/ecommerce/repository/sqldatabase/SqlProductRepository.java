@@ -49,6 +49,8 @@ public class SqlProductRepository implements SqlProductInterface{
 			
 			if (rs.next()) {
 				product = new Product(rs.getString("title"), rs.getInt("price") , rs.getInt("quantity"), rs.getString("description"), rs.getInt("id"));
+			}else{
+				throw new RepositoryException("Product does not exist!");
 			}
 		}catch (SQLException e) {
 			throw new RepositoryException("Failed to get product by id", e);
@@ -102,7 +104,7 @@ public class SqlProductRepository implements SqlProductInterface{
 	public Product updateProduct(Product product) throws RepositoryException 
 	{
 		try(Connection con = getConnection();
-			PreparedStatement stmt = con.prepareStatement("UPDATE dreamteam.Products SET title='?', price='?', quantity='?', description='?' WHERE id = ?;"))
+			PreparedStatement stmt = con.prepareStatement("UPDATE dreamteam.Products SET title=?, price=?, quantity=?, description=? WHERE id = ?;"))
 		{
 			
 			stmt.setString(1, product.getTitle());
@@ -127,7 +129,7 @@ public class SqlProductRepository implements SqlProductInterface{
 
 		try (Connection con = getConnection())
 		{
-			try (PreparedStatement firstStmt = con.prepareStatement("SELECT FROM dreamteam.Products WHERE id = ?"))
+			try (PreparedStatement firstStmt = con.prepareStatement("SELECT * FROM dreamteam.Products WHERE id = ?"))
 			{
 				firstStmt.setInt(1, productId);
 				ResultSet rs = firstStmt.executeQuery();

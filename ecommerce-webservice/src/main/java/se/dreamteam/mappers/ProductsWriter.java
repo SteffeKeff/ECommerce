@@ -79,6 +79,7 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 			{
 				//An object to hold all informatio~ about the products one by one
 				final JsonObject jsonObjectForProduct = new JsonObject();
+				jsonObjectForProduct.add("id", new JsonPrimitive(product.getId()));
 				jsonObjectForProduct.add("title", new JsonPrimitive(product.getTitle()));
 				jsonObjectForProduct.add("price", new JsonPrimitive(product.getPrice()));
 				jsonObjectForProduct.add("quantity", new JsonPrimitive(product.getQuantity()));

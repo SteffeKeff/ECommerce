@@ -1,7 +1,6 @@
 package se.dreamteam.ecommerce;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
@@ -109,9 +108,9 @@ public final class ECommerceManager
 		return shoppingcart.getShoppingcart(username);
 	}
 	
-	public Map<String, Integer> addProductToShoppingCart(String username, int productId) throws RepositoryException
+	public int addProductToShoppingCart(String username, String title) throws RepositoryException
 	{
-		return shoppingcart.addProductToShoppingcart(username, productId);
+		return shoppingcart.addProductToShoppingcart(username, title);
 	}
 	
 	public String deleteShoppingCart(String username) throws RepositoryException

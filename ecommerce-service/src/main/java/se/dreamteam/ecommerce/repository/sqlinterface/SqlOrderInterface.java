@@ -17,6 +17,6 @@ public interface SqlOrderInterface
 
 	Order updateOrder(int orderId, String username) throws RepositoryException;
 
-	Order removeOrder(int orderId, String username) throws RepositoryException;
+	int removeOrder(int orderId, String username) throws RepositoryException;
 
 }

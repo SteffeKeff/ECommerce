@@ -57,7 +57,7 @@ public final class OrdersWriter implements MessageBodyWriter<TreeSet<Order>>
 //
 //	    return isWritable;
 		//return type.isAssignableFrom(TreeSet.class);
-		return false;
+		return type.isAssignableFrom(TreeSet.class);
 	}
 
 	
@@ -109,7 +109,7 @@ public final class OrdersWriter implements MessageBodyWriter<TreeSet<Order>>
 				jsonArrayForOrders.add(jsonObjectForOrder);
 			}
 			//Adding the array to the jsonReturn-object
-			jsonToReturn.add("products", jsonArrayForOrders);
+			jsonToReturn.add("orders", jsonArrayForOrders);
 			
 			return jsonToReturn;
 		}

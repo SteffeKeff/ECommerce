@@ -3,7 +3,7 @@ package se.dreamteam.model;
 import java.sql.Timestamp;
 import java.util.TreeSet;
 
-public final class Order
+public final class Order implements Comparable<Object>
 {
 	private static final int EMPTY_ORDER_ID = -1;
 	private int orderId;
@@ -47,5 +47,15 @@ public final class Order
 	public TreeSet<Integer> getOrderedProducts()
 	{
 		return orderProducts;
+	}
+	
+	public int compareTo(Object obj)
+	{
+		if(this.orderId == ((Order) obj).getId()){
+			return 0;
+		}else if(this.orderId > ((Order) obj).getId()){
+			return 1;
+		}
+		return -1;
 	}
 }

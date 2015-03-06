@@ -29,8 +29,8 @@ public class OrderService
 	
 	@GET
 	public Response getOrders(@PathParam("userId") final String username){
-		return Response.ok().build();
-		//return Response.ok(manager.getAllProducts(username).build();
+		//return Response.ok().build();
+		return Response.ok(manager.getAllOrders(username)).build();
 	}
 	
 	@GET

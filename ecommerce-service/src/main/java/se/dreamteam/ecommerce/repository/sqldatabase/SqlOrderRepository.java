@@ -75,12 +75,12 @@ public class SqlOrderRepository implements SqlOrderInterface
 		
 		try(Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement(
-					"SELECT Orders.id AS orderid, Orders.date, Orders.shipped, OrderHasProducts.productid from Orders "
+					"SELECT Orders.id AS orderid, Orders.date, Orders.shipped, OrderHasProducts.productid, Orders.status from Orders "
 					+ "left join OrderHasProducts "
 					+ "on Orders.`id` = OrderHasProducts.`orderid` "
 					+ "left join UserHasOrder "
 					+ "on UserHasOrder.`orderid` = OrderHasProducts.`orderid` "
-					+ "WHERE username = ?", ResultSet.TYPE_SCROLL_INSENSITIVE);)
+					+ "WHERE username = ? AND Orders.status = 1", ResultSet.TYPE_SCROLL_INSENSITIVE);)
 		{
 			stmt.setString(1, username);
 			ResultSet rs = stmt.executeQuery();
@@ -92,8 +92,9 @@ public class SqlOrderRepository implements SqlOrderInterface
 					ordersIds.add(rs.getInt("orderid"));
 				}
 			}
-			rs.first();
+			rs.beforeFirst();
 			
+			System.out.println(ordersIds.size());
 			for (int i = 0; i < ordersIds.size(); i++) { 		//för varje order
 				TreeSet<Integer> products = new TreeSet<Integer>();
 				Timestamp date = null;
@@ -101,13 +102,17 @@ public class SqlOrderRepository implements SqlOrderInterface
 				Integer orderId = null;
 				
 				while(rs.next()){								//lägg till product för den ordern
-					if(ordersIds.get(i).equals(rs.getInt("orderid"))){
-						products.add(rs.getInt("productId"));
+					System.out.println("orderId från rs: " + rs.getInt("orderid"));
+					System.out.println("orderId från orderIds: " + ordersIds.get(i));
+					if(ordersIds.get(i) == rs.getInt("orderid")){
+						System.out.println("inne i if!");
+						products.add(rs.getInt("productid"));
 						date = rs.getTimestamp("date");
 						isShipped = rs.getBoolean("shipped");
 						orderId = rs.getInt("orderid");
 					}
 				}
+				System.out.println("date: " + date + " isShipped: " + isShipped + " orderId: " + orderId + " products: " + products);
 				orders.add(new Order(date, isShipped, orderId, products));
 				rs.first();
 			}
@@ -215,7 +220,6 @@ public class SqlOrderRepository implements SqlOrderInterface
 				return orderId;
 
 			}catch(SQLException e){
-				e.printStackTrace();
 				throw new RepositoryException("problem with statement!",e);
 			}
 		}

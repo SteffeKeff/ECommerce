@@ -62,7 +62,8 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 //	    }
 //
 //	    return isWritable;
-		return type.isAssignableFrom(TreeSet.class);
+		//return type.isAssignableFrom(TreeSet.class);
+		return false;
 	}
 
 	@Override

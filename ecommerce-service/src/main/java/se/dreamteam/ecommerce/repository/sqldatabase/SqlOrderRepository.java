@@ -63,8 +63,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RepositoryException("Coud not create order", e);
 		}
 		return null;
 	}
@@ -136,7 +135,6 @@ public class SqlOrderRepository implements SqlOrderInterface
 							+ "AND orders.id = ? "
 							+ "AND users.username = ?"
 							+ "AND orders.status = 1;"))
-
 			{
 				stmt.setInt(1, orderId);
 				stmt.setString(2, username);
@@ -186,9 +184,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 						stmt.executeUpdate();
 
 						return new Order(rs.getTimestamp("date"), rs.getBoolean("shipped"), orderId);
-
 					}
-
 				}
 				else
 				{
@@ -197,7 +193,6 @@ public class SqlOrderRepository implements SqlOrderInterface
 			}catch(SQLException e){
 				throw new RepositoryException("Problem with statement");
 			}
-
 		}
 		catch (SQLException e)
 		{
@@ -226,7 +221,6 @@ public class SqlOrderRepository implements SqlOrderInterface
 		{
 			throw new RepositoryException("problem with connection to database.", e);
 		}
-
 	}
 
 	private Connection getConnection()

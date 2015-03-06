@@ -33,7 +33,7 @@ import com.google.gson.stream.JsonWriter;
 public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 {
 	private Gson gson;
-
+	
 	public ProductsWriter()
 	{
 		gson = new GsonBuilder().registerTypeAdapter(TreeSet.class, new ProductAdapter()).create();
@@ -43,6 +43,25 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
+//		System.out.println(genericType);
+//		System.out.println(type);
+//		System.out.println("hej: " + (ParameterizedType) genericType);
+//		// Ensure that we're handling only List<GPSTrackerCollection> objects.
+//	    boolean isWritable;
+//	    if (type.isAssignableFrom(TreeSet.class) && genericType instanceof ParameterizedType) 
+//	    {
+//	    	System.out.println("hejhej");
+//	      ParameterizedType parameterizedType = (ParameterizedType) genericType;
+//	      System.out.println("hejhej");
+//	      Type[] actualTypeArgs = (parameterizedType.getActualTypeArguments());
+//	      System.out.println("hejhej");
+//	      isWritable = (actualTypeArgs.length == 1 && actualTypeArgs[0].equals(Product.class));
+//	    }else{
+//	    	System.out.println("nejnej");
+//	      isWritable = false;
+//	    }
+//
+//	    return isWritable;
 		return type.isAssignableFrom(TreeSet.class);
 	}
 

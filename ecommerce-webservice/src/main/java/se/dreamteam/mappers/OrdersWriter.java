@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.TreeSet;
 
@@ -43,8 +44,23 @@ public final class OrdersWriter implements MessageBodyWriter<TreeSet<Order>>
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
-		return type.isAssignableFrom(TreeSet.class);
+		// Ensure that we're handling only List<GPSTrackerCollection> objects.
+//	    boolean isWritable;
+//	    if (TreeSet.class.isAssignableFrom(type) && genericType instanceof ParameterizedType) 
+//	    {
+//	      ParameterizedType parameterizedType = (ParameterizedType) genericType;
+//	      Type[] actualTypeArgs = (parameterizedType.getActualTypeArguments());
+//	      isWritable = (actualTypeArgs.length == 1 && actualTypeArgs[0].equals(Order.class));
+//	    }else{
+//	      isWritable = false;
+//	    }
+//
+//	    return isWritable;
+		//return type.isAssignableFrom(TreeSet.class);
+		return false;
 	}
+
+	
 
 	@Override
 	public long getSize(TreeSet<Order> products, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)

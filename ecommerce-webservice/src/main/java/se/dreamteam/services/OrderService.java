@@ -15,6 +15,7 @@ import javax.ws.rs.core.UriInfo;
 
 import se.dreamteam.ecommerce.ECommerceManager;
 import se.dreamteam.ecommerce.repository.sqldatabase.SqlOrderRepository;
+import se.dreamteam.model.Order;
 
 @Path("users/{userId}/orders")
 public class OrderService
@@ -48,13 +49,16 @@ public class OrderService
 	
 	@PUT
 	@Path("{orderId}")
-	public Response updateOrder(@PathParam("userId") final String userId, @PathParam("orderId") final String orderId){
-		return Response.ok("userId: " + userId + ", orderId: " + orderId).build();
+	public Response updateOrder(@PathParam("userId") final String username, @PathParam("orderId") final int orderId){
+		manager.updateOrder(orderId, username);
+		return Response.ok(manager.getOrder(orderId, username)).build();
 	}
 	
 	@DELETE
 	@Path("{orderId}")
-	public Response deleteOrder(@PathParam("userId") final String userId, @PathParam("orderId") final String orderId){
-		return Response.ok("userId: " + userId + ", orderId: " + orderId).build();
+	public Response deleteOrder(@PathParam("userId") final String username, @PathParam("orderId") final int orderId){
+		Order order = manager.getOrder(orderId, username);
+		manager.removeOrder(orderId, username);
+		return Response.ok(order).build();
 	}
 }

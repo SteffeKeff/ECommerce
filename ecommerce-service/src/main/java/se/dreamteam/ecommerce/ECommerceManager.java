@@ -96,12 +96,12 @@ public final class ECommerceManager
 		return orders.getOrder(orderId, username);
 	}
 
-	//
-	// public Order updateOrder(Order order) throws RepositoryException
-	// {
-	// return orders.updateOrder(order);
-	// }
-	//
+	
+	 public Order updateOrder(int orderId, String username) throws RepositoryException
+	 {
+	 return orders.updateOrder(orderId, username);
+	 }
+	
 	public int removeOrder(int orderId, String username) throws RepositoryException
 	{
 		return orders.removeOrder(orderId, username);

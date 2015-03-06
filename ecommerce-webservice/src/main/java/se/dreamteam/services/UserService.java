@@ -1,5 +1,7 @@
 package se.dreamteam.services;
 
+import java.net.URI;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,13 +13,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import se.dreamteam.ecommerce.ECommerceManager;
-import se.dreamteam.ecommerce.repository.sqldatabase.SqlOrderRepository;
-import se.dreamteam.ecommerce.repository.sqldatabase.SqlProductRepository;
-import se.dreamteam.ecommerce.repository.sqldatabase.SqlShoppingcartRepository;
 import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
 import se.dreamteam.model.User;
-
-import java.net.URI;
 
 @Path("users")
 //@Consumes(MediaType.APPLICATION_JSON)

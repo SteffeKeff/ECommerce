@@ -53,16 +53,12 @@ public class SqlOrderRepository implements SqlOrderInterface
 								}
 							}
 							return Integer.toString(orderId);
-	
 						}
 					}else{
 						throw new RepositoryException("Fel när du skapar Order!");
 					}
-
 				}
-
 			}
-
 		}
 		catch (SQLException e)
 		{
@@ -154,13 +150,9 @@ public class SqlOrderRepository implements SqlOrderInterface
 	}
 
 	@Override
-	public Order getOrder(String orderId, String username) throws RepositoryException {
-		try(Connection con = getConnection()){
-			//UserHasOrder, Order. dvs 2 select
-		}catch (SQLException e) {
-			throw new RepositoryException("Could not get order.", e);
-		}
-		return null;
+	public Order getOrder(String orderId, String username) throws RepositoryException 
+	{
+			return null;
 	}
 
 	@Override

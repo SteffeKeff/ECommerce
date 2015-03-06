@@ -5,7 +5,6 @@ import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.model.Order;
-import se.dreamteam.model.Product;
 
 public interface SqlOrderInterface
 {
@@ -17,6 +16,5 @@ public interface SqlOrderInterface
 
 	Order updateOrder(int orderId, String username) throws RepositoryException;
 
-	Order removeOrder(int orderId, String username) throws RepositoryException;
-
+	int removeOrder(int orderId, String username) throws RepositoryException;
 }

@@ -1,8 +1,5 @@
 se/dreamteam/ecommerce/repository/sqlinterface/SqlUserInterface.class
-se/dreamteam/ecommerce/repository/sqlinterface/SqlOrderInterface.class
 se/dreamteam/ecommerce/repository/sqldatabase/SqlUserRepository.class
 se/dreamteam/ecommerce/repository/sqlinterface/SqlProductInterface.class
-se/dreamteam/ecommerce/ECommerceManager.class
 se/dreamteam/ecommerce/repository/sqldatabase/SqlProductRepository.class
 se/dreamteam/ecommerce/exceptions/RepositoryException.class
-se/dreamteam/ecommerce/repository/sqldatabase/SqlOrderRepository.class

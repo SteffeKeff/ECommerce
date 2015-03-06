@@ -13,10 +13,10 @@ public interface SqlOrderInterface
 
 	TreeSet<Order> getAllOrders(String username) throws RepositoryException;
 
-	Order getOrder(String orderId, String username) throws RepositoryException;
+	Order getOrder(int orderId, String username) throws RepositoryException;
 
-	Order updateOrder(String orderId, String username) throws RepositoryException;
+	Order updateOrder(int orderId, String username) throws RepositoryException;
 
-	Order removeOrder(String orderId, String username) throws RepositoryException;
+	Order removeOrder(int orderId, String username) throws RepositoryException;
 
 }

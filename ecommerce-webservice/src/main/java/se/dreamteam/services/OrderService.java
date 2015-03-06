@@ -40,8 +40,9 @@ public class OrderService
 	
 	@GET
 	@Path("{orderId}")
-	public Response getOrder(@PathParam("userId") final String userId, @PathParam("orderId") final String orderId){
-		return Response.ok("userId: " + userId + ", orderId: " + orderId).build();
+	public Response getOrder(@PathParam("userId") final String username, @PathParam("orderId") final int orderId){
+		return Response.ok(manager.getOrder(orderId, username)).build();
+		//return Response.ok("userId: " + userId + ", orderId: " + orderId).build();
 	}
 	
 	@POST

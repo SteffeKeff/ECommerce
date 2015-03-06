@@ -74,17 +74,22 @@ public final class OrdersWriter implements MessageBodyWriter<TreeSet<Order>>
 			final JsonObject jsonToReturn = new JsonObject();
 			//An array to hold all products
 			final JsonArray jsonArrayForOrders = new JsonArray();
+			JsonArray jsonArrayForProducts;
+			JsonObject jsonObjectForOrder;
 			
 			for(Order order: orders)
 			{
 				//An object to hold all informatio~ about the products one by one
-				final JsonObject jsonObjectForOrder = new JsonObject();
+				jsonObjectForOrder = new JsonObject();
 				jsonObjectForOrder.add("id", new JsonPrimitive(order.getId()));
-				jsonObjectForOrder.add("date", new JsonPrimitive(order.getDate()));
+				jsonObjectForOrder.add("date", new JsonPrimitive(order.getTimestamp().toString()));
 				jsonObjectForOrder.add("shipped", new JsonPrimitive(order.isShipped()));
-				//jsonObjectForOrder.add("products", new JsonPrimitive(order.getOrderedProducts()));
-				//jsonObjectForOrder.add("description", new JsonPrimitive(order.getDescription()));
-				//Adding the object to the array
+				jsonArrayForProducts = new JsonArray();
+				for(Integer integer: order.getOrderedProducts())
+				{
+					jsonArrayForProducts.add(new JsonPrimitive(integer));
+				}
+				jsonObjectForOrder.add("products", jsonArrayForProducts);
 				jsonArrayForOrders.add(jsonObjectForOrder);
 			}
 			//Adding the array to the jsonReturn-object

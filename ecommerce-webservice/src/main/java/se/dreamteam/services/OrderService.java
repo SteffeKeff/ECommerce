@@ -1,5 +1,8 @@
 package se.dreamteam.services;
 
+import java.net.URI;
+import java.util.ArrayList;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,8 +33,9 @@ public class OrderService
 	public UriInfo uriInfo; 
 	
 	@GET
-	public Response getOrders(@PathParam("userId") final String userId){
-		return Response.ok("userId: " + userId + ", orders: .....").build();
+	public Response getOrders(@PathParam("userId") final String username){
+		return Response.ok().build();
+		//return Response.ok(manager.getAllProducts(username).build();
 	}
 	
 	@GET
@@ -41,9 +45,10 @@ public class OrderService
 	}
 	
 	@POST
-	@Path("{orderId}")
-	public Response createOrder(@PathParam("userId") final String userId, @PathParam("orderId") final String orderId){
-		return Response.ok("userId: " + userId + ", orderId: " + orderId).build();
+	public Response createOrder(@PathParam("userId") final String username, final ArrayList<Integer> products){
+		
+		final URI location = uriInfo.getAbsolutePathBuilder().path(manager.createOrder(username, products)).build();
+		return Response.created(location).build();
 	}
 	
 	@PUT

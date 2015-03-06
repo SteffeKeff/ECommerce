@@ -76,30 +76,30 @@ public final class ECommerceManager
 	}
 
 	// Orders
-	public String createOrder(User user, Order order, TreeSet<Product> products) throws RepositoryException
+	public String createOrder(String username, ArrayList<Integer> products) throws RepositoryException
 	{
-		return orders.createOrder(user, order, products);
+		return orders.createOrder(username, products);
 	}
 
-	public TreeSet<Order> getAllOrders(Order order) throws RepositoryException
+	public TreeSet<Order> getAllOrders(String username) throws RepositoryException
 	{
-		return orders.getAllOrders(order);
+		return orders.getAllOrders(username);
 	}
 
-	public Order getOrder(Order order) throws RepositoryException
-	{
-		return orders.getOrder(order);
-	}
-
-	public Order updateOrder(Order order) throws RepositoryException
-	{
-		return orders.updateOrder(order);
-	}
-
-	public Order removeOrder(Order order) throws RepositoryException
-	{
-		return orders.removeOrder(order);
-	}
+//	public Order getOrder(Order order) throws RepositoryException
+//	{
+//		return orders.getOrder(order);
+//	}
+//
+//	public Order updateOrder(Order order) throws RepositoryException
+//	{
+//		return orders.updateOrder(order);
+//	}
+//
+//	public Order removeOrder(Order order) throws RepositoryException
+//	{
+//		return orders.removeOrder(order);
+//	}
 	
 	//shoppingcart
 	

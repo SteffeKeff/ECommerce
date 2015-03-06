@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
@@ -71,94 +70,50 @@ public class SqlOrderRepository implements SqlOrderInterface
 	@Override
 	public TreeSet<Order> getAllOrders(String username) throws RepositoryException
 	{
-		return null;
-		// ArrayList<Order> ordersQueryResult = new ArrayList<Order>();
-		// HashMap<Integer, Integer> orderHasProductsQueryResult = new
-		// HashMap<Integer, Integer>();
-		//
-		// TreeSet<Order> orders = new TreeSet<Order>();
-		// boolean hasResults = false;
-		// int rsCount = 0;
-		//
-		// try(Connection con = getConnection();
-		// Statement stmt = con.createStatement();)
-		// {
-		// hasResults = stmt.execute("SELECT * FROM dreamteam.Orders;"
-		// + "SELECT * FROM dreamteam.OrderHasProducts;");
-		//
-		// do{
-		// ResultSet rs = stmt.getResultSet();
-		// rsCount++;
-		//
-		// while(rs.next())
-		// {
-		// if(rsCount == 1){ //orders table query
-		// Order orderWithNoProducts = null;
-		// ordersQueryResult.add(orderWithNoProducts);
-		// }else if(rsCount == 2){ //orderHasProducts table query
-		// orderHasProductsQueryResult.put(rs.getInt(2), rs.getInt(3));
-		// }
-		// }
-		// rs.close();
-		//
-		// hasResults = stmt.getMoreResults();
-		// }while(hasResults);
-		//
-		// }catch (SQLException e) {
-		// throw new RepositoryException("Failed to get all products", e);
-		// }
-		//
-		// HashMap<Integer, TreeSet<Integer>> ordersProductIds = new
-		// HashMap<Integer, TreeSet<Integer>>();
-		//
-		// //mergar orders med product idn
-		// for (Order orderWithoutProd : ordersQueryResult) {
-		// TreeSet<Integer> orderProductIds = new TreeSet<Integer>();
-		//
-		// for (Map.Entry<Integer, Integer> entry :
-		// orderHasProductsQueryResult.entrySet())
-		// {
-		// if (orderWithoutProd.getId() == entry.getKey()) { //kör om samma
-		// orderId
-		// orderProductIds.add(entry.getValue()); //sparar orders product idn
-		// }
-		// }
-		// ordersProductIds.put(orderWithoutProd.getId(), orderProductIds);
-		// //sparar en order med product idn i en map
-		// }
-		//
-		// //hämtar orders fysiska produkter baserat på prodId
-		// SqlProductRepository productQueries = new SqlProductRepository();
-		// HashMap<Integer, TreeSet<Integer>> orderWithProducts = new
-		// HashMap<Integer, TreeSet<Integer>>();
-		//
-		// for (Map.Entry<Integer, TreeSet<Integer>> entry :
-		// ordersProductIds.entrySet()) //för varje order
-		// {
-		// TreeSet<Integer> orderProducts = new TreeSet<Integer>();
-		//
-		// for (Integer productId : entry.getValue()) { //för varje productId
-		// //lägger till i orders lista
-		// orderProducts.add(productQueries.getProductWithId(productId));
-		// //hämtar och lägger in en product i order arr
-		// }
-		// orderWithProducts.put(entry.getKey(), orderProducts);
-		// }
-		//
-		// //skapar order obj
-		// for (Entry<Integer, TreeSet<Integer>> entry :
-		// orderWithProducts.entrySet()) //för varje order
-		// {
-		// for (Order orderInfo : ordersQueryResult) {
-		// if(entry.getKey() == orderInfo.getId()){
-		// Order completeOrder = new Order(orderInfo.getDate(),
-		// orderInfo.isShipped() , orderInfo.getId(), entry.getValue());
-		// orders.add(completeOrder);
-		// }
-		// }
-		// }
-		//
-		// return orders;
+		TreeSet<Order> orders = new TreeSet<Order>();
+		
+		try(Connection con = getConnection();
+			PreparedStatement stmt = con.prepareStatement(
+					"SELECT Orders.id AS orderid, Orders.date, Orders.shipped, OrderHasProducts.productid from Orders "
+					+ "left join OrderHasProducts "
+					+ "on Orders.`id` = OrderHasProducts.`orderid` "
+					+ "left join UserHasOrder "
+					+ "on UserHasOrder.`orderid` = OrderHasProducts.`orderid` "
+					+ "WHERE username = ?", ResultSet.TYPE_SCROLL_INSENSITIVE);)
+		{
+			stmt.setString(1, username);
+			ResultSet rs = stmt.executeQuery();
+			
+			ArrayList<Integer> ordersIds = new ArrayList<Integer>();
+			
+			while(rs.next()){									//hämtar alla orderIdn
+				if(!ordersIds.contains(rs.getInt("orderid"))){ 
+					ordersIds.add(rs.getInt("orderid"));
+				}
+			}
+			rs.first();
+			
+			for (int i = 0; i < ordersIds.size(); i++) { 		//för varje order
+				TreeSet<Integer> products = new TreeSet<Integer>();
+				Timestamp date = null;
+				Boolean isShipped = null;
+				Integer orderId = null;
+				
+				while(rs.next()){								//lägg till product för den ordern
+					if(ordersIds.get(i).equals(rs.getInt("orderid"))){
+						products.add(rs.getInt("productId"));
+						date = rs.getTimestamp("date");
+						isShipped = rs.getBoolean("shipped");
+						orderId = rs.getInt("orderid");
+					}
+				}
+				orders.add(new Order(date, isShipped, orderId, products));
+				rs.first();
+			}
+			return orders;
+		}catch (SQLException e) {
+			throw new RepositoryException("Could not get all orders for user: " + username, e);
+		}
 	}
 
 	@Override

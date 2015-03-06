@@ -100,12 +100,15 @@ public final class IntegerMapper implements MessageBodyWriter<ArrayList<Integer>
 				ArrayList<Integer> products = new ArrayList<>();
 				
 				JsonArray jsonArray = userJson.get("products").getAsJsonArray();
-				for(JsonElement element: jsonArray)
-				{
-					products.add(element.getAsInt());
+				if(jsonArray == null || jsonArray.size() == 0){
+					throw new BadMessageException("No products!");
+				}else{
+					for(JsonElement element: jsonArray)
+					{
+						products.add(element.getAsInt());
+					}
+					return products;
 				}
-				
-				return products;
 			}catch(Exception e){
 				throw new BadMessageException("Very bad json");
 			}

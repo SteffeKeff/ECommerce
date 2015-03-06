@@ -86,10 +86,10 @@ public final class ECommerceManager
 		return orders.getAllOrders(username);
 	}
 
-//	public Order getOrder(Order order) throws RepositoryException
-//	{
-//		return orders.getOrder(order);
-//	}
+	public Order getOrder(int orderId, String username) throws RepositoryException
+	{
+		return orders.getOrder(orderId, username);
+	}
 //
 //	public Order updateOrder(Order order) throws RepositoryException
 //	{

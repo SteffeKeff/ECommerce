@@ -1,16 +1,17 @@
 package se.dreamteam.model;
 
+import java.sql.Timestamp;
 import java.util.TreeSet;
 
 public final class Order
 {
 	private static final int EMPTY_ORDER_ID = -1;
 	private int orderId;
-	private final String date;
+	private final Timestamp date;
 	private final boolean isShipped;
-	TreeSet<Product> orderProducts;
+	TreeSet<Integer> orderProducts;
 
-	public Order(String date, boolean isShipped, int orderId, TreeSet<Product> orderProducts)
+	public Order(Timestamp date, boolean isShipped, int orderId, TreeSet<Integer> orderProducts)
 	{
 		this.date = date;
 		this.isShipped = isShipped;
@@ -18,14 +19,14 @@ public final class Order
 		this.orderProducts = orderProducts;
 	}
 	
-	public Order(String date, boolean isShipped, TreeSet<Product> orderProducts)
+	public Order(Timestamp date, boolean isShipped, TreeSet<Integer> orderProducts)
 	{
 		this(date, isShipped, EMPTY_ORDER_ID, orderProducts);
 	}
 	
-	public Order(String date, boolean isShipped, int orderId)
+	public Order(Timestamp date, boolean isShipped, int orderId)
 	{
-		this(date, isShipped, orderId, new TreeSet<Product>());
+		this(date, isShipped, orderId, new TreeSet<Integer>());
 	}
 
 	public int getId()
@@ -33,7 +34,7 @@ public final class Order
 		return orderId;
 	}
 
-	public String getDate()
+	public Timestamp getTimestamp()
 	{
 		return date;
 	}
@@ -43,7 +44,7 @@ public final class Order
 		return isShipped;
 	}
 	
-	public TreeSet<Product> getOrderedProducts()
+	public TreeSet<Integer> getOrderedProducts()
 	{
 		return orderProducts;
 	}

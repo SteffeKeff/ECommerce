@@ -23,11 +23,8 @@ import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
 public class OrderService
 {
 	private static SqlOrderRepository orders = new SqlOrderRepository();;
-	private static SqlProductRepository products = new SqlProductRepository();
-	private static SqlUserRepository users = new SqlUserRepository();
-	private static SqlShoppingcartRepository shoppingcart = new SqlShoppingcartRepository();
 	
-	private static final ECommerceManager manager = new ECommerceManager(orders, products, users,shoppingcart);
+	private static final ECommerceManager manager = new ECommerceManager(orders);
 	
 	@Context
 	public UriInfo uriInfo; 

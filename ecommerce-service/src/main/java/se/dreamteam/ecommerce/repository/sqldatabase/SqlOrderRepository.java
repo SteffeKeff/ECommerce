@@ -166,6 +166,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 	{
 		try (Connection con = getConnection())
 		{
+
 			try (PreparedStatement stmt = con.prepareStatement(
 					"SELECT * FROM dreamteam.UserHasOrder as userHasOrder"
 					+ " inner join dreamteam.Orders as orders "
@@ -176,12 +177,14 @@ public class SqlOrderRepository implements SqlOrderInterface
 					+ "on users.username = userHasOrder.username "
 					+ "AND orders.id = ? "
 					+ "AND users.username = ?;"))
+
 			{
 				stmt.setInt(1, orderId);
 				stmt.setString(2, username);
 				ResultSet rs = stmt.executeQuery();
 				TreeSet<Integer> products = new TreeSet<Integer>();
-				if(rs.next()){
+				if (rs.next())
+				{
 					Timestamp date = rs.getTimestamp("date");
 					Boolean isShipped = rs.getBoolean("shipped");
 					products.add(rs.getInt("productid"));
@@ -192,7 +195,9 @@ public class SqlOrderRepository implements SqlOrderInterface
 						isShipped = rs.getBoolean("shipped");
 					}
 					return new Order(date, isShipped, orderId, products);
-				}else{
+				}
+				else
+				{
 					throw new RepositoryException("You do not have this order!");
 				}
 			}
@@ -218,17 +223,40 @@ public class SqlOrderRepository implements SqlOrderInterface
 	}
 
 	@Override
-	public Order removeOrder(int orderId, String username) throws RepositoryException
+	public int removeOrder(int orderId, String username) throws RepositoryException
 	{
 		try (Connection con = getConnection())
 		{
+			try (PreparedStatement firstStmt = con
+					.prepareStatement("select * from Orders inner join OrderHasProducts.`productid` on Orders.`id` = OrderHasProducts.`orderid` inner join  UserHasOrder.`username` on UserHasOrder.`orderid` = OrderHasProducts.`orderid` WHERE username = ?"))
+			{
+				firstStmt.setString(1, username);
+				ResultSet rs = firstStmt.executeQuery();
+				if (rs.next())
+				{
+
+					try (PreparedStatement stmt = con
+							.prepareStatement("SET FOREIGN_KEY_CHECKS=0; Delete from Orders where id = ?; Delete from UserHasOrder where orderid = ?; Delete from OrderHasProducts where orderid = ?;"))
+					{
+						stmt.setInt(1, orderId);
+						stmt.setInt(2, orderId);
+						stmt.setInt(3, orderId);
+
+						stmt.executeUpdate();
+						return orderId;
+
+					}
+				}else{
+					throw new RepositoryException("The order you want to remove does not exist!");
+				}
+			}
 
 		}
 		catch (SQLException e)
 		{
 			throw new RepositoryException("Could not remove order.", e);
 		}
-		return null;
+
 	}
 
 	private Connection getConnection()

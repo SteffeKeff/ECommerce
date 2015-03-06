@@ -6,7 +6,6 @@ import java.util.TreeSet;
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlShoppingcartInterface;
 import se.dreamteam.ecommerce.repository.sqlinterface.SqlUserInterface;
 import se.dreamteam.model.Order;
 import se.dreamteam.model.Product;
@@ -103,8 +102,8 @@ public final class ECommerceManager
 	// return orders.updateOrder(order);
 	// }
 	//
-	public int removeOrder(Order order) throws RepositoryException
+	public int removeOrder(int orderId, String username) throws RepositoryException
 	{
-		return orders.removeOrder(order);
+		return orders.removeOrder(orderId, username);
 	}
 }

@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -31,60 +30,47 @@ import com.google.gson.stream.JsonWriter;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public final class OrdersWriter implements MessageBodyWriter<TreeSet<Order>>
+public final class OrdersWriter implements MessageBodyWriter<HashSet<Order>>
 {
 	private Gson gson;
 
 	public OrdersWriter()
 	{
-		gson = new GsonBuilder().registerTypeAdapter(TreeSet.class, new OrderAdapter()).create();
+		gson = new GsonBuilder().registerTypeAdapter(HashSet.class, new OrderAdapter()).create();
 	}
 
 	// MessageBodyWriter
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
-		// Ensure that we're handling only List<GPSTrackerCollection> objects.
-//	    boolean isWritable;
-//	    if (TreeSet.class.isAssignableFrom(type) && genericType instanceof ParameterizedType) 
-//	    {
-//	      ParameterizedType parameterizedType = (ParameterizedType) genericType;
-//	      Type[] actualTypeArgs = (parameterizedType.getActualTypeArguments());
-//	      isWritable = (actualTypeArgs.length == 1 && actualTypeArgs[0].equals(Order.class));
-//	    }else{
-//	      isWritable = false;
-//	    }
-//
-//	    return isWritable;
-		//return type.isAssignableFrom(TreeSet.class);
-		return type.isAssignableFrom(TreeSet.class);
+		return type.isAssignableFrom(HashSet.class);
 	}
 
 	
 
 	@Override
-	public long getSize(TreeSet<Order> products, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
+	public long getSize(HashSet<Order> products, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
 		return 0;
 	}
 
 	@Override
-	public void writeTo(TreeSet<Order> products, Class<?> type, Type genericType, Annotation[] annotations,
+	public void writeTo(HashSet<Order> products, Class<?> type, Type genericType, Annotation[] annotations,
 			MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
 			OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
 		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
-			gson.toJson(products, TreeSet.class, writer);
+			gson.toJson(products, HashSet.class, writer);
 		}
 	}
 
-	private static final class OrderAdapter implements JsonSerializer<TreeSet<Order>>
+	private static final class OrderAdapter implements JsonSerializer<HashSet<Order>>
 	{
 
 		@Override
-		public JsonElement serialize(TreeSet<Order> orders, Type typeOfSrc, JsonSerializationContext context)
+		public JsonElement serialize(HashSet<Order> orders, Type typeOfSrc, JsonSerializationContext context)
 		{
 			//The Object which will be returned
 			final JsonObject jsonToReturn = new JsonObject();

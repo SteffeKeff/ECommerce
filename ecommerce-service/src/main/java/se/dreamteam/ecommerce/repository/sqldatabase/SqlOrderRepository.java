@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
@@ -69,9 +70,9 @@ public class SqlOrderRepository implements SqlOrderInterface
 	}
 
 	@Override
-	public TreeSet<Order> getAllOrders(String username) throws RepositoryException
+	public HashSet<Order> getAllOrders(String username) throws RepositoryException
 	{
-		TreeSet<Order> orders = new TreeSet<Order>();
+		HashSet<Order> orders = new HashSet<Order>();
 		
 		try(Connection con = getConnection();
 			PreparedStatement stmt = con.prepareStatement(
@@ -94,7 +95,6 @@ public class SqlOrderRepository implements SqlOrderInterface
 			}
 			rs.beforeFirst();
 			
-			System.out.println(ordersIds.size());
 			for (int i = 0; i < ordersIds.size(); i++) { 		//för varje order
 				TreeSet<Integer> products = new TreeSet<Integer>();
 				Timestamp date = null;
@@ -102,8 +102,6 @@ public class SqlOrderRepository implements SqlOrderInterface
 				Integer orderId = null;
 				
 				while(rs.next()){								//lägg till product för den ordern
-					System.out.println("orderId från rs: " + rs.getInt("orderid"));
-					System.out.println("orderId från orderIds: " + ordersIds.get(i));
 					if(ordersIds.get(i) == rs.getInt("orderid")){
 						System.out.println("inne i if!");
 						products.add(rs.getInt("productid"));
@@ -112,7 +110,6 @@ public class SqlOrderRepository implements SqlOrderInterface
 						orderId = rs.getInt("orderid");
 					}
 				}
-				System.out.println("date: " + date + " isShipped: " + isShipped + " orderId: " + orderId + " products: " + products);
 				orders.add(new Order(date, isShipped, orderId, products));
 				rs.first();
 			}
@@ -179,7 +176,7 @@ public class SqlOrderRepository implements SqlOrderInterface
 					.prepareStatement("SELECT * from Orders left join OrderHasProducts on Orders.`id` = OrderHasProducts.`orderid` left join  UserHasOrder on UserHasOrder.`orderid` = OrderHasProducts.`orderid` WHERE username = ? AND Orders.status = 1 AND Orders.id = ?;"))
 			{
 				firstStmt.setString(1, username);
-				firstStmt.setInt(1, orderId);
+				firstStmt.setInt(2, orderId);
 				ResultSet rs = firstStmt.executeQuery();
 				if (rs.next())
 				{
@@ -197,6 +194,8 @@ public class SqlOrderRepository implements SqlOrderInterface
 				{
 					throw new RepositoryException("Could not update that order");
 				}
+			}catch(SQLException e){
+				throw new RepositoryException("Problem with statement");
 			}
 
 		}

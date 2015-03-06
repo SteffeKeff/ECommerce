@@ -1,6 +1,7 @@
 package se.dreamteam.ecommerce;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
@@ -86,7 +87,7 @@ public final class ECommerceManager
 		return orders.createOrder(username, products);
 	}
 
-	public TreeSet<Order> getAllOrders(String username) throws RepositoryException
+	public HashSet<Order> getAllOrders(String username) throws RepositoryException
 	{
 		return orders.getAllOrders(username);
 	}

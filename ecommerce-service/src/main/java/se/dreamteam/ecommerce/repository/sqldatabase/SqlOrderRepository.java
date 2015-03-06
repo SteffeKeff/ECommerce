@@ -51,18 +51,14 @@ public class SqlOrderRepository implements SqlOrderInterface
 								}
 							}
 							return Integer.toString(orderId);
-
 						}
 					}
 					else
 					{
 						throw new RepositoryException("Fel när du skapar Order!");
 					}
-
 				}
-
 			}
-
 		}
 		catch (SQLException e)
 		{
@@ -170,8 +166,18 @@ public class SqlOrderRepository implements SqlOrderInterface
 	{
 		try (Connection con = getConnection())
 		{
-			try (PreparedStatement stmt = con
-					.prepareStatement("SELECT * FROM dreamteam.UserHasOrder as userHasOrder inner join dreamteam.Orders as orders on orders.id = userHasOrder.orderid inner join dreamteam.OrderHasProducts as orderHasProducts on orderHasProducts.orderid = orders.id inner join dreamteam.Users as users on users.username = userHasOrder.username AND orders.id = ? AND users.username = ?;"))
+
+			try (PreparedStatement stmt = con.prepareStatement(
+					"SELECT * FROM dreamteam.UserHasOrder as userHasOrder"
+					+ " inner join dreamteam.Orders as orders "
+					+ "on orders.id = userHasOrder.orderid "
+					+ "inner join dreamteam.OrderHasProducts as orderHasProducts "
+					+ "on orderHasProducts.orderid = orders.id "
+					+ "inner join dreamteam.Users as users "
+					+ "on users.username = userHasOrder.username "
+					+ "AND orders.id = ? "
+					+ "AND users.username = ?;"))
+
 			{
 				stmt.setInt(1, orderId);
 				stmt.setString(2, username);
@@ -195,7 +201,6 @@ public class SqlOrderRepository implements SqlOrderInterface
 					throw new RepositoryException("You do not have this order!");
 				}
 			}
-
 		}
 		catch (SQLException e)
 		{

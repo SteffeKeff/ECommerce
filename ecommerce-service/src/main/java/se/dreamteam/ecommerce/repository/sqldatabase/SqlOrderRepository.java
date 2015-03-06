@@ -51,10 +51,6 @@ public class SqlOrderRepository implements SqlOrderInterface
 								}
 							}
 							return Integer.toString(orderId);
-<<<<<<< HEAD
-=======
-
->>>>>>> e3d44d10f44372e997a63105a97729292495cf29
 						}
 					}
 					else
@@ -195,26 +191,8 @@ public class SqlOrderRepository implements SqlOrderInterface
 		}
 		catch (SQLException e)
 		{
-<<<<<<< HEAD
-			for (Order orderInfo : ordersQueryResult) {
-				if(entry.getKey() == orderInfo.getId()){
-					Order completeOrder = new Order(orderInfo.getDate(), orderInfo.isShipped() , orderInfo.getId(), entry.getValue());
-					orders.add(completeOrder);
-				}
-			}
-		}
-		
-		return orders;
-	}
-
-	@Override
-	public Order getOrder(String orderId, String username) throws RepositoryException 
-	{
-			return null;
-=======
 			throw new RepositoryException("Could not get order.", e);
 		}
->>>>>>> e3d44d10f44372e997a63105a97729292495cf29
 	}
 
 	@Override

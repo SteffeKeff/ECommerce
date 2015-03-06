@@ -14,20 +14,26 @@ import se.dreamteam.model.User;
 
 public final class ECommerceManager
 {
-	SqlOrderInterface orders;
-	SqlProductInterface products;
-	SqlUserInterface users;
-	SqlShoppingcartInterface shoppingcart;
-	
-	public ECommerceManager(SqlOrderInterface orders, SqlProductInterface products, SqlUserInterface users, SqlShoppingcartInterface shoppingcart)
+	private SqlUserInterface users;
+	private SqlOrderInterface orders;
+	private SqlProductInterface products;
+
+	public ECommerceManager(SqlUserInterface users)
 	{
-		this.orders = orders;
-		this.products = products;
 		this.users = users;
-		this.shoppingcart = shoppingcart;
 	}
 
-	// Users
+	public ECommerceManager(SqlOrderInterface orders)
+	{
+		this.orders = orders;
+	}
+
+	public ECommerceManager(SqlProductInterface products)
+	{
+		this.products = products;
+	}
+	
+	//Users
 	public String createUser(User user) throws RepositoryException
 	{
 		return users.createUser(user);
@@ -90,36 +96,15 @@ public final class ECommerceManager
 	{
 		return orders.getOrder(orderId, username);
 	}
-//
-//	public Order updateOrder(Order order) throws RepositoryException
-//	{
-//		return orders.updateOrder(order);
-//	}
-//
-//	public Order removeOrder(Order order) throws RepositoryException
-//	{
-//		return orders.removeOrder(order);
-//	}
-	
-	//shoppingcart
-	
-	public ArrayList<Integer> getShoppingCart(String username) throws RepositoryException
+
+	//
+	// public Order updateOrder(Order order) throws RepositoryException
+	// {
+	// return orders.updateOrder(order);
+	// }
+	//
+	public int removeOrder(Order order) throws RepositoryException
 	{
-		return shoppingcart.getShoppingcart(username);
-	}
-	
-	public int addProductToShoppingCart(String username, String title) throws RepositoryException
-	{
-		return shoppingcart.addProductToShoppingcart(username, title);
-	}
-	
-	public String deleteShoppingCart(String username) throws RepositoryException
-	{
-		return shoppingcart.deleteShoppingcart(username);
-	}
-	
-	public String deleteProductFromShoppingCart(String username, int productId) throws RepositoryException
-	{
-		return shoppingcart.removeProduct(username, productId);
+		return orders.removeOrder(order);
 	}
 }

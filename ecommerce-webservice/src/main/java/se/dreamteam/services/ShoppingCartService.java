@@ -20,12 +20,9 @@ import se.dreamteam.ecommerce.repository.sqldatabase.SqlUserRepository;
 // @Produces(MediaType.APPLICATION_JSON)
 public final class ShoppingCartService
 {
-	private SqlOrderRepository orders = new SqlOrderRepository();
-	private SqlProductRepository products = new SqlProductRepository();
-	private SqlUserRepository users = new SqlUserRepository();
 	private SqlShoppingcartRepository shoppingcart = new SqlShoppingcartRepository();
-	
-	private final ECommerceManager manager = new ECommerceManager(orders, products, users,shoppingcart);
+	private final ECommerceManager manager = new ECommerceManager(shoppingcart);
+
 	@Context
 	public UriInfo uriInfo;
 

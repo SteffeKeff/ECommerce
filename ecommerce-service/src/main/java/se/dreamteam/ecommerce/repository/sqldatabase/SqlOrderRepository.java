@@ -169,14 +169,14 @@ public class SqlOrderRepository implements SqlOrderInterface
 
 			try (PreparedStatement stmt = con.prepareStatement(
 					"SELECT * FROM dreamteam.UserHasOrder as userHasOrder"
-					+ " inner join dreamteam.Orders as orders "
-					+ "on orders.id = userHasOrder.orderid "
-					+ "inner join dreamteam.OrderHasProducts as orderHasProducts "
-					+ "on orderHasProducts.orderid = orders.id "
-					+ "inner join dreamteam.Users as users "
-					+ "on users.username = userHasOrder.username "
-					+ "AND orders.id = ? "
-					+ "AND users.username = ?;"))
+							+ " inner join dreamteam.Orders as orders "
+							+ "on orders.id = userHasOrder.orderid "
+							+ "inner join dreamteam.OrderHasProducts as orderHasProducts "
+							+ "on orderHasProducts.orderid = orders.id "
+							+ "inner join dreamteam.Users as users "
+							+ "on users.username = userHasOrder.username "
+							+ "AND orders.id = ? "
+							+ "AND users.username = ?;"))
 
 			{
 				stmt.setInt(1, orderId);
@@ -213,13 +213,34 @@ public class SqlOrderRepository implements SqlOrderInterface
 	{
 		try (Connection con = getConnection())
 		{
+			try (PreparedStatement firstStmt = con
+					.prepareStatement("SELECT * from Orders left join OrderHasProducts on Orders.`id` = OrderHasProducts.`orderid` left join  UserHasOrder on UserHasOrder.`orderid` = OrderHasProducts.`orderid` WHERE username = ?"))
+			{
+				firstStmt.setString(1, username);
+				ResultSet rs = firstStmt.executeQuery();
+				if (rs.next())
+				{
+					try (PreparedStatement stmt = con.prepareStatement("UPDATE Orders SET shipped = 1 WHERE id = ?"))
+					{
+						stmt.setInt(1, orderId);
+						stmt.executeUpdate();
+
+						return new Order(rs.getTimestamp("date"), rs.getBoolean("shipped"), orderId);
+
+					}
+
+				}
+				else
+				{
+					throw new RepositoryException("Could not update that order");
+				}
+			}
 
 		}
 		catch (SQLException e)
 		{
 			throw new RepositoryException("Could not update order.", e);
 		}
-		return null;
 	}
 
 	@Override
@@ -246,7 +267,9 @@ public class SqlOrderRepository implements SqlOrderInterface
 						return orderId;
 
 					}
-				}else{
+				}
+				else
+				{
 					throw new RepositoryException("The order you want to remove does not exist!");
 				}
 			}

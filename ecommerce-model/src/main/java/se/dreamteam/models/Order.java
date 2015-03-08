@@ -1,4 +1,4 @@
-package se.dreamteam.model;
+package se.dreamteam.models;
 
 import java.sql.Timestamp;
 import java.util.TreeSet;

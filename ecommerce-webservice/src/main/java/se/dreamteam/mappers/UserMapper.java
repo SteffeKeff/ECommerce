@@ -18,7 +18,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import se.dreamteam.exceptions.BadMessageException;
-import se.dreamteam.model.User;
+import se.dreamteam.models.User;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,12 +38,12 @@ import com.google.gson.stream.JsonWriter;
 public final class UserMapper implements MessageBodyReader<User>, MessageBodyWriter<User>
 {
 	private Gson gson;
-	
+
 	public UserMapper()
 	{
 		gson = new GsonBuilder().registerTypeAdapter(User.class, new UserAdapter()).create();
 	}
-	
+
 	// MessageBodyReader
 	@Override
 	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
@@ -52,16 +52,16 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 	}
 
 	@Override
-	public User readFrom(Class<User> type, Type genericType, Annotation[] annotations, 
-						MediaType mediaType, MultivaluedMap<String, String> httpHeaders, 
-						InputStream entityStream) throws IOException,
+	public User readFrom(Class<User> type, Type genericType, Annotation[] annotations,
+			MediaType mediaType, MultivaluedMap<String, String> httpHeaders,
+			InputStream entityStream) throws IOException,
 			WebApplicationException
 	{
 		final User user = gson.fromJson(new InputStreamReader(entityStream), User.class);
-		
+
 		return user;
 	}
-	
+
 	// MessageBodyWriter
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
@@ -76,30 +76,33 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 	}
 
 	@Override
-	public void writeTo(User user, Class<?> type, Type genericType, Annotation[] annotations, 
-						MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, 
-						OutputStream entityStream)
+	public void writeTo(User user, Class<?> type, Type genericType, Annotation[] annotations,
+			MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
+			OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
-		try(final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
+		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
 			gson.toJson(user, User.class, writer);
 		}
-	}  
-	
+	}
+
 	private static final class UserAdapter implements JsonDeserializer<User>, JsonSerializer<User>
 	{
 		@Override
 		public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 		{
-			
+
 			final JsonObject userJson = json.getAsJsonObject();
-			try{
+			try
+			{
 				final String username = userJson.get("username").getAsString();
 				final String password = userJson.get("password").getAsString();
-				
+
 				return new User(username, password);
-			}catch(Exception e){
+			}
+			catch (Exception e)
+			{
 				throw new BadMessageException("Very bad json");
 			}
 		}
@@ -110,10 +113,10 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 			final JsonObject userJson = new JsonObject();
 			userJson.add("username", new JsonPrimitive(user.getUsername()));
 			userJson.add("password", new JsonPrimitive(user.getPassword()));
-			
+
 			return userJson;
 		}
-		
-	}	
+
+	}
 
 }

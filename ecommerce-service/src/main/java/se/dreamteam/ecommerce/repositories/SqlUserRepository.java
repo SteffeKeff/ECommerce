@@ -1,4 +1,4 @@
-package se.dreamteam.ecommerce.repository.sqldatabase;
+package se.dreamteam.ecommerce.repositories;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlUserInterface;
-import se.dreamteam.model.User;
+import se.dreamteam.ecommerce.interfaces.SqlUserInterface;
+import se.dreamteam.models.User;
 
 public class SqlUserRepository implements SqlUserInterface
 {
@@ -90,7 +90,6 @@ public class SqlUserRepository implements SqlUserInterface
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			throw new RepositoryException("Could not update user with id " + user.getId(), e);
 		}
 

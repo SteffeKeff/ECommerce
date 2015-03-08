@@ -17,7 +17,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import se.dreamteam.model.Product;
+import se.dreamteam.models.Product;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,12 +37,12 @@ import com.google.gson.stream.JsonWriter;
 public final class ProductMapper implements MessageBodyReader<Product>, MessageBodyWriter<Product>
 {
 	private Gson gson;
-	
+
 	public ProductMapper()
 	{
 		gson = new GsonBuilder().registerTypeAdapter(Product.class, new ProductAdapter()).create();
 	}
-	
+
 	// MessageBodyReader
 	@Override
 	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
@@ -51,16 +51,16 @@ public final class ProductMapper implements MessageBodyReader<Product>, MessageB
 	}
 
 	@Override
-	public Product readFrom(Class<Product> type, Type genericType, Annotation[] annotations, 
-						MediaType mediaType, MultivaluedMap<String, String> httpHeaders, 
-						InputStream entityStream) throws IOException,
+	public Product readFrom(Class<Product> type, Type genericType, Annotation[] annotations,
+			MediaType mediaType, MultivaluedMap<String, String> httpHeaders,
+			InputStream entityStream) throws IOException,
 			WebApplicationException
 	{
 		final Product product = gson.fromJson(new InputStreamReader(entityStream), Product.class);
-		
+
 		return product;
 	}
-	
+
 	// MessageBodyWriter
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
@@ -75,17 +75,17 @@ public final class ProductMapper implements MessageBodyReader<Product>, MessageB
 	}
 
 	@Override
-	public void writeTo(Product product, Class<?> type, Type genericType, Annotation[] annotations, 
-						MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, 
-						OutputStream entityStream)
+	public void writeTo(Product product, Class<?> type, Type genericType, Annotation[] annotations,
+			MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
+			OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
-		try(final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
+		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
 			gson.toJson(product, Product.class, writer);
 		}
-	}  
-	
+	}
+
 	private static final class ProductAdapter implements JsonDeserializer<Product>, JsonSerializer<Product>
 	{
 		@Override
@@ -96,7 +96,7 @@ public final class ProductMapper implements MessageBodyReader<Product>, MessageB
 			final int price = productJson.get("price").getAsInt();
 			final int quantity = productJson.get("quantity").getAsInt();
 			final String description = productJson.get("description").getAsString();
-			
+
 			return new Product(title, price, quantity, description);
 		}
 
@@ -111,7 +111,7 @@ public final class ProductMapper implements MessageBodyReader<Product>, MessageB
 
 			return productJson;
 		}
-		
-	}	
+
+	}
 
 }

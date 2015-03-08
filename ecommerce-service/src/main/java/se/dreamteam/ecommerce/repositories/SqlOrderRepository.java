@@ -1,4 +1,4 @@
-package se.dreamteam.ecommerce.repository.sqldatabase;
+package se.dreamteam.ecommerce.repositories;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,8 +12,8 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
-import se.dreamteam.model.Order;
+import se.dreamteam.ecommerce.interfaces.SqlOrderInterface;
+import se.dreamteam.models.Order;
 
 public class SqlOrderRepository implements SqlOrderInterface
 
@@ -102,7 +102,6 @@ public class SqlOrderRepository implements SqlOrderInterface
 				
 				while(rs.next()){								//lägg till product för den ordern
 					if(ordersIds.get(i) == rs.getInt("orderid")){
-						System.out.println("inne i if!");
 						products.add(rs.getInt("productid"));
 						date = rs.getTimestamp("date");
 						isShipped = rs.getBoolean("shipped");

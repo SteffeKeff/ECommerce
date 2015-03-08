@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlOrderInterface;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlUserInterface;
-import se.dreamteam.model.Order;
-import se.dreamteam.model.Product;
-import se.dreamteam.model.User;
+import se.dreamteam.ecommerce.interfaces.SqlOrderInterface;
+import se.dreamteam.ecommerce.interfaces.SqlProductInterface;
+import se.dreamteam.ecommerce.interfaces.SqlUserInterface;
+import se.dreamteam.models.Order;
+import se.dreamteam.models.Product;
+import se.dreamteam.models.User;
 
 public final class ECommerceManager
 {

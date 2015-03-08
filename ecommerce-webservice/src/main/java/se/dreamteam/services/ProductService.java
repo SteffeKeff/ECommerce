@@ -13,8 +13,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import se.dreamteam.ecommerce.ECommerceManager;
-import se.dreamteam.ecommerce.repository.sqldatabase.SqlProductRepository;
-import se.dreamteam.model.Product;
+import se.dreamteam.ecommerce.repositories.SqlProductRepository;
+import se.dreamteam.models.Product;
 
 @Path("products")
 public class ProductService

@@ -1,4 +1,4 @@
-package se.dreamteam.model;
+package se.dreamteam.models;
 
 public final class Product implements Comparable<Object>
 {

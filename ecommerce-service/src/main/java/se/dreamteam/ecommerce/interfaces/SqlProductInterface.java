@@ -1,9 +1,9 @@
-package se.dreamteam.ecommerce.repository.sqlinterface;
+package se.dreamteam.ecommerce.interfaces;
 
 import java.util.TreeSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
-import se.dreamteam.model.Product;
+import se.dreamteam.models.Product;
 
 public interface SqlProductInterface
 {

@@ -15,7 +15,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import se.dreamteam.model.Order;
+import se.dreamteam.models.Order;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,8 +46,6 @@ public final class OrdersWriter implements MessageBodyWriter<HashSet<Order>>
 		return type.isAssignableFrom(HashSet.class);
 	}
 
-	
-
 	@Override
 	public long getSize(HashSet<Order> products, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
@@ -72,31 +70,32 @@ public final class OrdersWriter implements MessageBodyWriter<HashSet<Order>>
 		@Override
 		public JsonElement serialize(HashSet<Order> orders, Type typeOfSrc, JsonSerializationContext context)
 		{
-			//The Object which will be returned
+			// The Object which will be returned
 			final JsonObject jsonToReturn = new JsonObject();
-			//An array to hold all products
+			// An array to hold all products
 			final JsonArray jsonArrayForOrders = new JsonArray();
 			JsonArray jsonArrayForProducts;
 			JsonObject jsonObjectForOrder;
-			
-			for(Order order: orders)
+
+			for (Order order : orders)
 			{
-				//An object to hold all informatio~ about the products one by one
+				// An object to hold all informatio~ about the products one by
+				// one
 				jsonObjectForOrder = new JsonObject();
 				jsonObjectForOrder.add("id", new JsonPrimitive(order.getId()));
 				jsonObjectForOrder.add("date", new JsonPrimitive(order.getTimestamp().toString()));
 				jsonObjectForOrder.add("shipped", new JsonPrimitive(order.isShipped()));
 				jsonArrayForProducts = new JsonArray();
-				for(Integer integer: order.getOrderedProducts())
+				for (Integer integer : order.getOrderedProducts())
 				{
 					jsonArrayForProducts.add(new JsonPrimitive(integer));
 				}
 				jsonObjectForOrder.add("products", jsonArrayForProducts);
 				jsonArrayForOrders.add(jsonObjectForOrder);
 			}
-			//Adding the array to the jsonReturn-object
+			// Adding the array to the jsonReturn-object
 			jsonToReturn.add("orders", jsonArrayForOrders);
-			
+
 			return jsonToReturn;
 		}
 

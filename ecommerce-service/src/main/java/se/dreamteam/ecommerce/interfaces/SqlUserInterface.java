@@ -1,7 +1,7 @@
-package se.dreamteam.ecommerce.repository.sqlinterface;
+package se.dreamteam.ecommerce.interfaces;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
-import se.dreamteam.model.User;
+import se.dreamteam.models.User;
 
 public interface SqlUserInterface
 {

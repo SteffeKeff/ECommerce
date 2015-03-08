@@ -15,7 +15,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import se.dreamteam.model.Product;
+import se.dreamteam.models.Product;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,7 +33,7 @@ import com.google.gson.stream.JsonWriter;
 public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 {
 	private Gson gson;
-	
+
 	public ProductsWriter()
 	{
 		gson = new GsonBuilder().registerTypeAdapter(TreeSet.class, new ProductAdapter()).create();
@@ -70,26 +70,27 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 		@Override
 		public JsonElement serialize(TreeSet<Product> products, Type typeOfSrc, JsonSerializationContext context)
 		{
-			//The Object which will be returned
+			// The Object which will be returned
 			final JsonObject jsonToReturn = new JsonObject();
-			//An array to hold all products
+			// An array to hold all products
 			final JsonArray jsonArrayForProducts = new JsonArray();
-			
-			for(Product product: products)
+
+			for (Product product : products)
 			{
-				//An object to hold all informatio~ about the products one by one
+				// An object to hold all informatio~ about the products one by
+				// one
 				final JsonObject jsonObjectForProduct = new JsonObject();
 				jsonObjectForProduct.add("id", new JsonPrimitive(product.getId()));
 				jsonObjectForProduct.add("title", new JsonPrimitive(product.getTitle()));
 				jsonObjectForProduct.add("price", new JsonPrimitive(product.getPrice()));
 				jsonObjectForProduct.add("quantity", new JsonPrimitive(product.getQuantity()));
 				jsonObjectForProduct.add("description", new JsonPrimitive(product.getDescription()));
-				//Adding the object to the array
+				// Adding the object to the array
 				jsonArrayForProducts.add(jsonObjectForProduct);
 			}
-			//Adding the array to the jsonReturn-object
+			// Adding the array to the jsonReturn-object
 			jsonToReturn.add("products", jsonArrayForProducts);
-			
+
 			return jsonToReturn;
 		}
 

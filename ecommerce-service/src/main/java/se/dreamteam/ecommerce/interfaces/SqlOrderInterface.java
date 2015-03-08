@@ -1,10 +1,10 @@
-package se.dreamteam.ecommerce.repository.sqlinterface;
+package se.dreamteam.ecommerce.interfaces;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
-import se.dreamteam.model.Order;
+import se.dreamteam.models.Order;
 
 public interface SqlOrderInterface
 {

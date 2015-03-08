@@ -14,13 +14,13 @@ import com.google.gson.Gson;
 @Path("")
 public final class WebService
 {
-	 private static final Gson gson = new Gson();
-	 
+	private static final Gson gson = new Gson();
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public final Response getRoot()
 	{
-		ArrayList<HashMap<String,String>> links = new ArrayList<>();
+		ArrayList<HashMap<String, String>> links = new ArrayList<>();
 		HashMap<String, String> products = new HashMap<>();
 		HashMap<String, String> users = new HashMap<>();
 		products.put("href", "/webshop/products");
@@ -32,5 +32,5 @@ public final class WebService
 		String json = gson.toJson(links);
 		return Response.ok(json).build();
 	}
-	
+
 }

@@ -1,4 +1,4 @@
-package se.dreamteam.ecommerce.repository.sqldatabase;
+package se.dreamteam.ecommerce.repositories;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,8 +9,8 @@ import java.util.TreeSet;
 import java.sql.Statement;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlProductInterface;
-import se.dreamteam.model.Product;
+import se.dreamteam.ecommerce.interfaces.SqlProductInterface;
+import se.dreamteam.models.Product;
 
 public class SqlProductRepository implements SqlProductInterface{
 	
@@ -139,11 +139,7 @@ public class SqlProductRepository implements SqlProductInterface{
 					{
 						stmt.setInt(1, productId);
 						stmt.executeUpdate();
-
-						// return new Product(rs.getString("title"),
-						// rs.getInt("price")
-						// , rs.getInt("quantity"), rs.getString("description"),
-						// rs.getInt("id"));
+						
 						return new Product(rs.getString("title"), rs.getInt("price"), rs.getInt("quantity"), rs.getString("description"), productId);
 					}
 				}

@@ -1,4 +1,4 @@
-package se.dreamteam.ecommerce.repository.sqldatabase;
+package se.dreamteam.ecommerce.repositories;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
-import se.dreamteam.ecommerce.repository.sqlinterface.SqlShoppingcartInterface;
+import se.dreamteam.ecommerce.interfaces.SqlShoppingcartInterface;
 
 public class SqlShoppingcartRepository implements SqlShoppingcartInterface
 {
@@ -36,7 +36,6 @@ public class SqlShoppingcartRepository implements SqlShoppingcartInterface
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			throw new RepositoryException("Could not get products", e);
 		}
 
@@ -77,7 +76,6 @@ public class SqlShoppingcartRepository implements SqlShoppingcartInterface
 		}
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			throw new RepositoryException("Could not add product to cart", e);
 		}
 
@@ -118,7 +116,6 @@ public class SqlShoppingcartRepository implements SqlShoppingcartInterface
 	{
 		try (final Connection con = getConnection())
 		{
-//			try(final PreparedStatement firstStmt = con.prepareStatement("SELECT * FROM dreamteam.UserHasProducts WHERE username =?"))
 			try (final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.UserHasProducts WHERE username = ?"))
 			{
 				stmt.setString(1, username);

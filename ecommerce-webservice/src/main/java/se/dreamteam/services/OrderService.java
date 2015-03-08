@@ -14,49 +14,52 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import se.dreamteam.ecommerce.ECommerceManager;
-import se.dreamteam.ecommerce.repository.sqldatabase.SqlOrderRepository;
-import se.dreamteam.model.Order;
+import se.dreamteam.ecommerce.repositories.SqlOrderRepository;
+import se.dreamteam.models.Order;
 
 @Path("users/{userId}/orders")
 public class OrderService
 {
 	private static SqlOrderRepository orders = new SqlOrderRepository();;
-	
+
 	private static final ECommerceManager manager = new ECommerceManager(orders);
-	
+
 	@Context
-	public UriInfo uriInfo; 
-	
+	public UriInfo uriInfo;
+
 	@GET
-	public Response getOrders(@PathParam("userId") final String username){
-		//return Response.ok().build();
+	public Response getOrders(@PathParam("userId") final String username)
+	{
 		return Response.ok(manager.getAllOrders(username)).build();
 	}
-	
+
 	@GET
 	@Path("{orderId}")
-	public Response getOrder(@PathParam("userId") final String username, @PathParam("orderId") final int orderId){
+	public Response getOrder(@PathParam("userId") final String username, @PathParam("orderId") final int orderId)
+	{
 		return Response.ok(manager.getOrder(orderId, username)).build();
-		//return Response.ok("userId: " + userId + ", orderId: " + orderId).build();
 	}
-	
+
 	@POST
-	public Response createOrder(@PathParam("userId") final String username, final ArrayList<Integer> products){
-		
+	public Response createOrder(@PathParam("userId") final String username, final ArrayList<Integer> products)
+	{
+
 		final URI location = uriInfo.getAbsolutePathBuilder().path(manager.createOrder(username, products)).build();
 		return Response.created(location).build();
 	}
-	
+
 	@PUT
 	@Path("{orderId}")
-	public Response updateOrder(@PathParam("userId") final String username, @PathParam("orderId") final int orderId){
+	public Response updateOrder(@PathParam("userId") final String username, @PathParam("orderId") final int orderId)
+	{
 		manager.updateOrder(orderId, username);
 		return Response.ok(manager.getOrder(orderId, username)).build();
 	}
-	
+
 	@DELETE
 	@Path("{orderId}")
-	public Response deleteOrder(@PathParam("userId") final String username, @PathParam("orderId") final int orderId){
+	public Response deleteOrder(@PathParam("userId") final String username, @PathParam("orderId") final int orderId)
+	{
 		Order order = manager.getOrder(orderId, username);
 		manager.removeOrder(orderId, username);
 		return Response.ok(order).build();

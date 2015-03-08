@@ -68,18 +68,18 @@ public final class IntegerWriter implements MessageBodyWriter<ArrayList<Integer>
 		@Override
 		public JsonElement serialize(ArrayList<Integer> productIds, Type typeOfSrc, JsonSerializationContext context)
 		{
-			//The Object which will be returned
+			// The Object which will be returned
 			final JsonObject jsonToReturn = new JsonObject();
-			//An array to hold all products
+			// An array to hold all products
 			final JsonArray jsonArrayForIntegers = new JsonArray();
-			
-			for(Integer integer: productIds)
+
+			for (Integer integer : productIds)
 			{
 				jsonArrayForIntegers.add(new JsonPrimitive(Integer.toString(integer)));
 			}
-			//Adding the array to the jsonReturn-object
+			// Adding the array to the jsonReturn-object
 			jsonToReturn.add("productIds", jsonArrayForIntegers);
-			
+
 			return jsonToReturn;
 		}
 

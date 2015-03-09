@@ -11,40 +11,40 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.TreeSet;
 
+import se.dreamteam.ecommerce.exceptions.DatabaseException;
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.interfaces.SqlOrderInterface;
 import se.dreamteam.models.Order;
 
 public class SqlOrderRepository implements SqlOrderInterface
-
 {
-	private static final String DB_URL = "jdbc:mysql://80.217.176.187:3306/dreamteam";
-	private static final String USER = "admin";
-	private static final String PW = "dr3amt3am";
+	private static final String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
+	private static final String USERNAME = "admin";
+	private static final String PASSWORD = "dr3amt3am";
 
 	@Override
 	public String createOrder(String username, ArrayList<Integer> products) throws RepositoryException
 	{
-		try (final Connection con = getConnection())
+		try(final Connection con = getConnection())
 		{
-			try (PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Orders VALUES (null,null,?,1);", Statement.RETURN_GENERATED_KEYS))
+			try(PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Orders VALUES (null,null,?,1);", Statement.RETURN_GENERATED_KEYS))
 			{
 				stmt.setInt(1, 0);
 				int affectedRows = stmt.executeUpdate();
-				if (affectedRows == 1)
+				if(affectedRows == 1)
 				{
 					ResultSet rs = stmt.getGeneratedKeys();
-					if (rs.next())
+					if(rs.next())
 					{
-						try (PreparedStatement secondStmt = con.prepareStatement("INSERT INTO dreamteam.UserHasOrder VALUES(null,?,?);"))
+						try(PreparedStatement secondStmt = con.prepareStatement("INSERT INTO dreamteam.UserHasOrder VALUES(null,?,?);"))
 						{
 							secondStmt.setString(1, username);
 							int orderId = rs.getInt(1);
 							secondStmt.setInt(2, orderId);
 							secondStmt.executeUpdate();
-							for (Integer integer : products)
+							for(Integer integer : products)
 							{
-								try (PreparedStatement thirdStmt = con.prepareStatement("INSERT INTO dreamteam.OrderHasProducts VALUES (null,?,?)"))
+								try(PreparedStatement thirdStmt = con.prepareStatement("INSERT INTO dreamteam.OrderHasProducts VALUES (null,?,?)"))
 								{
 									thirdStmt.setInt(1, orderId);
 									thirdStmt.setInt(2, integer);
@@ -56,14 +56,14 @@ public class SqlOrderRepository implements SqlOrderInterface
 					}
 					else
 					{
-						throw new RepositoryException("Fel när du skapar Order!");
+						throw new RepositoryException("Problem with getting order.");
 					}
 				}
 			}
 		}
 		catch (SQLException e)
 		{
-			throw new RepositoryException("Coud not create order", e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
 		return null;
 	}
@@ -87,21 +87,26 @@ public class SqlOrderRepository implements SqlOrderInterface
 			
 			ArrayList<Integer> ordersIds = new ArrayList<Integer>();
 			
-			while(rs.next()){									//hämtar alla orderIdn
-				if(!ordersIds.contains(rs.getInt("orderid"))){ 
+			while(rs.next())
+			{
+				if(!ordersIds.contains(rs.getInt("orderid")))
+				{ 
 					ordersIds.add(rs.getInt("orderid"));
 				}
 			}
 			rs.beforeFirst();
 			
-			for (int i = 0; i < ordersIds.size(); i++) { 		//för varje order
+			for(int i = 0; i < ordersIds.size(); i++)
+			{ 	
 				TreeSet<Integer> products = new TreeSet<Integer>();
 				Timestamp date = null;
 				Boolean isShipped = null;
 				Integer orderId = null;
 				
-				while(rs.next()){								//lägg till product för den ordern
-					if(ordersIds.get(i) == rs.getInt("orderid")){
+				while(rs.next())
+				{								
+					if(ordersIds.get(i) == rs.getInt("orderid"))
+					{
 						products.add(rs.getInt("productid"));
 						date = rs.getTimestamp("date");
 						isShipped = rs.getBoolean("shipped");
@@ -112,18 +117,20 @@ public class SqlOrderRepository implements SqlOrderInterface
 				rs.first();
 			}
 			return orders;
-		}catch (SQLException e) {
-			throw new RepositoryException("Could not get all orders for user: " + username, e);
+		}
+		catch(SQLException e)
+		{
+			throw new RepositoryException("Problem with getting all orders for user: " + username + ".", e);
 		}
 	}
 
 	@Override
 	public Order getOrder(int orderId, String username) throws RepositoryException
 	{
-		try (Connection con = getConnection())
+		try(Connection con = getConnection())
 		{
 
-			try (PreparedStatement stmt = con.prepareStatement(
+			try(PreparedStatement stmt = con.prepareStatement(
 					"SELECT * FROM dreamteam.UserHasOrder as userHasOrder"
 							+ " inner join dreamteam.Orders as orders "
 							+ "on orders.id = userHasOrder.orderid "
@@ -139,12 +146,12 @@ public class SqlOrderRepository implements SqlOrderInterface
 				stmt.setString(2, username);
 				ResultSet rs = stmt.executeQuery();
 				TreeSet<Integer> products = new TreeSet<Integer>();
-				if (rs.next())
+				if(rs.next())
 				{
 					Timestamp date = rs.getTimestamp("date");
 					Boolean isShipped = rs.getBoolean("shipped");
 					products.add(rs.getInt("productid"));
-					while (rs.next())
+					while(rs.next())
 					{
 						products.add(rs.getInt("productid"));
 						date = rs.getTimestamp("date");
@@ -154,30 +161,30 @@ public class SqlOrderRepository implements SqlOrderInterface
 				}
 				else
 				{
-					throw new RepositoryException("You do not have this order!");
+					throw new RepositoryException("You do not have this order.");
 				}
 			}
 		}
-		catch (SQLException e)
+		catch(SQLException e)
 		{
-			throw new RepositoryException("Could not get order.", e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
 	}
 
 	@Override
 	public Order updateOrder(int orderId, String username) throws RepositoryException
 	{
-		try (Connection con = getConnection())
+		try(Connection con = getConnection())
 		{
-			try (PreparedStatement firstStmt = con
+			try(PreparedStatement firstStmt = con
 					.prepareStatement("SELECT * from Orders left join OrderHasProducts on Orders.`id` = OrderHasProducts.`orderid` left join  UserHasOrder on UserHasOrder.`orderid` = OrderHasProducts.`orderid` WHERE username = ? AND Orders.status = 1 AND Orders.id = ?;"))
 			{
 				firstStmt.setString(1, username);
 				firstStmt.setInt(2, orderId);
 				ResultSet rs = firstStmt.executeQuery();
-				if (rs.next())
+				if(rs.next())
 				{
-					try (PreparedStatement stmt = con.prepareStatement("UPDATE Orders SET shipped = 1 WHERE id = ?"))
+					try(PreparedStatement stmt = con.prepareStatement("UPDATE Orders SET shipped = 1 WHERE id = ?"))
 					{
 						stmt.setInt(1, orderId);
 						stmt.executeUpdate();
@@ -187,38 +194,41 @@ public class SqlOrderRepository implements SqlOrderInterface
 				}
 				else
 				{
-					throw new RepositoryException("Could not update that order");
+					throw new RepositoryException("Problem with updating order.");
 				}
-			}catch(SQLException e){
-				throw new RepositoryException("Problem with statement");
+			}
+			catch(SQLException e)
+			{
+				throw new RepositoryException("Problem with statement.");
 			}
 		}
-		catch (SQLException e)
+		catch(SQLException e)
 		{
-			throw new RepositoryException("Could not update order.", e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
 	}
 
 	@Override
 	public int removeOrder(int orderId, String username) throws RepositoryException
 	{
-		try (Connection con = getConnection())
+		try(Connection con = getConnection())
 		{
-			try (PreparedStatement stmt = con
+			try(PreparedStatement stmt = con
 					.prepareStatement("UPDATE Orders SET status = 0 WHERE id = ?;"))
 			{
 				stmt.setInt(1, orderId);
 
 				stmt.executeUpdate();
 				return orderId;
-
-			}catch(SQLException e){
-				throw new RepositoryException("problem with statement!",e);
+			}
+			catch(SQLException e)
+			{
+				throw new RepositoryException("Problem with statement.",e);
 			}
 		}
-		catch (SQLException e)
+		catch(SQLException e)
 		{
-			throw new RepositoryException("problem with connection to database.", e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
 	}
 
@@ -227,11 +237,11 @@ public class SqlOrderRepository implements SqlOrderInterface
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			return DriverManager.getConnection(DB_URL, USER, PW);
+			return DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
 		}
-		catch (SQLException | ClassNotFoundException e)
+		catch(SQLException | ClassNotFoundException e)
 		{
-			throw new RepositoryException("Could not connect to data source", e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
 	}
 }

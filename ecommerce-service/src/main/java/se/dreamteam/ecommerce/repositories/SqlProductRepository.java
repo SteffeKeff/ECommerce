@@ -8,15 +8,16 @@ import java.sql.SQLException;
 import java.util.TreeSet;
 import java.sql.Statement;
 
+import se.dreamteam.ecommerce.exceptions.DatabaseException;
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.interfaces.SqlProductInterface;
 import se.dreamteam.models.Product;
 
-public class SqlProductRepository implements SqlProductInterface{
-	
-	private static final String DB_URL = "jdbc:mysql://80.217.176.187:3306/dreamteam";
-	private static final String USER = "admin";
-	private static final String PW = "dr3amt3am";
+public class SqlProductRepository implements SqlProductInterface
+{
+	private static final String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
+	private static final String USERNAME = "admin";
+	private static final String PASSWORD = "dr3amt3am";
 	
 	@Override
 	public TreeSet<Product> getAllProducts() throws RepositoryException 
@@ -27,14 +28,16 @@ public class SqlProductRepository implements SqlProductInterface{
 			Statement stmt = con.createStatement(); 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM dreamteam.Products;");)
 		{
-			while(rs.next()){
+			while(rs.next())
+			{
 				Product product = new Product(rs.getString("title"), rs.getInt("price") , rs.getInt("quantity"), rs.getString("description"), rs.getInt("id"));
 				products.add(product);
 			}
-			return products;
-			
-		}catch (SQLException e) {
-			throw new RepositoryException("Failed to get all products", e);
+			return products;	
+		}
+		catch (SQLException e) 
+		{
+			throw new RepositoryException("Problem with getting all products.", e);
 		}
 	}
 	
@@ -48,12 +51,17 @@ public class SqlProductRepository implements SqlProductInterface{
 			stmt.setInt(1, productId);
 			ResultSet rs = stmt.executeQuery();
 			
-			if (rs.next()) {
+			if(rs.next())
+			{
 				product = new Product(rs.getString("title"), rs.getInt("price") , rs.getInt("quantity"), rs.getString("description"), rs.getInt("id"));
-			}else{
-				throw new RepositoryException("Product does not exist!");
 			}
-		}catch (SQLException e) {
+			else
+			{
+				throw new RepositoryException("Product does not exist.");
+			}
+		}
+		catch (SQLException e)
+		{
 			throw new RepositoryException("Failed to get product by id", e);
 		}
 		return product;
@@ -62,10 +70,10 @@ public class SqlProductRepository implements SqlProductInterface{
 	@Override
 	public String createProduct(Product product) throws RepositoryException 
 	{
-		try (final Connection con = getConnection())
+		try(final Connection con = getConnection())
 		{
 			con.setAutoCommit(false);
-			try (PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Products VALUES (null, ?, ?, ?, ?);",
+			try(PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Products VALUES (null, ?, ?, ?, ?);",
 																	  Statement.RETURN_GENERATED_KEYS))
 			{
 				stmt.setString(1, product.getTitle());
@@ -74,11 +82,11 @@ public class SqlProductRepository implements SqlProductInterface{
 				stmt.setString(4, product.getDescription());
 				int affectedRows = stmt.executeUpdate();
 
-				if (affectedRows == 1)
+				if(affectedRows == 1)
 				{
 					ResultSet rs = stmt.getGeneratedKeys();
 
-					if (rs.next())
+					if(rs.next())
 					{
 						int id = rs.getInt(1);
 						con.commit();
@@ -87,17 +95,16 @@ public class SqlProductRepository implements SqlProductInterface{
 					}
 				}
 			}
-			catch (SQLException e)
+			catch(SQLException e)
 			{
 				con.rollback();
-				throw new RepositoryException("Could not add product", e);
+				throw new RepositoryException("Problem with adding product.", e);
 			}
-			
-			throw new RepositoryException("Could not add product");
+			throw new RepositoryException("Problem with adding product.");
 		}
-		catch (SQLException e)
+		catch(SQLException e)
 		{
-			throw new RepositoryException("Could not add product", e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
 	}
 	
@@ -116,26 +123,25 @@ public class SqlProductRepository implements SqlProductInterface{
 			stmt.executeUpdate();
 			
 			return product;
-			
-		}catch (SQLException e) 
+		}
+		catch(SQLException e)
 		{
-			throw new RepositoryException("Could not update product", e);
+			throw new RepositoryException("Problem with updating product.", e);
 		}
 	}
 	
 	@Override
 	public Product deleteProduct(int productId) throws RepositoryException
 	{
-
-		try (Connection con = getConnection())
+		try(Connection con = getConnection())
 		{
-			try (PreparedStatement firstStmt = con.prepareStatement("SELECT * FROM dreamteam.Products WHERE id = ?"))
+			try(PreparedStatement firstStmt = con.prepareStatement("SELECT * FROM dreamteam.Products WHERE id = ?"))
 			{
 				firstStmt.setInt(1, productId);
 				ResultSet rs = firstStmt.executeQuery();
-				if (rs.next())
+				if(rs.next())
 				{
-					try (PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Products WHERE id = ?;"))
+					try(PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Products WHERE id = ?;"))
 					{
 						stmt.setInt(1, productId);
 						stmt.executeUpdate();
@@ -145,26 +151,26 @@ public class SqlProductRepository implements SqlProductInterface{
 				}
 				else
 				{
-					throw new RepositoryException("Product does not exist!");
+					throw new RepositoryException("Product does not exist.");
 				}
 			}
 		}
-		catch (SQLException e)
+		catch(SQLException e)
 		{
-			throw new RepositoryException("Could not delete product.", e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
-
 	}
+	
 	private Connection getConnection() throws RepositoryException
 	{
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			return DriverManager.getConnection(DB_URL, USER, PW);
+			return DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
 		}
-		catch (SQLException | ClassNotFoundException e)
+		catch(SQLException | ClassNotFoundException e)
 		{
-			throw new RepositoryException("Could not connect to data source", e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
 	}
 }

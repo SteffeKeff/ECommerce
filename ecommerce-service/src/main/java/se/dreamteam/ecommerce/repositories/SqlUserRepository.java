@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import se.dreamteam.ecommerce.exceptions.DatabaseException;
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.interfaces.SqlUserInterface;
 import se.dreamteam.models.User;
@@ -20,65 +21,61 @@ public class SqlUserRepository implements SqlUserInterface
 	@Override
 	public User getUserByUsername(String username) throws RepositoryException
 	{
-
-		try (final Connection con = getConnection())
+		try(final Connection con = getConnection())
 		{
-
-			try (final PreparedStatement stmt = con.prepareStatement("SELECT * FROM dreamteam.Users WHERE username = ?;"))
+			try(final PreparedStatement stmt = con.prepareStatement("SELECT * FROM dreamteam.Users WHERE username = ?;"))
 			{
 				stmt.setString(1, username);
 				ResultSet rs = stmt.executeQuery();
 				rs.next();
 				return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
 			}
-
+			catch(SQLException e)
+			{
+				throw new RepositoryException("Problem with finding user with username: " + username + ".", e);
+			}
 		}
-		catch (SQLException e)
+		catch(SQLException e)
 		{
-			throw new RepositoryException("Could not find user with username: " + username, e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
 	}
 
 	@Override
 	public String createUser(User user) throws RepositoryException
 	{
-		try (final Connection con = getConnection())
+		try(final Connection con = getConnection())
 		{
-
-			try (final PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Users VALUES (null,?,?);", Statement.RETURN_GENERATED_KEYS))
+			try(final PreparedStatement stmt = con.prepareStatement("INSERT INTO dreamteam.Users VALUES (null,?,?);", Statement.RETURN_GENERATED_KEYS))
 			{
 				stmt.setString(1, user.getUsername());
 				stmt.setString(2, user.getPassword());
 				int affectedRows = stmt.executeUpdate();
-				if (affectedRows == 1)
+				if(affectedRows == 1)
 				{
-
 					ResultSet key = stmt.getGeneratedKeys();
 
-					if (key.next())
+					if(key.next())
 					{
 						User returnedUser = new User(key.getInt(1), user.getUsername(), user.getPassword());
 						return returnedUser.getUsername();
 					}
 				}
-				throw new RepositoryException("Could not add user");
+				throw new RepositoryException("Problem with adding user.");
 			}
 		}
-		catch (SQLException e)
+		catch(SQLException e)
 		{
-
-			throw new RepositoryException("Could not add user", e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
-
 	}
 
 	@Override
 	public User updateUser(String username, User user) throws RepositoryException
 	{
-		try (final Connection con = getConnection())
+		try(final Connection con = getConnection())
 		{
-
-			try (final PreparedStatement stmt = con.prepareStatement("UPDATE dreamteam.Users SET username = ?, password = ? WHERE username = ?"))
+			try(final PreparedStatement stmt = con.prepareStatement("UPDATE dreamteam.Users SET username = ?, password = ? WHERE username = ?"))
 			{
 				stmt.setString(1, user.getUsername());
 				stmt.setString(2, user.getPassword());
@@ -87,39 +84,44 @@ public class SqlUserRepository implements SqlUserInterface
 
 				return user;
 			}
+			catch(SQLException e)
+			{
+				throw new RepositoryException("Problem with updating user with id " + user.getId() + ".", e);
+			}
 		}
-		catch (SQLException e)
+		catch(SQLException e)
 		{
-			throw new RepositoryException("Could not update user with id " + user.getId(), e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
-
 	}
 
 	@Override
 	public User deleteUser(String username) throws RepositoryException
 	{
-
-		try (final Connection con = getConnection())
+		try(final Connection con = getConnection())
 		{
-			try (final PreparedStatement firstStmt = con.prepareStatement("SELECT * FROM dreamteam.Users WHERE username = ?"))
+			try(final PreparedStatement firstStmt = con.prepareStatement("SELECT * FROM dreamteam.Users WHERE username = ?"))
 			{
 				firstStmt.setString(1, username);
 				ResultSet rs = firstStmt.executeQuery();
 				rs.next();
 
-				try (final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Users WHERE username = ?;"))
+				try(final PreparedStatement stmt = con.prepareStatement("DELETE FROM dreamteam.Users WHERE username = ?;"))
 				{
 					stmt.setString(1, username);
 					stmt.executeUpdate();
 				}
 				return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
 			}
+			catch(SQLException e)
+			{
+				throw new RepositoryException("Problem with deleteting user: " + username + ".", e);
+			}
 		}
-		catch (SQLException e)
+		catch(SQLException e)
 		{
-			throw new RepositoryException("Could not delete user: " + username, e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
-
 	}
 
 	private Connection getConnection() throws SQLException
@@ -129,10 +131,9 @@ public class SqlUserRepository implements SqlUserInterface
 			Class.forName("com.mysql.jdbc.Driver");
 			return DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
 		}
-		catch (SQLException | ClassNotFoundException e)
+		catch(SQLException | ClassNotFoundException e)
 		{
-			throw new RepositoryException("Connection problemo", e);
+			throw new DatabaseException("Problem with connection to database.", e);
 		}
 	}
-
 }

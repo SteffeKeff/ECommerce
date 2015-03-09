@@ -116,7 +116,5 @@ public final class OrderMapper implements MessageBodyReader<Order>, MessageBodyW
 			orderJson.add("products", jsonArrayForProducts);
 			return orderJson;
 		}
-
 	}
-
 }

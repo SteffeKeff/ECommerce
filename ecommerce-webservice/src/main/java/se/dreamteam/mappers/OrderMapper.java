@@ -77,9 +77,9 @@ public final class OrderMapper implements MessageBodyReader<Order>, MessageBodyW
 
 	@Override
 	public void writeTo(Order order, Class<?> type, Type genericType, Annotation[] annotations,
-			MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
-			OutputStream entityStream)
-			throws IOException, WebApplicationException
+						MediaType mediaType, MultivaluedMap<String, Object> httpHeaders,
+						OutputStream entityStream)
+						throws IOException, WebApplicationException
 	{
 		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{

@@ -16,5 +16,4 @@ public interface SqlProductInterface
 	Product updateProduct(Product product) throws RepositoryException;
 
 	Product deleteProduct(int productId) throws RepositoryException;
-
 }

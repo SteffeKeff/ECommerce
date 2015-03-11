@@ -14,7 +14,6 @@ import se.dreamteam.models.User;
 
 public final class SqlUserRepository implements SqlUserInterface
 {
-
 	@Override
 	public User getUserByUsername(String username) throws RepositoryException
 	{

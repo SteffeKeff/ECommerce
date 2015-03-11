@@ -18,7 +18,6 @@ import se.dreamteam.models.Order;
 
 public final class SqlOrderRepository implements SqlOrderInterface
 {
-
 	@Override
 	public String createOrder(String username, ArrayList<Integer> products) throws RepositoryException
 	{

@@ -15,7 +15,6 @@ import se.dreamteam.models.Product;
 
 public final class SqlProductRepository implements SqlProductInterface
 {
-	
 	@Override
 	public TreeSet<Product> getAllProducts() throws RepositoryException 
 	{

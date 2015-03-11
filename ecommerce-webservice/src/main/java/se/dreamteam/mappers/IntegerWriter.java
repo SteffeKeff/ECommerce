@@ -34,7 +34,7 @@ public final class IntegerWriter implements MessageBodyWriter<ArrayList<Integer>
 
 	public IntegerWriter()
 	{
-		gson = new GsonBuilder().registerTypeAdapter(ArrayList.class, new ProductAdapter()).create();
+		gson = new GsonBuilder().registerTypeAdapter(ArrayList.class, new ProductIdsAdapter()).create();
 	}
 
 	// MessageBodyWriter
@@ -62,7 +62,7 @@ public final class IntegerWriter implements MessageBodyWriter<ArrayList<Integer>
 		}
 	}
 
-	private static final class ProductAdapter implements JsonSerializer<ArrayList<Integer>>
+	private static final class ProductIdsAdapter implements JsonSerializer<ArrayList<Integer>>
 	{
 		@Override
 		public JsonElement serialize(ArrayList<Integer> productIds, Type typeOfSrc, JsonSerializationContext context)

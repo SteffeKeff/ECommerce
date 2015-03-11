@@ -2,13 +2,11 @@ package se.dreamteam.models;
 
 public final class User
 {
-
 	public static final int EMPTY_ID = -1;
 	
 	private final int id;
 	private final String username;
 	private final String password;
-
 
 	public User(int id, String username, String password)
 	{
@@ -35,5 +33,4 @@ public final class User
 	{
 		return password;
 	}
-
 }

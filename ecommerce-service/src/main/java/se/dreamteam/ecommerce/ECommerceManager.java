@@ -63,7 +63,6 @@ public final class ECommerceManager
 	public Product getProductWithId(int id) throws RepositoryException
 	{
 		return products.getProductWithId(id);
-
 	}
 
 	public String createProduct(Product product) throws RepositoryException

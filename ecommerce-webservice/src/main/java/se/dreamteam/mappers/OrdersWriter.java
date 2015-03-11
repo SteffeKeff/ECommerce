@@ -36,7 +36,7 @@ public final class OrdersWriter implements MessageBodyWriter<HashSet<Order>>
 
 	public OrdersWriter()
 	{
-		gson = new GsonBuilder().registerTypeAdapter(HashSet.class, new OrderAdapter()).create();
+		gson = new GsonBuilder().registerTypeAdapter(HashSet.class, new OrdersAdapter()).create();
 	}
 
 	// MessageBodyWriter
@@ -64,7 +64,7 @@ public final class OrdersWriter implements MessageBodyWriter<HashSet<Order>>
 		}
 	}
 
-	private static final class OrderAdapter implements JsonSerializer<HashSet<Order>>
+	private static final class OrdersAdapter implements JsonSerializer<HashSet<Order>>
 	{
 		@Override
 		public JsonElement serialize(HashSet<Order> orders, Type typeOfSrc, JsonSerializationContext context)

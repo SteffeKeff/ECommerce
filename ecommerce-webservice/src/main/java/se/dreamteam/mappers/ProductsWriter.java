@@ -36,7 +36,7 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 
 	public ProductsWriter()
 	{
-		gson = new GsonBuilder().registerTypeAdapter(TreeSet.class, new ProductAdapter()).create();
+		gson = new GsonBuilder().registerTypeAdapter(TreeSet.class, new ProductsAdapter()).create();
 	}
 
 	// MessageBodyWriter
@@ -49,7 +49,7 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 	@Override
 	public long getSize(TreeSet<Product> products, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
-		return 0;
+		return products.size();
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 		}
 	}
 
-	private static final class ProductAdapter implements JsonSerializer<TreeSet<Product>>
+	private static final class ProductsAdapter implements JsonSerializer<TreeSet<Product>>
 	{
 
 		@Override

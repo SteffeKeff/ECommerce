@@ -52,5 +52,4 @@ public final class Product implements Comparable<Object>
 	{
 		return this.title.compareTo( ((Product) obj).getTitle() );
 	}
-	
 }

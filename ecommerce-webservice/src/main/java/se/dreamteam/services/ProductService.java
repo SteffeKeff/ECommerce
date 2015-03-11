@@ -59,5 +59,4 @@ public class ProductService
 	{
 		return Response.ok(manager.deleteProduct(productId)).build();
 	}
-
 }

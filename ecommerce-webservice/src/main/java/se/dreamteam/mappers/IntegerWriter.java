@@ -56,7 +56,7 @@ public final class IntegerWriter implements MessageBodyWriter<ArrayList<Integer>
 			OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
-		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
+		try(final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
 			gson.toJson(products, ArrayList.class, writer);
 		}
@@ -64,13 +64,12 @@ public final class IntegerWriter implements MessageBodyWriter<ArrayList<Integer>
 
 	private static final class ProductAdapter implements JsonSerializer<ArrayList<Integer>>
 	{
-
 		@Override
 		public JsonElement serialize(ArrayList<Integer> productIds, Type typeOfSrc, JsonSerializationContext context)
 		{
 			// The Object which will be returned
 			final JsonObject jsonToReturn = new JsonObject();
-			// An array to hold all products
+			// An array to hold all productsIds
 			final JsonArray jsonArrayForIntegers = new JsonArray();
 
 			for (Integer integer : productIds)
@@ -82,7 +81,5 @@ public final class IntegerWriter implements MessageBodyWriter<ArrayList<Integer>
 
 			return jsonToReturn;
 		}
-
 	}
-
 }

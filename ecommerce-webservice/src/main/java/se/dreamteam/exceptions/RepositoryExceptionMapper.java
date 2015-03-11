@@ -10,11 +10,9 @@ import se.dreamteam.ecommerce.exceptions.RepositoryException;
 @Provider
 public final class RepositoryExceptionMapper implements ExceptionMapper<RepositoryException>
 {
-
 	@Override
 	public Response toResponse(final RepositoryException exception)
 	{
 		return Response.status(Status.NOT_FOUND).entity(exception.getMessage()).build();
 	}
-
 }

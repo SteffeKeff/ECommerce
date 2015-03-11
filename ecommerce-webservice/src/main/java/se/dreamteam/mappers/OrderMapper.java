@@ -81,7 +81,7 @@ public final class OrderMapper implements MessageBodyReader<Order>, MessageBodyW
 						OutputStream entityStream)
 						throws IOException, WebApplicationException
 	{
-		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
+		try(final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
 			gson.toJson(order, Order.class, writer);
 		}
@@ -105,10 +105,10 @@ public final class OrderMapper implements MessageBodyReader<Order>, MessageBodyW
 			orderJson.add("date", new JsonPrimitive(order.getTimestamp().toString()));
 			orderJson.add("shipped", new JsonPrimitive(order.isShipped()));
 
-			// An array to hold all products
+			// An array to hold all products in the order
 			final JsonArray jsonArrayForProducts = new JsonArray();
 
-			for (Integer integer : order.getOrderedProducts())
+			for(Integer integer : order.getOrderedProducts())
 			{
 				jsonArrayForProducts.add(new JsonPrimitive(integer));
 			}

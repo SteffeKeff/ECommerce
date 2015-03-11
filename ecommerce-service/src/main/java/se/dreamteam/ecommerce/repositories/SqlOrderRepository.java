@@ -16,11 +16,8 @@ import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.interfaces.SqlOrderInterface;
 import se.dreamteam.models.Order;
 
-public class SqlOrderRepository implements SqlOrderInterface
+public final class SqlOrderRepository implements SqlOrderInterface
 {
-	private static final String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
-	private static final String USERNAME = "admin";
-	private static final String PASSWORD = "dr3amt3am";
 
 	@Override
 	public String createOrder(String username, ArrayList<Integer> products) throws RepositoryException
@@ -234,6 +231,10 @@ public class SqlOrderRepository implements SqlOrderInterface
 
 	private Connection getConnection()
 	{
+		final String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
+		final String USERNAME = "admin";
+		final String PASSWORD = "dr3amt3am";
+		
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");

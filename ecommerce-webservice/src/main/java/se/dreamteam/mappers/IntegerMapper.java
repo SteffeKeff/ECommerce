@@ -64,7 +64,7 @@ public final class IntegerMapper implements MessageBodyWriter<ArrayList<Integer>
 			OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
-		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
+		try(final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
 			gson.toJson(products, ArrayList.class, writer);
 		}
@@ -78,10 +78,10 @@ public final class IntegerMapper implements MessageBodyWriter<ArrayList<Integer>
 		{
 			// The Object which will be returned
 			final JsonObject jsonToReturn = new JsonObject();
-			// An array to hold all products
+			// An array to hold all productsIds
 			final JsonArray jsonArrayForIntegers = new JsonArray();
 
-			for (Integer integer : productIds)
+			for(Integer integer : productIds)
 			{
 				jsonArrayForIntegers.add(new JsonPrimitive(Integer.toString(integer)));
 			}
@@ -100,20 +100,20 @@ public final class IntegerMapper implements MessageBodyWriter<ArrayList<Integer>
 				ArrayList<Integer> products = new ArrayList<>();
 
 				JsonArray jsonArray = userJson.get("products").getAsJsonArray();
-				if (jsonArray == null || jsonArray.size() == 0)
+				if(jsonArray == null || jsonArray.size() == 0)
 				{
 					throw new BadMessageException("No products!");
 				}
 				else
 				{
-					for (JsonElement element : jsonArray)
+					for(JsonElement element : jsonArray)
 					{
 						products.add(element.getAsInt());
 					}
 					return products;
 				}
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				throw new BadMessageException("Very bad json");
 			}
@@ -135,5 +135,4 @@ public final class IntegerMapper implements MessageBodyWriter<ArrayList<Integer>
 
 		return products;
 	}
-
 }

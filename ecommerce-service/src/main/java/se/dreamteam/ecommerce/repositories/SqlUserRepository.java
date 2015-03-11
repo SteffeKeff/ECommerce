@@ -12,11 +12,8 @@ import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.interfaces.SqlUserInterface;
 import se.dreamteam.models.User;
 
-public class SqlUserRepository implements SqlUserInterface
+public final class SqlUserRepository implements SqlUserInterface
 {
-	private final static String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
-	private final static String USERNAME = "admin";
-	private final static String PASSWORD = "dr3amt3am";
 
 	@Override
 	public User getUserByUsername(String username) throws RepositoryException
@@ -126,6 +123,10 @@ public class SqlUserRepository implements SqlUserInterface
 
 	private Connection getConnection() throws SQLException
 	{
+		final String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
+		final String USERNAME = "admin";
+		final String PASSWORD = "dr3amt3am";
+		
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");

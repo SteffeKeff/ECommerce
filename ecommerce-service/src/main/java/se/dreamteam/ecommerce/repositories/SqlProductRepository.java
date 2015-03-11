@@ -13,11 +13,8 @@ import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.interfaces.SqlProductInterface;
 import se.dreamteam.models.Product;
 
-public class SqlProductRepository implements SqlProductInterface
+public final class SqlProductRepository implements SqlProductInterface
 {
-	private static final String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
-	private static final String USERNAME = "admin";
-	private static final String PASSWORD = "dr3amt3am";
 	
 	@Override
 	public TreeSet<Product> getAllProducts() throws RepositoryException 
@@ -163,6 +160,10 @@ public class SqlProductRepository implements SqlProductInterface
 	
 	private Connection getConnection() throws RepositoryException
 	{
+		final String CONNECTION = "jdbc:mysql://80.217.176.187:3306/dreamteam";
+		final String USERNAME = "admin";
+		final String PASSWORD = "dr3amt3am";
+		
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");

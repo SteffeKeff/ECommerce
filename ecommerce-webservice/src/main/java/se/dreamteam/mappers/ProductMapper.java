@@ -80,7 +80,7 @@ public final class ProductMapper implements MessageBodyReader<Product>, MessageB
 			OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
-		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
+		try(final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
 			gson.toJson(product, Product.class, writer);
 		}
@@ -111,7 +111,5 @@ public final class ProductMapper implements MessageBodyReader<Product>, MessageB
 
 			return productJson;
 		}
-
 	}
-
 }

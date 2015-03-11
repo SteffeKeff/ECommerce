@@ -32,5 +32,4 @@ public final class WebService
 		String json = gson.toJson(links);
 		return Response.ok(json).build();
 	}
-
 }

@@ -21,7 +21,6 @@ import se.dreamteam.models.Order;
 public class OrderService
 {
 	private static SqlOrderRepository orders = new SqlOrderRepository();;
-
 	private static final ECommerceManager manager = new ECommerceManager(orders);
 
 	@Context
@@ -43,7 +42,6 @@ public class OrderService
 	@POST
 	public Response createOrder(@PathParam("userId") final String username, final ArrayList<Integer> products)
 	{
-
 		final URI location = uriInfo.getAbsolutePathBuilder().path(manager.createOrder(username, products)).build();
 		return Response.created(location).build();
 	}

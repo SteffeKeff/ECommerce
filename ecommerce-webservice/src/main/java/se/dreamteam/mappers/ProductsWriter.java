@@ -58,7 +58,7 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 			OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
-		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
+		try(final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
 			gson.toJson(products, TreeSet.class, writer);
 		}
@@ -75,7 +75,7 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 			// An array to hold all products
 			final JsonArray jsonArrayForProducts = new JsonArray();
 
-			for (Product product : products)
+			for(Product product : products)
 			{
 				// An object to hold all informatio~ about the products one by
 				// one
@@ -93,7 +93,5 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 
 			return jsonToReturn;
 		}
-
 	}
-
 }

@@ -81,7 +81,7 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 			OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
-		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
+		try(final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
 			gson.toJson(user, User.class, writer);
 		}
@@ -92,7 +92,6 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 		@Override
 		public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 		{
-
 			final JsonObject userJson = json.getAsJsonObject();
 			try
 			{
@@ -116,7 +115,5 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 
 			return userJson;
 		}
-
 	}
-
 }

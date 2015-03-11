@@ -58,7 +58,7 @@ public final class OrdersWriter implements MessageBodyWriter<HashSet<Order>>
 			OutputStream entityStream)
 			throws IOException, WebApplicationException
 	{
-		try (final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
+		try(final JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream)))
 		{
 			gson.toJson(products, HashSet.class, writer);
 		}
@@ -66,30 +66,31 @@ public final class OrdersWriter implements MessageBodyWriter<HashSet<Order>>
 
 	private static final class OrderAdapter implements JsonSerializer<HashSet<Order>>
 	{
-
 		@Override
 		public JsonElement serialize(HashSet<Order> orders, Type typeOfSrc, JsonSerializationContext context)
 		{
 			// The Object which will be returned
 			final JsonObject jsonToReturn = new JsonObject();
-			// An array to hold all products
+			// An array to hold all orders
 			final JsonArray jsonArrayForOrders = new JsonArray();
 			JsonArray jsonArrayForProducts;
 			JsonObject jsonObjectForOrder;
 
-			for (Order order : orders)
+			for(Order order : orders)
 			{
-				// An object to hold all informatio~ about the products one by
+				// An object to hold all information~ about the Orders one by
 				// one
 				jsonObjectForOrder = new JsonObject();
 				jsonObjectForOrder.add("id", new JsonPrimitive(order.getId()));
 				jsonObjectForOrder.add("date", new JsonPrimitive(order.getTimestamp().toString()));
 				jsonObjectForOrder.add("shipped", new JsonPrimitive(order.isShipped()));
 				jsonArrayForProducts = new JsonArray();
+				
 				for (Integer integer : order.getOrderedProducts())
 				{
 					jsonArrayForProducts.add(new JsonPrimitive(integer));
 				}
+				
 				jsonObjectForOrder.add("products", jsonArrayForProducts);
 				jsonArrayForOrders.add(jsonObjectForOrder);
 			}
@@ -98,7 +99,5 @@ public final class OrdersWriter implements MessageBodyWriter<HashSet<Order>>
 
 			return jsonToReturn;
 		}
-
 	}
-
 }

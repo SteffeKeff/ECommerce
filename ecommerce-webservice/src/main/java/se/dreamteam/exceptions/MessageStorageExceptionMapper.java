@@ -8,11 +8,9 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public final class MessageStorageExceptionMapper implements ExceptionMapper<MessageStorageException>
 {
-
 	@Override
 	public Response toResponse(final MessageStorageException exception)
 	{
 		return Response.status(Status.NOT_FOUND).entity(exception.getMessage()).build();
 	}
-
 }

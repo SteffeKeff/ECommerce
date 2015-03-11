@@ -20,7 +20,6 @@ import se.dreamteam.models.User;
 public final class UserService
 {
 	private SqlUserRepository users = new SqlUserRepository();
-
 	private final ECommerceManager manager = new ECommerceManager(users);
 
 	@Context

@@ -28,11 +28,11 @@ import com.google.gson.stream.JsonWriter;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public final class IntegerWriter implements MessageBodyWriter<ArrayList<Integer>>
+public final class ProductIdWriter implements MessageBodyWriter<ArrayList<Integer>>
 {
 	private Gson gson;
 
-	public IntegerWriter()
+	public ProductIdWriter()
 	{
 		gson = new GsonBuilder().registerTypeAdapter(ArrayList.class, new ProductIdsAdapter()).create();
 	}

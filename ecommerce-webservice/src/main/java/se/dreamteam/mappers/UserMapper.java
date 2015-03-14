@@ -92,9 +92,9 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 		@Override
 		public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 		{
-			final JsonObject userJson = json.getAsJsonObject();
 			try
 			{
+				final JsonObject userJson = json.getAsJsonObject();
 				final String username = userJson.get("username").getAsString();
 				final String password = userJson.get("password").getAsString();
 
@@ -102,7 +102,7 @@ public final class UserMapper implements MessageBodyReader<User>, MessageBodyWri
 			}
 			catch (Exception e)
 			{
-				throw new BadMessageException("Very bad json");
+				throw new BadMessageException("Bad json");
 			}
 		}
 

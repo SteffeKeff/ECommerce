@@ -11,7 +11,7 @@ public final class BadMessageException extends WebApplicationException
 	public BadMessageException(String message)
 	{
 		super(Response.status(Status.BAD_REQUEST)
-				.entity("This is a bad message:" + message)
+				.entity("Problem: " + message)
 				.build());
 	}
 }

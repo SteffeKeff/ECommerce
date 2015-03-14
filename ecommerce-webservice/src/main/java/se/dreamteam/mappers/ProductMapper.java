@@ -17,6 +17,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import se.dreamteam.exceptions.BadMessageException;
 import se.dreamteam.models.Product;
 
 import com.google.gson.Gson;
@@ -91,13 +92,18 @@ public final class ProductMapper implements MessageBodyReader<Product>, MessageB
 		@Override
 		public Product deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 		{
-			final JsonObject productJson = json.getAsJsonObject();
-			final String title = productJson.get("title").getAsString();
-			final int price = productJson.get("price").getAsInt();
-			final int quantity = productJson.get("quantity").getAsInt();
-			final String description = productJson.get("description").getAsString();
-
-			return new Product(title, price, quantity, description);
+			try{
+				final JsonObject productJson = json.getAsJsonObject();
+				final String title = productJson.get("title").getAsString();
+				final int price = productJson.get("price").getAsInt();
+				final int quantity = productJson.get("quantity").getAsInt();
+				final String description = productJson.get("description").getAsString();
+				
+				return new Product(title, price, quantity, description);
+			}catch(Exception e)
+			{
+				throw new BadMessageException("Bad Json");
+			}
 		}
 
 		@Override

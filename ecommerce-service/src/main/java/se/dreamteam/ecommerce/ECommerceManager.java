@@ -34,6 +34,11 @@ public final class ECommerceManager
 	}
 	
 	//Users
+	public User loginUser(String username, String password) throws RepositoryException
+	{
+		return users.loginUser(username, password);
+	}
+	
 	public String createUser(User user) throws RepositoryException
 	{
 		return users.createUser(user);

@@ -1,8 +1,6 @@
 package se.dreamteam.mappers;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
@@ -13,7 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
@@ -22,11 +19,8 @@ import se.dreamteam.models.Order;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
@@ -35,31 +29,13 @@ import com.google.gson.stream.JsonWriter;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public final class OrderMapper implements MessageBodyReader<Order>, MessageBodyWriter<Order>
+public final class OrderWriter implements MessageBodyWriter<Order>
 {
 	private Gson gson;
 
-	public OrderMapper()
+	public OrderWriter()
 	{
 		gson = new GsonBuilder().registerTypeAdapter(Order.class, new OrderAdapter()).create();
-	}
-
-	// MessageBodyReader
-	@Override
-	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
-	{
-		return type.isAssignableFrom(Order.class);
-	}
-
-	@Override
-	public Order readFrom(Class<Order> type, Type genericType, Annotation[] annotations,
-			MediaType mediaType, MultivaluedMap<String, String> httpHeaders,
-			InputStream entityStream) throws IOException,
-			WebApplicationException
-	{
-		final Order order = gson.fromJson(new InputStreamReader(entityStream), Order.class);
-
-		return order;
 	}
 
 	// MessageBodyWriter
@@ -87,14 +63,8 @@ public final class OrderMapper implements MessageBodyReader<Order>, MessageBodyW
 		}
 	}
 
-	private static final class OrderAdapter implements JsonDeserializer<Order>, JsonSerializer<Order>
+	private static final class OrderAdapter implements JsonSerializer<Order>
 	{
-		@Override
-		public Order deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
-		{
-			// will never consume an order!
-			return null;
-		}
 
 		@Override
 		public JsonElement serialize(Order order, Type typeOfSrc, JsonSerializationContext context)

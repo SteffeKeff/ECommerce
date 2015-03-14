@@ -49,7 +49,7 @@ public final class ProductsWriter implements MessageBodyWriter<TreeSet<Product>>
 	@Override
 	public long getSize(TreeSet<Product> products, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType)
 	{
-		return products.size();
+		return 0;
 	}
 
 	@Override

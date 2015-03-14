@@ -8,12 +8,38 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import se.dreamteam.ecommerce.exceptions.DatabaseException;
+import se.dreamteam.ecommerce.exceptions.LoginException;
 import se.dreamteam.ecommerce.exceptions.RepositoryException;
 import se.dreamteam.ecommerce.interfaces.SqlUserInterface;
 import se.dreamteam.models.User;
 
 public final class SqlUserRepository implements SqlUserInterface
 {
+	
+	@Override
+	public User loginUser(String username, String password)
+	{
+		try(final Connection con = getConnection())
+		{
+			try(final PreparedStatement stmt = con.prepareStatement("SELECT * FROM dreamteam.Users WHERE username = ? AND password = ?;"))
+			{
+				stmt.setString(1, username);
+				stmt.setString(2, password);
+				ResultSet rs = stmt.executeQuery();
+				rs.next();
+				return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
+			}
+			catch(SQLException e)
+			{
+				throw new LoginException("Could not authenticate " + username + ".", e);
+			}
+		}
+		catch(SQLException e)
+		{
+			throw new DatabaseException("Problem with connection to database.", e);
+		}
+	}
+	
 	@Override
 	public User getUserByUsername(String username) throws RepositoryException
 	{
